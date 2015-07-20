@@ -1,0 +1,199 @@
+---
+title: "Auditory Mountain"
+output:
+  pdf_document:
+    toc: yes
+date: "`r format(Sys.time(), '%B %d %Y')`"
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.path='figures/')
+```
+
+```{r initialization, echo=FALSE, message=FALSE, warning=FALSE}
+library("rjson")
+library("ggplot2")
+library("gridExtra")
+library("zoo")
+library("RColorBrewer")
+require(gridExtra)
+require(zoo)
+library(devtools)
+library(reshape2)
+library(scales)
+```
+
+```{r preProc, include=F}
+# Pre processing of the data from the first design
+source("R/preProcFirstDesign.R")
+```
+
+```{r thresholds, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Check if there are frequency threshold data
+if ('deltaF' %in% names(data)) {
+  source("R/threshold.R")
+}
+```
+
+```{r mountain, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Check if there is any mountain trial
+if ('targetTone' %in% names(data)) {
+  # Check if there is any yAxis trial
+  if ('yAxis' %in% data$condition) {
+    source("R/yAxis.R")
+  }
+
+  # Check if there is any lines trial
+  if ('lines' %in% data$condition) {
+    source("R/lines.R")
+  }
+  
+  # Check if there is any circles trial
+  if ('circles' %in% data$condition) {
+    source("R/circles.R")
+  }
+}
+```
+
+# Individual analyses
+
+## Frequency threshold task
+
+The frequency thresholds are calculated from an adaptive procedure where deltaF is decreased when a wrong answer is provided and increased for a right answer. The evolution of the delta F values across trials for the detection and identification tasks is ploted bellow:
+
+```{r plotDeltaF, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotDeltaF
+
+```
+
+## Thresholds of each participant among sessions
+
+The thresholds are calculated from the DeltaF values corresponding to the last 10 reversals. The procedure was repeated two times before training (sessions 1 and 2) and two times after (sessions 3 and 4). The figure bellow shows these thresholds across sessions for the detection and identification conditions:    
+
+```{r plotThresholds, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotThresholds
+
+```
+
+## Detection threshold in function of identification threshold
+
+```{r plotDetById, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotDetById
+
+```
+
+## Detection threshold in function of identification threshold pre vs. post tests
+
+```{r plotDetByIdPrepost, echo=FALSE, message=FALSE, warning=FALSE}
+
+# plotDetByIdPrepost
+
+```
+
+## Detection threshold in function of identification threshold first vs. second tests
+
+```{r plotDetByIdPrepre, echo=FALSE, message=FALSE, warning=FALSE}
+
+# plotDetByIdPrepre
+
+```
+
+## Auditory mountain task
+
+### Mean results (in percent error):
+
+**Y-axis**: `r mean(data.mountain.yAxis$result)`%
+
+Here are the plots of scores, accuracy and duration in function of trials. The accuracy is the difference between the choosen tone and the highest tone. The Duration is the duration in seconds of each trial. The Score is a mixed value calculated from accuracy and duration according to this equation:
+
+$$ (\frac{1}{(\frac{duration}{100}+1)^2} + 1) \times (\frac{600 \times accuracy}{100})^2 $$
+
+***
+
+With this equation the time score is a multiplier between 1 for a very long trial and 2 for a very short one (few seconds). Thus, the accuracy score can be doubled with speed. The accuracy score is 600 maximum (the idea was to make a score in order to have the pleasure to cross 1000 points when the performance is great). For accuracy and time, the power function is used to provide the maximum of points near the perfect score and have a lot of difference when it is harder.
+
+## Participant's scores
+
+```{r plotScores, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotScores
+
+```
+
+## Accuracy of trials
+
+```{r plotAcc, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAcc
+
+```
+
+## Durations of trials
+
+```{r plotDur, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotDur
+
+```
+
+## Accuracy in function of duration for each trial
+
+Finally, to see if the variability of the results is associated with duration, here is the plot of scores against duration. Each point is a trial.
+
+```{r plotAccByDur, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccByDur
+
+```
+
+## Accuracy in function of frequency of the target tone
+
+```{r plotAccByFreq, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccByFreq
+
+```
+
+## Comparison of frequency thresholds and accuracy
+
+```{r plotAccThresh, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThresh +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100,
+                   linetype=condition),
+               meanThresholdsSubjLong,
+               show_guide=TRUE) +
+  guides(linetype = guide_legend("Frequency thresholds"))
+
+```
+
+
+# Global analyses
+
+## Frequency threshold task
+
+### Mean of deltaF in function of trials in the detection and identification task
+
+```{r plotDeltaFMeans, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotDeltaFMeans
+
+```
+
+## Mean of thresholds among sessions
+
+```{r plotMeanThresholds, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotMeanThresholds
+
+```
+
+## Session info
+
+```{r session_info, include=TRUE, echo=TRUE, results='markup'}
+devtools::session_info()
+```
+  
