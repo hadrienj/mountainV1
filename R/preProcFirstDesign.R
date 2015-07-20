@@ -59,8 +59,27 @@ raw.data.ll07_proc$name <-"ll07"
 raw.data.ll07_proc$tonePosX <- NA
 raw.data.ll07_proc$tonePosY <- NA
 
+# Import Json file
+json.file.va01 <- "./raw_data/va01.txt"
+json.data.va01 <- jsonlite::fromJSON(json.file.va01)
+# Put data in a data frame
+raw.data.va01 <- json.data.va01$rows$doc
+raw.data.va01$name <-"va01"
+raw.data.va01$tonePosX <- NA
+raw.data.va01$tonePosY <- NA
+
+# Import Json file
+json.file.df22 <- "./raw_data/df22.txt"
+json.data.df22 <- jsonlite::fromJSON(json.file.df22)
+# Put data in a data frame
+raw.data.df22 <- json.data.df22$rows$doc
+raw.data.df22$name <-"df22"
+raw.data.df22$tonePosX <- NA
+raw.data.df22$tonePosY <- NA
+
 raw.data <- rbind(raw.data.sa20, raw.data.ab22, raw.data.dd04, raw.data.ap08,
-                  raw.data.shr28, raw.data.hj12, raw.data.ll07_proc)
+                  raw.data.shr28, raw.data.hj12, raw.data.ll07_proc, raw.data.va01,
+                  raw.data.df22)
 
 # Change the column names
 colnames(raw.data)[1] <- "id"

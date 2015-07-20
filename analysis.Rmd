@@ -89,7 +89,7 @@ plotDetById
 
 ```{r plotDetByIdPrepost, echo=FALSE, message=FALSE, warning=FALSE}
 
-# plotDetByIdPrepost
+plotDetByIdPrepost
 
 ```
 
@@ -97,7 +97,7 @@ plotDetById
 
 ```{r plotDetByIdPrepre, echo=FALSE, message=FALSE, warning=FALSE}
 
-# plotDetByIdPrepre
+plotDetByIdPrepre
 
 ```
 

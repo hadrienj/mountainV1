@@ -5,6 +5,8 @@
 #    - meanThresholdLong (mean thresh among participants for each condition)
 #    - deltaFMeansLong (mean deltaF for each trial number)
 #    - meanThresholdsSubjLong (mean threshold for each subj and each condition)
+#    - thresholdAllPrepostLong (mean threshold pre and post for each
+# participant and condition)
 #
 # Output plots:
 #    - plotThresholds (thresh for each subject, condition and session)
@@ -16,7 +18,7 @@
 
 data.threshold <- subset(data, grepl("threshold", id),
                          c(id, trialNum,sessionNum,sessionThreshNum,
-                           reversal,  reversals,  task,	startTrial,
+                           reversal,  reversals,  task,  startTrial,
                            tone1, tone2,	tone3, tone4, deltaF,
                            goodAnswer,	roving,	answer,	score, name))
 
@@ -46,13 +48,68 @@ row.names(thresholdsAllLong) <- NULL
 colnames(thresholdsAllLong)[3] <- "condition"
 colnames(thresholdsAllLong)[4] <- "threshold"
 
+# Assign pre or post value in function of session
+thresholdsAllLong$prePost <- ifelse(thresholdsAllLong$session == 1 |
+                                      thresholdsAllLong$session == 2, "pre", "post")
+# Create a new data frame with the mean threshold by pre and post test
+thresholdAllPrepost <- data.frame(tapply(thresholdsAllLong$threshold,
+                                         list(thresholdsAllLong$prePost,
+                                              thresholdsAllLong$name,
+                                              thresholdsAllLong$condition),
+                                         mean))
+thresholdAllPrepostReshape1 <- reshape(thresholdAllPrepost,
+                                       direction= "long",
+                                       varying=list(1:(length(thresholdAllPrepost)/2),
+                                                    ((length(thresholdAllPrepost)/2)+1):length(thresholdAllPrepost)),
+                                       ids=row.names(thresholdAllPrepost),
+                                       idvar="prepost",
+                                       timevar="name",
+                                       times=levels(factor(thresholdsAllLong$name)))
+thresholdAllPrepostLong <- reshape(thresholdAllPrepostReshape1,
+                                   direction= "long",
+                                   varying=list(2:3),
+                                   timevar="condition",
+                                   times=list("detection","identification"))
+
+colnames(thresholdAllPrepostLong)[4] <- "threshold"
+row.names(thresholdAllPrepostLong) <- NULL
+thresholdAllPrepostLong$id <- NULL
+
+
+# Assign value in function of position in the session (first is 1 and 3, second is 2 and 4)
+thresholdsAllLong$prePre <- ifelse(thresholdsAllLong$session == 1 |
+                                     thresholdsAllLong$session == 3, "first", "second")
+# Create a new data frame with the mean threshold by pre and post test
+thresholdAllPrePre <- data.frame(tapply(thresholdsAllLong$threshold,
+                                        list(thresholdsAllLong$prePre,
+                                             thresholdsAllLong$name,
+                                             thresholdsAllLong$condition),
+                                        mean))
+thresholdAllPrepreReshape1 <- reshape(thresholdAllPrePre,
+                                      direction= "long",
+                                      varying=list(1:(length(thresholdAllPrePre)/2),
+                                                   ((length(thresholdAllPrePre)/2)+1):length(thresholdAllPrePre)),
+                                      ids=row.names(thresholdAllPrePre),
+                                      idvar="prepre",
+                                      timevar="name",
+                                      times=levels(factor(thresholdsAllLong$name)))
+thresholdAllPrepreLong <- reshape(thresholdAllPrepreReshape1,
+                                  direction= "long",
+                                  varying=list(2:3),
+                                  timevar="condition",
+                                  times=list("detection","identification"))
+
+colnames(thresholdAllPrepreLong)[4] <- "threshold"
+row.names(thresholdAllPrepreLong) <- NULL
+thresholdAllPrepreLong$id <- NULL
+
 # Calculate the mean threshold for each session
 meanThresholds <- data.frame(session = as.numeric(
   levels(factor(thresholdsAllLong$session))),
-                             tapply(thresholdsAllLong$threshold,
-                                    list(thresholdsAllLong$session,
-                                         thresholdsAllLong$condition),
-                                    mean))
+  tapply(thresholdsAllLong$threshold,
+         list(thresholdsAllLong$session,
+              thresholdsAllLong$condition),
+         mean))
 # Reshape the data frame into long format
 meanThresholdLong <- melt(meanThresholds, id.var="session",
                           variable.name = "condition", 
@@ -61,10 +118,10 @@ meanThresholdLong <- melt(meanThresholds, id.var="session",
 # Calculate the mean threshold for each participant and each condition
 meanThresholdsSubj <- data.frame(name = levels(
   factor(thresholdsAllLong$name)),
-                                tapply(thresholdsAllLong$threshold,
-                                       list(thresholdsAllLong$name,
-                                            thresholdsAllLong$condition),
-                                       mean))
+  tapply(thresholdsAllLong$threshold,
+         list(thresholdsAllLong$name,
+              thresholdsAllLong$condition),
+         mean))
 meanThresholdsSubjLong <- melt(meanThresholdsSubj, id.var="name",
                                variable.name = "condition", 
                                value.name = "threshold")
@@ -94,20 +151,70 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
   ggtitle("Mean threshold for detection and identification conditions")
 
 plotDetById <- ggplot(thresholdsAllLong, aes(
-      x=threshold[condition=="detection"],
-      y=threshold[condition=="identification"],
-      color=name[condition=="identification"]),
-      log10="y") +
-    geom_point(aes(shape=session[condition=="identification"])) +
-    geom_abline(intercept = 0, slope = 1) +
-    scale_colour_discrete(name = "Participants") +
-    scale_shape(name = "Sessions") +
-    scale_x_continuous(limits=c(10, 400)) +
-    scale_y_continuous(limits=c(10, 400)) +
-    xlab("Detection threshold") +
-    ylab("Identification threshold") +
-    ggtitle("Detection against identification thresholds
-            \n for all subjects and all sessions")
+  x=threshold[condition=="detection"],
+  y=threshold[condition=="identification"],
+  color=name[condition=="identification"])) +
+  geom_point(aes(shape=session[condition=="identification"])) +
+  coord_fixed() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape(name = "Sessions") +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(10, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(10, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n for all subjects and all sessions")
+
+plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
+  x=threshold[condition=="detection"],
+  y=threshold[condition=="identification"],
+  color=name[condition=="identification"])) +
+  geom_point(aes(shape=prepost[condition=="identification"])) +
+  coord_fixed() +
+  geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "first"),
+            size=0.4, aes(group=name[condition=="identification"])) +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape_manual(name = "Sessions", values=c(1, 16),
+                     breaks=c("pre","post")) +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(5, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(5, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n Pre vs. Post test")
+
+plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
+  x=threshold[condition=="detection"],
+  y=threshold[condition=="identification"],
+  color=name[condition=="identification"])) +
+  geom_point(aes(shape=prepre[condition=="identification"])) +
+  coord_fixed() +
+  geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "last"),
+            size=0.4, aes(group=name[condition=="identification"])) +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape_manual(name = "Sessions", values=c(16, 1),
+                     breaks=c("first","second")) +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(5, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(5, 500),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n First vs. Second test")
 
 
 
@@ -158,7 +265,7 @@ plotDeltaFMeans <- ggplot(data=deltaFMeansLong,
                           aes(x=as.numeric(trialNum),
                               y=threshold,
                               color=factor(session)),
-                              alpha = 0.4) +
+                          alpha = 0.4) +
   geom_line() +
   scale_color_discrete(name="Session") +
   facet_grid(. ~ condition) +
