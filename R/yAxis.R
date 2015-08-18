@@ -1,6 +1,8 @@
-data.mountain.yAxis <- subset(data, grepl("yAxis", condition),
+data.mountain.yAxis <- subset(data,
+                              grepl("yAxis", condition) & sessionNumMount==1,
                               c(id, yTopDist, targetTone, CurXY, trialNumYAxis,
-                                result, name, duration, time, score))
+                                result, totalScore, sessionNum, name, duration,
+                                time, score, sessionNumMount))
 
 # Sort the data according to time then to trial number
 data.mountain.yAxis <- data.mountain.yAxis[order(
@@ -75,7 +77,8 @@ plotAcc <- ggplot(data=yAxisAccLong,
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
   geom_line() +
-  facet_grid(name ~ ., scales="free")
+  facet_grid(name ~ .) +
+  theme(panel.margin = unit(4.5, "mm"))
 
 plotDur <- ggplot(data=yAxisDurLong,
                      aes(x=trialNumYAxis,
@@ -89,7 +92,8 @@ plotDur <- ggplot(data=yAxisDurLong,
   xlab("Trials") +
   ylab("Duration (in seconds)") +
   geom_line() +
-  facet_grid(name ~ ., scales="free")
+  facet_grid(name ~ .) +
+  theme(panel.margin = unit(4.5, "mm"))
 
 plotScores <- ggplot(data=yAxisScoresLong,
                   aes(x=trialNumYAxis,
@@ -103,7 +107,8 @@ plotScores <- ggplot(data=yAxisScoresLong,
   xlab("Trials") +
   ylab("Scores (in points)") +
   geom_line() +
-  facet_grid(name ~ ., scales="free")
+  facet_grid(name ~ .) +
+  theme(panel.margin = unit(4.5, "mm"))
 
 # Accuracy by duration
 plotAccByDur <- ggplot(data=data.mountain.yAxis,
@@ -116,7 +121,6 @@ plotAccByDur <- ggplot(data=data.mountain.yAxis,
   ggtitle("Score in function of duration")
 
 # Accuracy with thresholds
-
 plotAccThresh <- ggplot(data=yAxisAccLong,
                         aes(x=trialNumYAxis,
                             y=value,
@@ -129,9 +133,10 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
   geom_line() +
-  facet_grid(name ~ ., scales="free") +
+  facet_grid(name ~ .) +
   ggtitle("Accuracy in the mountain task with thresholds 
-          \nfrom the frequency threshold task")
+          \nfrom the frequency threshold task") +
+  theme(panel.margin = unit(4.5, "mm"))
 
 # Accuracy by frequency
 plotAccByFreq <- ggplot(data=data.mountain.yAxis,

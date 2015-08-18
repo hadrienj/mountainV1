@@ -16,20 +16,25 @@
 #    - plotDeltaFMeans (mean deltaF against trials)
 
 
-data.threshold <- subset(data, grepl("threshold", id),
+data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
                          c(id, trialNum,sessionNum,sessionThreshNum,
                            reversal,  reversals,  task,  startTrial,
                            tone1, tone2,	tone3, tone4, deltaF,
-                           goodAnswer,	roving,	answer,	score, name))
+                           goodAnswer,	roving,	answer,	score, name,
+                           trainSession))
 
 ############ THRESHOLD ANALYSES ############
 
 # Calculate the frequency threshold of all participants
 thresholdsAllWide <- data.frame(tapply(
-  data.threshold$deltaF[data.threshold$reversals > 4],
-  list(data.threshold$name[data.threshold$reversals > 4],
-       data.threshold$sessionNum[data.threshold$reversals > 4],
-       data.threshold$task[data.threshold$reversals > 4]),
+  data.threshold$deltaF[data.threshold$reversals > 4
+                        & data.threshold$trainSession==0],
+  list(data.threshold$name[data.threshold$reversals > 4
+                           & data.threshold$trainSession==0],
+       data.threshold$sessionNum[data.threshold$reversals > 4
+                                 & data.threshold$trainSession==0],
+       data.threshold$task[data.threshold$reversals > 4
+                           & data.threshold$trainSession==0]),
   mean))
 thresholdsAllreshaped1 <- reshape(thresholdsAllWide, direction= "long",
                                   varying=list(1:4, 5:8),
@@ -126,9 +131,62 @@ meanThresholdsSubjLong <- melt(meanThresholdsSubj, id.var="name",
                                variable.name = "condition", 
                                value.name = "threshold")
 
-# Prepare plots
+# Calculate the progression in percent of the first session to avoid the
+# high thresholds have more weight on the evolution of the mean
+thresholdsAllPercent <- data.frame(apply(
+  thresholdsAllWide[,1:4],
+  2,
+  function(i){i/thresholdsAllWide[1]}),
+  apply(
+    thresholdsAllWide[,5:8],
+    2,
+    function(i){i/thresholdsAllWide[5]}))
 
+thresholdsAllPercentReshape1 <- reshape(thresholdsAllPercent, direction= "long",
+                                        varying=list(1:4, 5:8),
+                                        ids=row.names(thresholdsAllPercent),
+                                        idvar="name",
+                                        timevar="session",
+                                        times=list("1","2",
+                                                   "3","4"))
+thresholdsAllPercentLong <- reshape(thresholdsAllPercentReshape1, direction= "long",
+                                   varying=list(2:3),
+                                   times=list("detection","identification"))
+# Remove unused columns
+thresholdsAllPercentLong$id <- NULL
+row.names(thresholdsAllPercentLong) <- NULL
+# Rename columns
+colnames(thresholdsAllPercentLong)[3] <- "condition"
+colnames(thresholdsAllPercentLong)[4] <- "threshold"
+
+# Calculate the mean threshold for each session
+meanThresholdsPercent <- data.frame(session = as.numeric(
+  levels(factor(thresholdsAllPercentLong$session))),
+  tapply(thresholdsAllPercentLong$threshold,
+         list(thresholdsAllPercentLong$session,
+              thresholdsAllPercentLong$condition),
+         mean))
+# Reshape the data frame into long format
+meanThresholdPercentLong <- melt(meanThresholdsPercent, id.var="session",
+                          variable.name = "condition", 
+                          value.name = "threshold")
+
+
+
+# Prepare plots
 plotThresholds <- ggplot(data=thresholdsAllLong,
+                         aes(x=as.numeric(session),
+                             y=threshold,
+                             color=name,
+                             linetype=condition),
+                         alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  facet_grid(name ~ ., scales="free") +
+  theme(panel.margin = unit(3.5, "mm"))
+
+plotThresholdsPercent <- ggplot(data=thresholdsAllPercentLong,
                          aes(x=as.numeric(session),
                              y=threshold,
                              color=name,
@@ -150,6 +208,16 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
   ylab("Thresholds") +
   ggtitle("Mean threshold for detection and identification conditions")
 
+plotMeanThresholdsPercent <- ggplot(data=meanThresholdPercentLong,
+                             aes(x=session,
+                                 y=threshold,
+                                 linetype=condition),
+                             alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  ggtitle("Mean threshold for detection and identification conditions")
+
 plotDetById <- ggplot(thresholdsAllLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],
@@ -160,10 +228,10 @@ plotDetById <- ggplot(thresholdsAllLong, aes(
   scale_colour_discrete(name = "Participants") +
   scale_shape(name = "Sessions") +
   scale_x_continuous(trans=log_trans(),
-                     limits=c(10, 500),
+                     limits=c(10, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   scale_y_continuous(trans=log_trans(),
-                     limits=c(10, 500),
+                     limits=c(10, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   xlab("Detection threshold") +
   ylab("Identification threshold") +
@@ -183,10 +251,10 @@ plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
   scale_shape_manual(name = "Sessions", values=c(1, 16),
                      breaks=c("pre","post")) +
   scale_x_continuous(trans=log_trans(),
-                     limits=c(5, 500),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   scale_y_continuous(trans=log_trans(),
-                     limits=c(5, 500),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   xlab("Detection threshold") +
   ylab("Identification threshold") +
@@ -206,10 +274,10 @@ plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
   scale_shape_manual(name = "Sessions", values=c(16, 1),
                      breaks=c("first","second")) +
   scale_x_continuous(trans=log_trans(),
-                     limits=c(5, 500),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   scale_y_continuous(trans=log_trans(),
-                     limits=c(5, 500),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   xlab("Detection threshold") +
   ylab("Identification threshold") +
@@ -248,8 +316,8 @@ colnames(deltaFMeansLong)[4] <- "threshold"
 row.names(deltaFMeansLong) <- NULL
 
 # Prepare plots
-
-plotDeltaF <- ggplot(data=data.threshold,
+## TrainSession==0 to avoid all the data of the longitudinal testing
+plotDeltaF <- ggplot(data=data.threshold[data.threshold$trainSession==0,],
                      aes(x=trialNum,
                          y=deltaF,
                          color=factor(sessionNum)),
