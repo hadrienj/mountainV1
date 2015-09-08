@@ -282,14 +282,6 @@ plotCrossNum
 ```
 
 
-### Efficiency of the mountain to calculate frequency thresholds
-
-```{r plotSeDiff, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotSeDiff
-
-```
-
 # Longitudinal analysis
 
 Two participants (va01 and df22) who did the experiment were invited to do four other sessions (one a day) identical to the the first session (pre-test, training, post-test).
@@ -374,6 +366,25 @@ plotAccLongi
 ```{r plotDurLongi, echo=FALSE, message=FALSE, warning=FALSE}
 
 plotDurLongi
+
+```
+
+
+# Auditory mountain as a frequency threshold measure
+
+We calculated the efficiency of the auditory mountain task to give an estimate of the frequency threshold. It represents for each trial and each participant the difference between the whole mean of accuracy and the mean from trial 1 to the one presented. This difference is expressed in standard deviation (calculated with the whole trials of each participant). For instance, the value of the trial 21 for mn15 is around one standard deviation. This means that for this participant, the mean of the 21 first trials is away of the global mean by one standard deviation.
+
+```{r plotSdDiff, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotSdDiff
+
+```
+
+The same thing can be done with the mean among participants for each trial.
+
+```{r plotSdDiffMean, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotSdDiffMean
 
 ```
 

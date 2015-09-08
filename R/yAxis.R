@@ -109,10 +109,7 @@ pathLength <- data.frame(X=unlist(data.frame(pathLengthprep)$X1),
                                  sapply(data.frame(pathLengthprep)$X1,
                                         length)))
 
-pathLength$trialNumYAxis <- as.numeric(as.character(pathLength$trialNumYAxis))
-
-pathLength$trialNumYAxis <- as.numeric(levels(pathLength$trialNumYAxis)
-                                       )[pathLength$trialNumYAxis]
+pathLength$trialNumYAxis <- factor(pathLength$trialNumYAxis)
 
 zooPathY <- zoo(pathLength$Y)
 pathLength$pathYRoll <- as.numeric(
@@ -233,6 +230,16 @@ row.names(crossNumPrep1) <- NULL
 
 crossNum <- melt(crossNumPrep1, "trialNum", value.name="reversals")
 colnames(crossNum)[2] <- "name"
+# Remove trial with strange value: 211 reversals...
+crossNum$reversal[crossNum$name=="df22" & crossNum$trialNum==69] <- NA
+
+# Calculate crossing mean by trial
+# Attention: only the trials with all participants are taken (how to do na.omit ?)
+crossNumMean <- data.frame(trialNum=as.numeric(levels(factor(crossNum$trialNum))),
+                           result=tapply(crossNum$reversals,
+                                         crossNum$trialNum,
+                                         mean))
+row.names(crossNumMean) <- NULL
 
 
 # Create data frame with the mean for
@@ -247,13 +254,45 @@ pathLengthMean <- data.frame(pathLengthMean,
 
 
 #### Evaluate efficiency of audio mountain as frequency threhold
-std <- function(x) sd(x)/sqrt(length(x))
-# Calculate the mean inter participant for each trial
+# std <- function(x) sd(x)/sqrt(length(x))
+
+yAxisEffPrep <- data.frame(tapply(yAxisAccLong$value[
+  yAxisAccLong$variable=="result"],
+  list(yAxisAccLong$trialNumYAxis[
+    yAxisAccLong$variable=="result"],
+    yAxisAccLong$name[
+      yAxisAccLong$variable=="result"]),
+  mean))
+
+yAxisEffPrep1 <- cbind(trialNum = row.names(yAxisEffPrep), yAxisEffPrep)
+
+yAxisEff <- melt(yAxisEffPrep1, value.name="accuracy")
+colnames(yAxisEff)[2] <- "name"
+
+# Remove NA
+yAxisEff <- na.omit(yAxisEff)
+
+yAxisEff$trialNum  <- as.numeric(levels(yAxisEff$trialNum))[yAxisEff$trialNum]
+
+yAxisEff <- yAxisEff[yAxisEff$trialNum>2,]
+
+
+# Create a vector with the cumulative mean of accuracy for each participant
+yAxisEff <- yAxisEff %>%
+  group_by(name) %>%
+  mutate(
+    roll=cummean(accuracy),
+    mean=mean(accuracy),
+    sd=sd(accuracy),
+    se=abs(roll-mean)/sd)
+
+
+
+# Calculate the mean inter participants for each trial
 yAxisLongMean <- data.frame(accuracy
                             =tapply(yAxisAccLong$value[yAxisAccLong$variable=="result"],
        yAxisAccLong$trialNumYAxis[yAxisAccLong$variable=="result"],
        mean))
-
 
 yAxisLongMean <- cbind(trialNum = row.names(yAxisLongMean), yAxisLongMean)
 yAxisLongMean$trialNum  <- as.numeric(levels(yAxisLongMean$trialNum))[yAxisLongMean$trialNum]
@@ -266,20 +305,9 @@ yAxisLongMean$meanRoll <- sapply(1:length(yAxisLongMean$trialNum),
 yAxisLongMean$se <- sapply(1:length(yAxisLongMean$trialNum),
                                  function(x) abs(yAxisLongMean$meanRoll[x]
                                                  -mean(yAxisLongMean$accuracy))
-                           *sd(yAxisLongMean$accuracy))
-
-plotSeDiff <- ggplot(data=yAxisLongMean,
-                  aes(x=trialNum,
-                      y=se)) +
-  xlab("Trials") +
-  ylab("Standard error") +
-  geom_line()
+                           /sd(yAxisLongMean$accuracy))
 
 
-# yAxisAccLong$meanRoll <- tapply(1:length(yAxisLongMean$trialNum),
-#                                 yAxisLongMean$name,
-#                                 function(x) 
-#                                   mean(yAxisLongMean$accuracy[1:x]))
 
 
 ############     PLOTS     ##########################
@@ -297,6 +325,7 @@ plotAcc <- ggplot(data=yAxisAccLong,
   geom_line() +
 #   facet_grid(name ~ .) +
   theme(panel.margin = unit(4.5, "mm"))
+
 
 plotAccOne <- ggplot(data=yAxisAccLong,
                   aes(x=trialNumYAxis,
@@ -443,7 +472,7 @@ plotPathCoord <- ggplot(data=subset(pathLength,
                                     trialNumYAxis==seq(0, 100, 10)),
                           aes(x=time,
                               y=YNorm,
-                              color=categorize(trialNumYAxis))) +
+                              color=trialNumYAxis)) +
   geom_line(size = 0.8) +
   xlab("Time (in milliseconds)") +
   ylab("Y path (in pixels)") +
@@ -451,7 +480,7 @@ plotPathCoord <- ggplot(data=subset(pathLength,
   scale_x_continuous(limits=c(0, 30000)) +
 #   geom_hline(aes(yintercept=yTopDist, color=as.character(trialNumYAxis))) +
   facet_grid(name ~ .) +
-  ggtitle("Normalize Y path draw by participants in function of time") +
+  ggtitle("Normalize Y path in function of time") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 # Plot crossing number
@@ -468,3 +497,31 @@ plotCrossNum <- ggplot(data=crossNum,
   facet_grid(name ~ .) +
   ggtitle("Number of target crossing for each participant and each trial") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotCrossNumMean <- ggplot(data=crossNumMean,
+                      aes(x=trialNum,
+                          y=result)) +
+  xlab("Trials") +
+  ylab("Accuracy (in percent error)") +
+  geom_line()
+
+
+plotSdDiff <- ggplot(data=yAxisEff,
+                     aes(x=trialNum,
+                         y=se,
+                         color=name)) +
+  scale_y_continuous(limits=c(0, 2)) +
+  scale_x_continuous(limits=c(0, 75)) +
+  ylab("Standard deviation from the mean") +
+  xlab("Trials") +
+  geom_line()
+
+
+plotSdDiffMean <- ggplot(data=yAxisLongMean,
+                         aes(x=trialNum,
+                             y=se)) +
+  xlab("Trials") +
+  ylab("Standard deviation") +
+  scale_x_continuous(limits=c(0, 75)) +
+  geom_line()
+
