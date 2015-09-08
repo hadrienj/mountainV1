@@ -1,6 +1,10 @@
 # This file requires the R file threshold.R
 # threshold.R has to be executed before longitudAnalysis.R
 
+
+se <- function(x) sqrt(var(x)/length(x))
+
+
 # va01 and df22 did the longitudinal experiment
 data.threshold.longi <- subset(data, (grepl("threshold", id))
                                       & ((grepl("va", name))
@@ -19,10 +23,14 @@ data.threshold.longi$sessionTot <- (as.numeric(data.threshold.longi$sessionNum)
 
 
 thresholdsLongiAllWide <- data.frame(tapply(
-  data.threshold.longi$deltaF[data.threshold.longi$reversals > 4],
-  list(data.threshold.longi$name[data.threshold.longi$reversals > 4],
-       data.threshold.longi$sessionTot[data.threshold.longi$reversals > 4],
-       data.threshold.longi$task[data.threshold.longi$reversals > 4]),
+  data.threshold.longi$deltaF[data.threshold.longi$reversals > 4
+                              & data.threshold.longi$reversal==TRUE],
+  list(data.threshold.longi$name[data.threshold.longi$reversals > 4
+                                 & data.threshold.longi$reversal==TRUE],
+       data.threshold.longi$sessionTot[data.threshold.longi$reversals > 4
+                                       & data.threshold.longi$reversal==TRUE],
+       data.threshold.longi$task[data.threshold.longi$reversals > 4
+                                 & data.threshold.longi$reversal==TRUE]),
   mean))
 thresholdsLongiAllreshaped1 <- reshape(thresholdsLongiAllWide, direction= "long",
                                   varying=list(1:20, 21:40),
@@ -44,6 +52,71 @@ row.names(thresholdsLongiAllLong) <- NULL
 colnames(thresholdsLongiAllLong)[3] <- "condition"
 colnames(thresholdsLongiAllLong)[4] <- "threshold"
 
+# Mean of thresholds
+thresholdsLongiMean <- data.frame(session=as.numeric(
+  levels(factor(thresholdsLongiAllLong$session))),
+  threshold=tapply(thresholdsLongiAllLong$threshold,
+                   list(thresholdsLongiAllLong$session,
+                        thresholdsLongiAllLong$condition),
+                   mean))
+# Remove unused columns
+row.names(thresholdsLongiMean) <- NULL
+colnames(thresholdsLongiMean)[2] <- "detection"
+colnames(thresholdsLongiMean)[3] <- "identification"
+
+thresholdsLongiMeanLong <- melt(thresholdsLongiMean, id.var="session",
+                               variable.name = "condition", 
+                               value.name = "threshold")
+# Sort data by session number
+thresholdsLongiMeanLong <- thresholdsLongiMeanLong[order(
+  thresholdsLongiMeanLong$condition, thresholdsLongiMeanLong$session),]
+
+# Calculate the progression in percent of the first session to avoid the
+# high thresholds have more weight on the evolution of the mean
+thresholdsLongiAllPercent <- data.frame(apply(
+  thresholdsLongiAllWide[,1:20],
+  2,
+  function(i){i/thresholdsLongiAllWide[1]}),
+  apply(
+    thresholdsLongiAllWide[,21:40],
+    2,
+    function(i){i/thresholdsLongiAllWide[21]}))
+
+thresholdsLongiAllPercentReshape1 <- reshape(thresholdsLongiAllPercent,
+                                             direction= "long",
+                                        varying=list(1:20, 21:40),
+                                        ids=row.names(thresholdsLongiAllPercent),
+                                        idvar="name",
+                                        timevar="session",
+                                        times=list("1","2","3","4",
+                                                   "5","6","7","8",
+                                                   "9","10","11","12",
+                                                   "13","14","15","16",
+                                                   "17","18","19","20"))
+thresholdsLongiAllPercentLong <- reshape(thresholdsLongiAllPercentReshape1,
+                                        direction= "long",
+                                    varying=list(2:3),
+                                    times=list("detection","identification"))
+# Remove unused columns
+thresholdsLongiAllPercentLong$id <- NULL
+row.names(thresholdsLongiAllPercentLong) <- NULL
+# Rename columns
+colnames(thresholdsLongiAllPercentLong)[3] <- "condition"
+colnames(thresholdsLongiAllPercentLong)[4] <- "threshold"
+
+# Calculate the mean threshold for each session
+meanThresholdsLongiPercent <- data.frame(session = as.numeric(
+  levels(factor(thresholdsLongiAllPercentLong$session))),
+  tapply(thresholdsLongiAllPercentLong$threshold,
+         list(thresholdsLongiAllPercentLong$session,
+              thresholdsLongiAllPercentLong$condition),
+         mean))
+# Reshape the data frame into long format
+meanThresholdLongiPercentLong <- melt(meanThresholdsLongiPercent, id.var="session",
+                                 variable.name = "condition", 
+                                 value.name = "threshold")
+
+
 # Prepare plots
 plotThresholdsLongi <- ggplot(data=thresholdsLongiAllLong,
                          aes(x=as.numeric(session),
@@ -54,12 +127,54 @@ plotThresholdsLongi <- ggplot(data=thresholdsLongiAllLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-  facet_grid(name ~ ., scales="free") +
+  facet_grid(name ~ .) +
   theme(panel.margin = unit(3.5, "mm")) +
   scale_x_continuous(breaks=seq(0, 21, 1)) +
+  scale_y_continuous(limits=c(0, 500)) +
+  geom_vline(xintercept = c(5, 9, 13, 17),
+                            linetype="longdash",
+                            color="azure4")
+
+plotThresholdsLongiMean <- ggplot(data=thresholdsLongiMeanLong,
+                              aes(x=as.numeric(session),
+                                  y=threshold,
+                                  linetype=condition),
+                              alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  scale_x_continuous(breaks=seq(0, 21, 1)) +
+  scale_y_continuous(limits=c(0, 500)) +
   geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
 
+plotThresholdsLongiPercent <- ggplot(data=thresholdsLongiAllPercentLong,
+                                aes(x=as.numeric(session),
+                                    y=threshold,
+                                    color=name,
+                                    linetype=condition),
+                                alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  scale_x_continuous(breaks=seq(0, 21, 1)) +
+  scale_y_continuous(limits=c(0, 2.5)) +
+  facet_grid(name ~ .) +
+  theme(panel.margin = unit(3.5, "mm")) +
+  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
 
+plotMeanThresholdsLongiPercent <- ggplot(data=meanThresholdLongiPercentLong,
+                                    aes(x=session,
+                                        y=threshold,
+                                        linetype=condition),
+                                    alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  scale_x_continuous(breaks=seq(0, 21, 1)) +
+  scale_y_continuous(limits=c(0, 2.5)) +
+  ggtitle("Mean threshold for detection and identification conditions") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6)) +
+  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
 
 
 #################### Y axis analysis ######################

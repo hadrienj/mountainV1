@@ -28,12 +28,16 @@ data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
 # Calculate the frequency threshold of all participants
 thresholdsAllWide <- data.frame(tapply(
   data.threshold$deltaF[data.threshold$reversals > 4
+                        & data.threshold$reversal==TRUE
                         & data.threshold$trainSession==0],
   list(data.threshold$name[data.threshold$reversals > 4
+                           & data.threshold$reversal==TRUE
                            & data.threshold$trainSession==0],
        data.threshold$sessionNum[data.threshold$reversals > 4
+                                 & data.threshold$reversal==TRUE
                                  & data.threshold$trainSession==0],
        data.threshold$task[data.threshold$reversals > 4
+                           & data.threshold$reversal==TRUE
                            & data.threshold$trainSession==0]),
   mean))
 thresholdsAllreshaped1 <- reshape(thresholdsAllWide, direction= "long",
@@ -183,7 +187,21 @@ plotThresholds <- ggplot(data=thresholdsAllLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-  facet_grid(name ~ ., scales="free") +
+#   facet_grid(name ~ ., scale='free') +
+  theme(panel.margin = unit(3.5, "mm"))
+
+plotThresholdsOneLog <- ggplot(data=thresholdsAllLong,
+                               aes(x=as.numeric(session),
+                                   y=threshold,
+                                   color=name,
+                                   linetype=condition),
+                               alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(10, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   theme(panel.margin = unit(3.5, "mm"))
 
 plotThresholdsPercent <- ggplot(data=thresholdsAllPercentLong,
@@ -195,7 +213,7 @@ plotThresholdsPercent <- ggplot(data=thresholdsAllPercentLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-  facet_grid(name ~ ., scales="free") +
+#   facet_grid(name ~ .) +
   theme(panel.margin = unit(3.5, "mm"))
 
 plotMeanThresholds <- ggplot(data=meanThresholdLong,
@@ -206,7 +224,8 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-  ggtitle("Mean threshold for detection and identification conditions")
+  ggtitle("Mean threshold for detection and identification conditions") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotMeanThresholdsPercent <- ggplot(data=meanThresholdPercentLong,
                              aes(x=session,
@@ -216,7 +235,8 @@ plotMeanThresholdsPercent <- ggplot(data=meanThresholdPercentLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-  ggtitle("Mean threshold for detection and identification conditions")
+  ggtitle("Mean threshold for detection and identification conditions") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDetById <- ggplot(thresholdsAllLong, aes(
   x=threshold[condition=="detection"],
@@ -236,7 +256,8 @@ plotDetById <- ggplot(thresholdsAllLong, aes(
   xlab("Detection threshold") +
   ylab("Identification threshold") +
   ggtitle("Detection against identification thresholds
-          \n for all subjects and all sessions")
+          \n for all subjects and all sessions") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
   x=threshold[condition=="detection"],
@@ -249,7 +270,7 @@ plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
   geom_abline(intercept = 0, slope = 1) +
   scale_colour_discrete(name = "Participants") +
   scale_shape_manual(name = "Sessions", values=c(1, 16),
-                     breaks=c("pre","post")) +
+                     breaks=c("pre-test","post-test")) +
   scale_x_continuous(trans=log_trans(),
                      limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
@@ -259,7 +280,8 @@ plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
   xlab("Detection threshold") +
   ylab("Identification threshold") +
   ggtitle("Detection against identification thresholds
-          \n Pre vs. Post test")
+          \n Pre vs. Post test") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
   x=threshold[condition=="detection"],
@@ -282,7 +304,8 @@ plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
   xlab("Detection threshold") +
   ylab("Identification threshold") +
   ggtitle("Detection against identification thresholds
-          \n First vs. Second test")
+          \n First vs. Second test") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 
 
@@ -326,8 +349,10 @@ plotDeltaF <- ggplot(data=data.threshold[data.threshold$trainSession==0,],
   ylab("DeltaF (cents)") +
   geom_line() +
   scale_color_discrete(name="Session") +
-  facet_grid(name ~ task, scales="free") +
-  theme(panel.margin = unit(3.5, "mm"))
+  facet_grid(name ~ task) +
+  theme(panel.margin = unit(3.5, "mm")) +
+  ggtitle("DeltaF of each participant and each session") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDeltaFMeans <- ggplot(data=deltaFMeansLong,
                           aes(x=as.numeric(trialNum),
@@ -339,5 +364,6 @@ plotDeltaFMeans <- ggplot(data=deltaFMeansLong,
   facet_grid(. ~ condition) +
   xlab("Trials") +
   ylab("DeltaF (cents)") +
-  ggtitle("Mean of deltaF")
+  ggtitle("Mean of deltaF") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
 

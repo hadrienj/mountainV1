@@ -1,4 +1,3 @@
-library("rjson")
 
 # Import Json file
 json.file.sa20 <- "./raw_data/sa20.txt"
@@ -260,15 +259,37 @@ raw.data.df22_5$trainSession <-"4"
 raw.data.df22_5$tonePosX <- NA
 raw.data.df22_5$tonePosY <- NA
 
+# Import Json file
+json.file.ss28 <- "./raw_data/ss28.txt"
+json.data.ss28 <- jsonlite::fromJSON(json.file.ss28)
+# Put data in a data frame
+raw.data.ss28 <- json.data.ss28$rows$doc
+raw.data.ss28$name <-"ss28"
+raw.data.ss28$sessionNumMount <- "1"
+raw.data.ss28$trainSession <-"0"
+raw.data.ss28$tonePosX <- NA
+raw.data.ss28$tonePosY <- NA
+
+# Import Json file
+json.file.lj01 <- "./raw_data/lj01_proc.txt"
+json.data.lj01 <- jsonlite::fromJSON(json.file.lj01)
+# Put data in a data frame
+raw.data.lj01 <- json.data.lj01$rows$doc
+raw.data.lj01$name <-"lj01"
+raw.data.lj01$sessionNumMount <- "1"
+raw.data.lj01$trainSession <-"0"
+raw.data.lj01$tonePosX <- NA
+raw.data.lj01$tonePosY <- NA
+
 raw.data <- rbind(# raw.data.hj12, raw.data.ap08, raw.data.ab22, raw.data.sa20,
                   raw.data.dd04, raw.data.va01, raw.data.ll07_proc,
                   raw.data.df22, raw.data.ab21, # raw.data.jc08,
                   raw.data.gw25, raw.data.mn15, raw.data.el20,
-                  # raw.data.jd12, raw.data.hp02, 
-                  raw.data.va01_2,
+                  # raw.data.jd12, raw.data.shr28, 
+                  raw.data.va01_2, # raw.data.hp02,
                   raw.data.df22_2, raw.data.va01_3, raw.data.df22_3,
                   raw.data.va01_4, raw.data.df22_4, raw.data.va01_5,
-                  raw.data.df22_5)
+                  raw.data.df22_5, raw.data.ss28, raw.data.lj01)
 
 # Change the column names
 colnames(raw.data)[1] <- "id"
