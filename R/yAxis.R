@@ -109,6 +109,11 @@ pathLength <- data.frame(X=unlist(data.frame(pathLengthprep)$X1),
                                  sapply(data.frame(pathLengthprep)$X1,
                                         length)))
 
+pathLength$trialNumYAxis <- as.numeric(as.character(pathLength$trialNumYAxis))
+
+pathLength$trialNumYAxis <- as.numeric(levels(pathLength$trialNumYAxis)
+                                       )[pathLength$trialNumYAxis]
+
 zooPathY <- zoo(pathLength$Y)
 pathLength$pathYRoll <- as.numeric(
   ave(pathLength$Y,
@@ -438,7 +443,7 @@ plotPathCoord <- ggplot(data=subset(pathLength,
                                     trialNumYAxis==seq(0, 100, 10)),
                           aes(x=time,
                               y=YNorm,
-                              color=as.character(trialNumYAxis))) +
+                              color=categorize(trialNumYAxis))) +
   geom_line(size = 0.8) +
   xlab("Time (in milliseconds)") +
   ylab("Y path (in pixels)") +

@@ -1,5 +1,11 @@
 figures/
 analyses.html
 analyses.pdf
+analysis_rapport_laurent.Rmd
+analysis_rapport_laurent.html
+analysis_rapport_laurent.pdf
+analysis.Rmd
+analysis.html
+analysis.pdf
 .DS_Store
 .Rproj.user
