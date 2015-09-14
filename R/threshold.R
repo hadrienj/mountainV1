@@ -88,6 +88,23 @@ test <- thresholdsAllLong %>%
 
 # Calculate the progression in percent of the first session to avoid the
 # high thresholds have more weight on the evolution of the mean
+
+# Create wide form data frame with thresholds
+thresholdsAllWide <- data.frame(tapply(
+  data.threshold$deltaF[data.threshold$reversals > 4
+                        & data.threshold$reversal==TRUE
+                        & data.threshold$trainSession==0],
+  list(data.threshold$name[data.threshold$reversals > 4
+                           & data.threshold$reversal==TRUE
+                           & data.threshold$trainSession==0],
+       data.threshold$sessionNum[data.threshold$reversals > 4
+                                 & data.threshold$reversal==TRUE
+                                 & data.threshold$trainSession==0],
+       data.threshold$task[data.threshold$reversals > 4
+                           & data.threshold$reversal==TRUE
+                           & data.threshold$trainSession==0]),
+  mean))
+# Calculate threshold in percent of the first trial
 thresholdsAllPercent <- data.frame(apply(
   thresholdsAllWide[,1:4],
   2,
@@ -96,7 +113,7 @@ thresholdsAllPercent <- data.frame(apply(
     thresholdsAllWide[,5:8],
     2,
     function(i){i/thresholdsAllWide[5]}))
-
+# Reshape data frame
 thresholdsAllPercentReshape1 <- reshape(thresholdsAllPercent, direction= "long",
                                         varying=list(1:4, 5:8),
                                         ids=row.names(thresholdsAllPercent),
@@ -104,6 +121,7 @@ thresholdsAllPercentReshape1 <- reshape(thresholdsAllPercent, direction= "long",
                                         timevar="session",
                                         times=list("1","2",
                                                    "3","4"))
+# Reshape to long format
 thresholdsAllPercentLong <- reshape(thresholdsAllPercentReshape1, direction= "long",
                                    varying=list(2:3),
                                    times=list("detection","identification"))
@@ -263,31 +281,9 @@ plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
 ############ DELTAF ANALYSES ############
 
 # Compute the mean of deltaF between subjects
-# The list is the factors used (the function is applied to each levels)
-deltaFMeans <- data.frame(tapply(data.threshold$deltaF,
-                                 list(data.threshold$trialNum,
-                                      data.threshold$sessionNum,
-                                      data.threshold$task),
-                                 mean))
-
-deltaFMeansreshaped1 <- reshape(deltaFMeans, direction= "long",
-                                varying=list(1:4, 5:8),
-                                ids=row.names(deltaFMeans),
-                                idvar="trialNum",
-                                timevar="session",
-                                times=list("1","2",
-                                           "3","4"))
-
-deltaFMeansLong <- reshape(deltaFMeansreshaped1, direction= "long",
-                           varying=list(2:3),
-                           times=list("detection","identification"))
-# Remove unused columns
-deltaFMeansLong$id <- NULL
-row.names(deltaFMeansLong) <- NULL
-# Rename columns
-colnames(deltaFMeansLong)[3] <- "condition"
-colnames(deltaFMeansLong)[4] <- "threshold"
-row.names(deltaFMeansLong) <- NULL
+deltaFMeansLong <- aggregate(deltaF ~ trialNum + sessionNum + task,
+                             data=data.threshold,
+                             mean)
 
 # Prepare plots
 ## TrainSession==0 to avoid all the data of the longitudinal testing
@@ -307,12 +303,12 @@ plotDeltaF <- ggplot(data=data.threshold[data.threshold$trainSession==0,],
 
 plotDeltaFMeans <- ggplot(data=deltaFMeansLong,
                           aes(x=as.numeric(trialNum),
-                              y=threshold,
-                              color=factor(session)),
+                              y=deltaF,
+                              color=factor(sessionNum)),
                           alpha = 0.4) +
   geom_line() +
   scale_color_discrete(name="Session") +
-  facet_grid(. ~ condition) +
+  facet_grid(. ~ task) +
   xlab("Trials") +
   ylab("DeltaF (cents)") +
   ggtitle("Mean of deltaF") +
