@@ -25,115 +25,66 @@ data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
 
 ############ THRESHOLD ANALYSES ############
 
-# Calculate the frequency threshold of all participants
-thresholdsAllWide <- data.frame(tapply(
-  data.threshold$deltaF[data.threshold$reversals > 4
-                        & data.threshold$reversal==TRUE
-                        & data.threshold$trainSession==0],
-  list(data.threshold$name[data.threshold$reversals > 4
-                           & data.threshold$reversal==TRUE
-                           & data.threshold$trainSession==0],
-       data.threshold$sessionNum[data.threshold$reversals > 4
-                                 & data.threshold$reversal==TRUE
-                                 & data.threshold$trainSession==0],
-       data.threshold$task[data.threshold$reversals > 4
-                           & data.threshold$reversal==TRUE
-                           & data.threshold$trainSession==0]),
-  mean))
-thresholdsAllreshaped1 <- reshape(thresholdsAllWide, direction= "long",
-                                  varying=list(1:4, 5:8),
-                                  ids=row.names(thresholdsAllWide),
-                                  idvar="name",
-                                  timevar="session",
-                                  times=list("1","2",
-                                             "3","4"))
-thresholdsAllLong <- reshape(thresholdsAllreshaped1, direction= "long",
-                             varying=list(2:3),
-                             times=list("detection","identification"))
-# Remove unused columns
-thresholdsAllLong$id <- NULL
-row.names(thresholdsAllLong) <- NULL
-# Rename columns
+# Calculate the frequency threshold of all participants and each session from deltaF
+# The threshold is calculated with the mean of reversals
+# The four first reversals are not taken into account in the mean
+# trainsession == 0 is used to avoid to take data from longitudinal part
+thresholdsAllLong <- aggregate(deltaF ~ name + sessionNum + task,
+                               FUN=mean,
+                               data=subset(data.threshold, data.threshold$reversals > 4
+                                           & data.threshold$reversal==TRUE
+                                           & data.threshold$trainSession==0),
+                               na.rm=T)
+
+colnames(thresholdsAllLong)[2] <- "session"
 colnames(thresholdsAllLong)[3] <- "condition"
 colnames(thresholdsAllLong)[4] <- "threshold"
+thresholdsAllLong$session <- sapply(thresholdsAllLong$session,
+                                    FUN = function(x) as.numeric(x) + 1)
 
 # Assign pre or post value in function of session
-thresholdsAllLong$prePost <- ifelse(thresholdsAllLong$session == 1 |
-                                      thresholdsAllLong$session == 2, "pre", "post")
+thresholdsAllLong$prepost <- ifelse(thresholdsAllLong$session == 1 |
+                                      thresholdsAllLong$session == 2,
+                                    "pre",
+                                    "post")
 # Create a new data frame with the mean threshold by pre and post test
-thresholdAllPrepost <- data.frame(tapply(thresholdsAllLong$threshold,
-                                         list(thresholdsAllLong$prePost,
-                                              thresholdsAllLong$name,
-                                              thresholdsAllLong$condition),
-                                         mean))
-thresholdAllPrepostReshape1 <- reshape(thresholdAllPrepost,
-                                       direction= "long",
-                                       varying=list(1:(length(thresholdAllPrepost)/2),
-                                                    ((length(thresholdAllPrepost)/2)+1):length(thresholdAllPrepost)),
-                                       ids=row.names(thresholdAllPrepost),
-                                       idvar="prepost",
-                                       timevar="name",
-                                       times=levels(factor(thresholdsAllLong$name)))
-thresholdAllPrepostLong <- reshape(thresholdAllPrepostReshape1,
-                                   direction= "long",
-                                   varying=list(2:3),
-                                   timevar="condition",
-                                   times=list("detection","identification"))
+thresholdAllPrepostLong <- aggregate(threshold ~ name + prepost + condition,
+                                     FUN=mean,
+                                     data=thresholdsAllLong,
+                                     na.rm=T)
 
-colnames(thresholdAllPrepostLong)[4] <- "threshold"
-row.names(thresholdAllPrepostLong) <- NULL
-thresholdAllPrepostLong$id <- NULL
+# Assign value in function of position in the session (first is 1 and 3,
+# second is 2 and 4)
+thresholdsAllLong$prepre <- ifelse(thresholdsAllLong$session == 1 |
+                                     thresholdsAllLong$session == 3,
+                                   "first",
+                                   "second")
+# Create a new data frame with the mean threshold by first and second sessions
+thresholdAllPrepreLong <- aggregate(threshold ~ name + prepre + condition,
+                                     FUN=mean,
+                                     data=thresholdsAllLong,
+                                     na.rm=T)
 
-
-# Assign value in function of position in the session (first is 1 and 3, second is 2 and 4)
-thresholdsAllLong$prePre <- ifelse(thresholdsAllLong$session == 1 |
-                                     thresholdsAllLong$session == 3, "first", "second")
-# Create a new data frame with the mean threshold by pre and post test
-thresholdAllPrePre <- data.frame(tapply(thresholdsAllLong$threshold,
-                                        list(thresholdsAllLong$prePre,
-                                             thresholdsAllLong$name,
-                                             thresholdsAllLong$condition),
-                                        mean))
-thresholdAllPrepreReshape1 <- reshape(thresholdAllPrePre,
-                                      direction= "long",
-                                      varying=list(1:(length(thresholdAllPrePre)/2),
-                                                   ((length(thresholdAllPrePre)/2)+1):length(thresholdAllPrePre)),
-                                      ids=row.names(thresholdAllPrePre),
-                                      idvar="prepre",
-                                      timevar="name",
-                                      times=levels(factor(thresholdsAllLong$name)))
-thresholdAllPrepreLong <- reshape(thresholdAllPrepreReshape1,
-                                  direction= "long",
-                                  varying=list(2:3),
-                                  timevar="condition",
-                                  times=list("detection","identification"))
-
-colnames(thresholdAllPrepreLong)[4] <- "threshold"
-row.names(thresholdAllPrepreLong) <- NULL
-thresholdAllPrepreLong$id <- NULL
-
-# Calculate the mean threshold for each session
-meanThresholds <- data.frame(session = as.numeric(
-  levels(factor(thresholdsAllLong$session))),
-  tapply(thresholdsAllLong$threshold,
-         list(thresholdsAllLong$session,
-              thresholdsAllLong$condition),
-         mean))
-# Reshape the data frame into long format
-meanThresholdLong <- melt(meanThresholds, id.var="session",
-                          variable.name = "condition", 
-                          value.name = "threshold")
-
+# Calculate the mean threshold for each session and each condition
+meanThresholdLong <- aggregate(threshold ~ session + condition,
+                               FUN=mean,
+                               data=thresholdsAllLong,
+                               na.rm=T)
 # Calculate the mean threshold for each participant and each condition
-meanThresholdsSubj <- data.frame(name = levels(
-  factor(thresholdsAllLong$name)),
-  tapply(thresholdsAllLong$threshold,
-         list(thresholdsAllLong$name,
-              thresholdsAllLong$condition),
-         mean))
-meanThresholdsSubjLong <- melt(meanThresholdsSubj, id.var="name",
-                               variable.name = "condition", 
-                               value.name = "threshold")
+meanThresholdsSubjLong <- aggregate(threshold ~ name + condition,
+                               FUN=mean,
+                               data=thresholdsAllLong,
+                               na.rm=T)
+
+test <- do.call(data.frame, melt(aggregate(threshold ~ name + condition,
+                  data=thresholdsAllLong,
+                  FUN=function(i) {i/i[1]})))
+
+ddply(thresholdsAllLong, .(name, condition),function(x) x$threshold/x$threshold[1])
+
+test <- thresholdsAllLong %>% 
+  group_by(name, condition) %>% 
+  mutate(function(x) {x$threshold/x$threshold[1]})
 
 # Calculate the progression in percent of the first session to avoid the
 # high thresholds have more weight on the evolution of the mean
@@ -187,7 +138,7 @@ plotThresholds <- ggplot(data=thresholdsAllLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-#   facet_grid(name ~ ., scale='free') +
+  facet_grid(name ~ ., scale='free') +
   theme(panel.margin = unit(3.5, "mm"))
 
 plotThresholdsOneLog <- ggplot(data=thresholdsAllLong,
@@ -213,7 +164,7 @@ plotThresholdsPercent <- ggplot(data=thresholdsAllPercentLong,
   geom_line() +
   xlab("Sessions") +
   ylab("Thresholds") +
-#   facet_grid(name ~ .) +
+  facet_grid(name ~ .) +
   theme(panel.margin = unit(3.5, "mm"))
 
 plotMeanThresholds <- ggplot(data=meanThresholdLong,

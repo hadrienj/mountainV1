@@ -60,6 +60,7 @@ if ('targetTone' %in% names(data)) {
 ```
 
 ```{r longitudinal, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Load longitudinal analysis script (five days testing)
 source("R/longitudAnalysis.R")
 ```
 
@@ -182,6 +183,24 @@ plotDur
 
 ```
 
+### Path coordinates
+
+```{r plotPathCoord, echo=FALSE, message=FALSE, warning=FALSE, fig.height=25}
+
+plotPathCoord
+
+```
+
+### Number of target crossings
+
+The number of target crossing in the auditory mountain is the number of time the participant cross the target.
+
+```{r plotCrossNum, echo=FALSE, message=FALSE, warning=FALSE, fig.height=15}
+
+plotCrossNum
+
+```
+
 ### Accuracy in function of duration for each trial
 
 The variability of the results is not associated with duration. Each point is a trial.
@@ -216,12 +235,13 @@ plotAccByFreq
 
 ```{r plotAccThresh, echo=FALSE, message=FALSE, warning=FALSE, fig.height=length(levels(factor(raw.data$name)))*1.1}
 
-plotAccThresh +
-  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100,
-                   linetype=condition),
-               meanThresholdsSubjLong,
-               show_guide=TRUE) +
-  guides(linetype = guide_legend("Frequency thresholds"))
+plotAccThresh
+
+```
+
+```{r plotAccThreshMean, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThreshMean
 
 ```
 
@@ -267,20 +287,23 @@ plotAccMean
 
 ```
 
-```{r plotPathCoord, echo=FALSE, message=FALSE, warning=FALSE, fig.height=25}
+### Correlation between mountain task accuracy and frequency thresholds
 
-plotPathCoord
+#### Identification frequency threhsold
 
-```
+```{r plotMountainByThreshId, echo=FALSE, message=FALSE, warning=FALSE}
 
-The number of target crossing in the auditory mountain is the number of time the participant cross the target.
-
-```{r plotCrossNum, echo=FALSE, message=FALSE, warning=FALSE, fig.height=15}
-
-plotCrossNum
+plotMountainByThreshId
 
 ```
 
+#### Detection frequency threhsold
+
+```{r plotMountainByThreshDet, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotMountainByThreshDet
+
+```
 
 # Longitudinal analysis
 

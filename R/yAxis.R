@@ -4,27 +4,21 @@ data.mountain.yAxis <- subset(data,
                                 result, totalScore, sessionNum, name, duration,
                                 time, score, sessionNumMount))
 
+
 # Sort the data according to time then to trial number
 data.mountain.yAxis <- data.mountain.yAxis[order(
   data.mountain.yAxis$time, data.mountain.yAxis$trialNumYAxis),]
-
 row.names(data.mountain.yAxis) <- NULL
 
-# Extract trial score and replace the score values if it exists (it exists for all except sa20 and ab22)
+
+# Extract trial score and replace the score values
+# if it exists (it exists for all except sa20 and ab22)
 data.mountain.yAxis$score <-
   ((1 / (((data.mountain.yAxis$duration/100)+1)^2)) + 1) *
   (600*(((100-data.mountain.yAxis$result)/100)^2))
 
 
-# Calculate mean by participants
-yAxisAccMean <- data.frame(trialNumYAxis=as.numeric(levels(factor(yAxisAcc$trialNumYAxis))),
-                           result=tapply(yAxisAcc$result,
-                                         yAxisAcc$trialNumYAxis,
-                                         mean))
-row.names(yAxisAccMean) <- NULL
-
-
-# Make moving average for scores
+# Make moving average for accuracy
 zooYAxisAccuracy <- zoo(data.mountain.yAxis$result)
 data.mountain.yAxis$YAxisAccuracyRoll <- as.numeric(
   ave(data.mountain.yAxis$result,
@@ -57,8 +51,37 @@ data.mountain.yAxis$YAxisScoresRoll <- as.numeric(
     FUN = mean,
     fill = NA,
     partial = FALSE)))
-# Make moving average for mean accuracy
-zooYAxisAccMean <- zoo(yAxisAccMean)
+
+
+
+
+# Create long data frame for durations
+yAxisDur <- subset(data.mountain.yAxis,
+                   select = c(id, duration, YAxisDurRoll, name, trialNumYAxis))
+yAxisDurLong <- melt(yAxisDur, c("id", "name", "trialNumYAxis"))
+
+# Create long data frame for scores
+yAxisScores <- subset(data.mountain.yAxis,
+                      select = c(id, score, YAxisScoresRoll, name, trialNumYAxis))
+yAxisScoresLong <- melt(yAxisScores, c("id", "name", "trialNumYAxis"))
+
+# Create long data frame for accuracy
+yAxisAcc <- subset(data.mountain.yAxis,
+                   select = c(id, result, YAxisAccuracyRoll, name, trialNumYAxis))
+yAxisAccLong <- melt(yAxisAcc, c("id", "name", "trialNumYAxis"))
+
+# Calculate meanand duration by trial
+yAxisAccMean <- data.frame(trialNumYAxis=as.numeric(levels(factor(yAxisAcc$trialNumYAxis))),
+                           result=tapply(yAxisAcc$result,
+                                         yAxisAcc$trialNumYAxis,
+                                         mean))
+yAxisDurMean <- data.frame(trialNumYAxis=as.numeric(levels(factor(yAxisDur$trialNumYAxis))),
+                           result=tapply(yAxisDur$duration,
+                                         yAxisDur$trialNumYAxis,
+                                         mean))
+row.names(yAxisAccMean) <- NULL
+row.names(yAxisDurMean) <- NULL
+# Make moving average for mean accuracy and duration
 yAxisAccMean$YAxisAccuracyRoll <- as.numeric(
   ave(yAxisAccMean$result,
       FUN = function(x) rollapply(
@@ -67,24 +90,25 @@ yAxisAccMean$YAxisAccuracyRoll <- as.numeric(
         FUN = mean,
         fill = NA,
         partial = FALSE)))
-
-
-# Create long data frame for durations
-yAxisDur <- subset(data.mountain.yAxis,
-                   select = c(id, duration, YAxisDurRoll, name, trialNumYAxis))
-yAxisDurLong <- melt(yAxisDur, c("id", "name", "trialNumYAxis"))
-# Create long data frame for scores
-yAxisScores <- subset(data.mountain.yAxis,
-                      select = c(id, score, YAxisScoresRoll, name, trialNumYAxis))
-yAxisScoresLong <- melt(yAxisScores, c("id", "name", "trialNumYAxis"))
-# Create long data frame for accuracy
-yAxisAcc <- subset(data.mountain.yAxis,
-                   select = c(id, result, YAxisAccuracyRoll, name, trialNumYAxis))
-yAxisAccLong <- melt(yAxisAcc, c("id", "name", "trialNumYAxis"))
-# Create long data frame for mean accuracy
+yAxisDurMean$YAxisDurRoll <- as.numeric(
+  ave(yAxisDurMean$result,
+      FUN = function(x) rollapply(
+        x,
+        width = 10,
+        FUN = mean,
+        fill = NA,
+        partial = FALSE)))
+# Create long data frame for mean accuracy and duration
 yAxisAccMeanLong <- melt(yAxisAccMean, "trialNumYAxis")
+yAxisDurMeanLong <- melt(yAxisDurMean, "trialNumYAxis")
 
+colnames(yAxisAccMeanLong)[2] <- "variableAcc"
+colnames(yAxisAccMeanLong)[3] <- "valueAcc"
+colnames(yAxisDurMeanLong)[2] <- "variableDur"
+colnames(yAxisDurMeanLong)[3] <- "valueDur"
 
+# Merge both data frame
+yAxisMeanLong <- cbind(yAxisDurMeanLong, yAxisAccMeanLong)
 
 #### Extract path length ###
 pathLengthprep <- data.frame(t(sapply(data.mountain.yAxis$CurXY,
@@ -178,7 +202,9 @@ data.mountain.yAxis <- data.mountain.yAxis[order(
 # Remove row.names
 row.names(data.mountain.yAxis) <- NULL
 
-#### Path X by Y ####
+
+
+################# PATH Y ############################################
 # Normalize Y
 pathLength$YNorm <- pathLength$Y - pathLength$yTopDist
 # Create categorical variable from time
@@ -289,24 +315,36 @@ yAxisEff <- yAxisEff %>%
 
 
 # Calculate the mean inter participants for each trial
-yAxisLongMean <- data.frame(accuracy
-                            =tapply(yAxisAccLong$value[yAxisAccLong$variable=="result"],
-       yAxisAccLong$trialNumYAxis[yAxisAccLong$variable=="result"],
-       mean))
+yAxisLongMean <- data.frame(accuracy=
+                              tapply(yAxisAccLong$value[yAxisAccLong$variable=="result"],
+                                     yAxisAccLong$trialNumYAxis[
+                                       yAxisAccLong$variable=="result"],
+                                     mean),
+                            duration=
+                              tapply(yAxisDurLong$value[yAxisDurLong$variable=="duration"],
+                                     yAxisDurLong$trialNumYAxis[
+                                       yAxisDurLong$variable=="duration"],
+                                     mean))
 
 yAxisLongMean <- cbind(trialNum = row.names(yAxisLongMean), yAxisLongMean)
 yAxisLongMean$trialNum  <- as.numeric(levels(yAxisLongMean$trialNum))[yAxisLongMean$trialNum]
 row.names(yAxisLongMean) <- NULL
 
 # Calculate mean from first value to x
-yAxisLongMean$meanRoll <- sapply(1:length(yAxisLongMean$trialNum),
+yAxisLongMean$accRoll <- sapply(1:length(yAxisLongMean$trialNum),
                                function(x) mean(yAxisLongMean$accuracy[1:x]))
+yAxisLongMean$durRoll <- sapply(1:length(yAxisLongMean$trialNum),
+                                function(x) mean(yAxisLongMean$duration[1:x]))
 # Calculate the difference with the global mean in sd
-yAxisLongMean$se <- sapply(1:length(yAxisLongMean$trialNum),
-                                 function(x) abs(yAxisLongMean$meanRoll[x]
+yAxisLongMean$accSe <- sapply(1:length(yAxisLongMean$trialNum),
+                                 function(x) abs(yAxisLongMean$accRoll[x]
                                                  -mean(yAxisLongMean$accuracy))
                            /sd(yAxisLongMean$accuracy))
-
+yAxisLongMean$durSe <- sapply(1:length(yAxisLongMean$trialNum),
+                              function(x) abs(yAxisLongMean$durRoll[x]
+                                              -mean(yAxisLongMean$duration))
+                              /sd(yAxisLongMean$duration))
+yAxisLongMean <- melt(yAxisLongMean, "trialNum")
 
 
 
@@ -323,7 +361,7 @@ plotAcc <- ggplot(data=yAxisAccLong,
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
   geom_line() +
-#   facet_grid(name ~ .) +
+  facet_grid(name ~ .) +
   theme(panel.margin = unit(4.5, "mm"))
 
 
@@ -372,16 +410,28 @@ plotScores <- ggplot(data=yAxisScoresLong,
   facet_grid(name ~ .) +
   theme(panel.margin = unit(4.5, "mm"))
 
-plotAccMean <- ggplot(data=yAxisAccMeanLong,
+plotAccMean <- ggplot(data=yAxisMeanLong,
                   aes(x=trialNumYAxis,
-                      y=value,
-                      alpha = variable)) +
+                      y=valueAcc,
+                      alpha = variableAcc)) +
   scale_alpha_manual(name="Display", labels=c("Raw values",
                                               "Rolling mean \n(10 values)"),
                      values=c(0.3, 1)) +
+  scale_x_continuous(limits=c(0, 75)) +
   guides(color=FALSE) +
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
+  geom_line()
+
+plotDurMean <- ggplot(data=subset(yAxisMeanLong,
+                                  valueAcc<3
+                                  & trialNumYAxis>1),
+                      aes(x=trialNumYAxis,
+                          y=valueDur)) +
+  scale_x_continuous(limits=c(0, 75)) +
+  guides(color=FALSE) +
+  xlab("Trials") +
+  ylab("Duration (in seconds)") +
   geom_line()
 
 # Accuracy by duration
@@ -437,9 +487,45 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
   ggtitle("Accuracy in the mountain task with thresholds 
           \nfrom the frequency threshold task") +
   theme(plot.title = element_text(vjust=2, lineheight=.6)) +
-  theme(panel.margin = unit(4.5, "mm"))
+  theme(panel.margin = unit(4.5, "mm")) +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100,
+                 linetype=condition),
+             meanThresholdsSubjLong,
+             show_guide=TRUE) +
+  guides(linetype = guide_legend("Frequency thresholds"))
 
-# Accuracy by frequency
+
+
+
+
+######### ACCURACY WITH THRESHOLD MEANS
+meanThresholdsLong <- data.frame(condition=
+                                   levels(factor(meanThresholdsSubjLong$condition)),
+                                 mean=
+                                   tapply(meanThresholdsSubjLong$threshold,
+                                          meanThresholdsSubjLong$condition,
+                                          mean))
+row.names(meanThresholdsLong) <- NULL
+
+plotAccThreshMean <- ggplot(data=yAxisMeanLong,
+                            aes(x=trialNumYAxis,
+                                y=valueAcc,
+                                alpha = variableAcc)) +
+  scale_alpha_manual(name="Display", labels=c("Raw values",
+                                              "Rolling mean \n(10 values)"),
+                     values=c(0.3, 1)) +
+  scale_x_continuous(limits=c(0, 75)) +
+  guides(color=FALSE) +
+  xlab("Trials") +
+  ylab("Accuracy (in percent error)") +
+  geom_line() +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype=condition),
+             meanThresholdsLong,
+             show_guide=TRUE)
+
+
+####### Accuracy by frequency
 plotAccByFreq <- ggplot(data=data.mountain.yAxis,
                        aes(x=result,
                            y=targetTone,
@@ -469,7 +555,7 @@ plotPathLength <- ggplot(data=pathLengthAllLong,
 
 
 plotPathCoord <- ggplot(data=subset(pathLength,
-                                    trialNumYAxis==seq(0, 100, 10)),
+                                    trialNumYAxis==seq(1, 100, 20)),
                           aes(x=time,
                               y=YNorm,
                               color=trialNumYAxis)) +
@@ -525,3 +611,68 @@ plotSdDiffMean <- ggplot(data=yAxisLongMean,
   scale_x_continuous(limits=c(0, 75)) +
   geom_line()
 
+
+test <- data.frame(mountainThresh
+                   =tapply(yAxisAccLong$value[yAxisAccLong$trialNum>2],
+                           yAxisAccLong$name[yAxisAccLong$trialNum>2],
+                           mean,
+                           na.rm=TRUE),
+                   thresholdId=(2^(meanThresholdsSubjLong$threshold[
+                     meanThresholdsSubjLong$condition
+                     =="identification"]/1200)-1)*100,
+                   thresholdDet=(2^(meanThresholdsSubjLong$threshold[
+                     meanThresholdsSubjLong$condition
+                     =="detection"]/1200)-1)*100)
+test <- data.frame(name=rownames(test), test)
+test <- melt(test)
+
+
+## Scatter plots mountain by thresholds
+mountainByThresh <- data.frame(meanThresholdsSubj,
+                               mountain=
+                                 tapply(data.mountain.yAxis$result,
+                                   data.mountain.yAxis$name,
+                                   mean),
+                               mountainPre=
+                                 tapply(data.mountain.yAxis$result[
+                                   data.mountain.yAxis$trialNumYAxis<25],
+                                        data.mountain.yAxis$name[
+                                          data.mountain.yAxis$trialNumYAxis<25],
+                                        mean),
+                               mountainPost=
+                                 tapply(data.mountain.yAxis$result[
+                                   data.mountain.yAxis$trialNumYAxis>50
+                                   & data.mountain.yAxis$trialNumYAxis<75],
+                                   data.mountain.yAxis$name[
+                                     data.mountain.yAxis$trialNumYAxis>50
+                                     & data.mountain.yAxis$trialNumYAxis<75],
+                                   mean))
+row.names(mountainByThresh) <- NULL
+
+# Accuracy by detection threshold
+plotMountainByThreshDet <- ggplot(data=mountainByThresh,
+                       aes(x=mountain,
+                           y=detection)) +
+  geom_point() +
+#   scale_y_continuous(limits=c(0, 75)) +
+#   scale_x_continuous(limits=c(0.5, 2)) +
+  geom_smooth(method=lm) +
+  xlab("Mountain accuracy (percentage error)") +
+  ylab("Detection threshold") +
+  ggtitle("Mountain accuracy by detection threshold") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotMountainByThreshId <- ggplot(data=mountainByThresh,
+                                  aes(x=mountain,
+                                      y=identification)) +
+  geom_point() +
+  #   scale_y_continuous(limits=c(0, 75)) +
+  #   scale_x_continuous(limits=c(0.5, 2)) +
+  geom_smooth(method=lm) +
+  xlab("Mountain accuracy (percentage error)") +
+  ylab("Identification threshold") +
+  ggtitle("Mountain accuracy by identification threshold") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+
+                               
