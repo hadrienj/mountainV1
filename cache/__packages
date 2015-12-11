@@ -1,0 +1,13 @@
+base
+knitr
+rjson
+ggplot2
+RColorBrewer
+devtools
+reshape2
+scales
+dplyr
+rCharts
+zoo
+pander
+kfigr

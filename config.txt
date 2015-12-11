@@ -1,0 +1,9 @@
+t: html
+s:
+mathjax:
+o: analysis.html
+
+t: latex
+latex-engine: xelatex
+s:
+output: analysis.pdf
