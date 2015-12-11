@@ -7,27 +7,39 @@ output:
 date: "`r format(Sys.time(), '%B %d %Y')`"
 ---
 
-```{r global_options, include=FALSE}
-knitr::opts_chunk$set(fig.path='figures/')
-options("scipen"=100, "digits"=2)
-```
+<!--pandoc
+t: html
+s:
+mathjax:
+o: analysis.html
+-->
 
 
 ```{r initialization, echo=FALSE, message=FALSE, warning=FALSE}
-library("rjson")
-library("ggplot2")
-library("gridExtra")
-library("zoo")
-library("RColorBrewer")
-require(gridExtra)
-require(zoo)
+library(rjson)
+library(ggplot2)
+library(RColorBrewer)
 library(devtools)
 library(reshape2)
 library(scales)
 library(dplyr)
+library(rCharts)
+library(zoo)
+library(grid)
+library(knitr)
+library(pander)
+library(kfigr)
 ```
 
-```{r preProc, include=F}
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.path='figures/')
+knitr::opts_chunk$set(comment = NA, results = "asis", comment = NA, tidy = F)
+options("scipen"=100, "digits"=2)
+opts_chunk$set(dev = 'svg')
+opts_chunk$set(fig.cap='')
+```
+
+```{r preProc, include=FALSE}
 # Pre processing of the data from the first design
 source("R/preProcFirstDesign.R")
 ```
@@ -64,6 +76,16 @@ if ('targetTone' %in% names(data)) {
 source("R/longitudAnalysis.R")
 ```
 
+```{r stats, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Load longitudinal analysis script (five days testing)
+source("R/stats.R")
+```
+
+```{r plots, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+
+source("R/plots.R")
+
+```
 
 # Individual analyses
 
@@ -75,12 +97,14 @@ The frequency thresholds are calculated from an adaptive procedure where deltaF 
 
 The evolution of the delta F values across trials for the detection and identification tasks is ploted bellow:
 
-```{r plotDeltaF, echo=FALSE, message=FALSE, warning=FALSE, , fig.height=length(levels(factor(raw.data$name)))*1.2}
+```{r plotDeltaF, echo=FALSE, message=FALSE, warning=FALSE, fig.height=length(levels(factor(raw.data$name)))*1.2, anchor="figure"}
 
 plotDeltaF
 
 ```
 
+ on the figure `r figr('plotDeltaF')`
+ 
 ### Thresholds
 
 #### Each participant among sessions
@@ -336,6 +360,7 @@ $$ `r sum(totalScoresLong$totalScore[totalScoresLong$name=="df22"])` + (1000 \ti
 The frequency threshold tests are done before and after each training session. The dotted vertical lines correspond to each first threshold task.
 
 ### All Subjects
+
 ```{r plotThresholdsLongi, echo=FALSE, message=FALSE, warning=FALSE}
 
 plotThresholdsLongi
@@ -397,7 +422,29 @@ plotDurLongi
 
 We calculated the efficiency of the auditory mountain task to give an estimate of the frequency threshold. It represents for each trial and each participant the difference between the whole mean of accuracy and the mean from trial 1 to the one presented. This difference is expressed in standard deviation (calculated with the whole trials of each participant). For instance, the value of the trial 21 for mn15 is around one standard deviation. This means that for this participant, the mean of the 21 first trials is away of the global mean by one standard deviation.
 
+**Reference:** Schlauch, R. S., & Rose, R. M. (1990). Two‐, three‐, and four‐interval forced‐choice staircase procedures: Estimator bias and efficiency. *The Journal of the Acoustical Society of America*, 88(2), 732–740.
+
+
+Here is the code used to compute these sd:
+
+```{r code, message=FALSE, warning=FALSE}
+# Create a vector with the cumulative mean of accuracy for each participant
+yAxisEff <- yAxisEff %>%
+  group_by(name) %>%
+  mutate(
+    roll=cummean(accuracy),
+    mean=mean(accuracy),
+    sd=sd(accuracy),
+    # For each observation the difference between the cumulative mean
+    # and the mean is calculated in sd
+    se=abs(roll-mean)/sd)
+```
+
+and here is the form of the table created with the code above:
+
 ```{r plotSdDiff, echo=FALSE, message=FALSE, warning=FALSE}
+set.caption('yAxisEff')
+pander(head(yAxisEff))
 
 plotSdDiff
 
@@ -407,7 +454,27 @@ The same thing can be done with the mean among participants for each trial.
 
 ```{r plotSdDiffMean, echo=FALSE, message=FALSE, warning=FALSE}
 
-plotSdDiffMean
+# plotSdDiffMean
+
+```
+
+# Statistical tests
+
+Test of normality for each session and condition
+
+```{r shap, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+# Session 1:
+shap(data=thresholdsAllLong, cond="identification", sess=1, thresholdMax=100)
+
+shap(data=thresholdsAllLong, cond="identification", sess=2, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="identification", sess=3, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="identification", sess=4, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="detection", sess=1, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="detection", sess=2, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="detection", sess=3, thresholdMax=100)
+shap(data=thresholdsAllLong, cond="detection", sess=4, thresholdMax=100)
+
+n1$show('inline', include_assets = TRUE)
 
 ```
 

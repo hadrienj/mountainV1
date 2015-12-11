@@ -19,7 +19,6 @@ data.mountain.yAxis$score <-
 
 
 # Make moving average for accuracy
-zooYAxisAccuracy <- zoo(data.mountain.yAxis$result)
 data.mountain.yAxis$YAxisAccuracyRoll <- as.numeric(
   ave(data.mountain.yAxis$result,
       data.mountain.yAxis$name,
@@ -30,7 +29,6 @@ data.mountain.yAxis$YAxisAccuracyRoll <- as.numeric(
         fill = NA,
         partial = FALSE)))
 # Make moving average for durations
-zooYAxisDur <- zoo(data.mountain.yAxis$duration)
 data.mountain.yAxis$YAxisDurRoll <- as.numeric(
   ave(data.mountain.yAxis$duration,
       data.mountain.yAxis$name,
@@ -41,7 +39,6 @@ data.mountain.yAxis$YAxisDurRoll <- as.numeric(
         fill = NA,
         partial = FALSE)))
 # Make moving average for scores
-zooYAxisScore <- zoo(data.mountain.yAxis$score)
 data.mountain.yAxis$YAxisScoresRoll <- as.numeric(
   ave(data.mountain.yAxis$score,
       data.mountain.yAxis$name,
@@ -52,8 +49,23 @@ data.mountain.yAxis$YAxisScoresRoll <- as.numeric(
     fill = NA,
     partial = FALSE)))
 
-
-
+##################
+# data.mountain.yAxis$trialNumYAxis <- factor(data.mountain.yAxis$trialNumYAxis)
+# test <- ggplot(data=data.mountain.yAxis,
+#                aes(x=factor(trialNumYAxis),
+#                    y=duration,
+#                    alpha = YAxisDurRoll,
+#                    color=name)) +
+#   scale_alpha_manual(name="Display", labels=c("Raw values",
+#                                               "Rolling mean \n(10 values)"),
+#                      values=c(0.3, 1)) +
+#   guides(color=FALSE) +
+#   xlab("Trials") +
+#   ylab("Scores (in points)") +
+#   geom_line() +
+#   facet_grid(name ~ .) +
+#   theme(panel.margin = unit(4.5, "mm"))
+##################
 
 # Create long data frame for durations
 yAxisDur <- subset(data.mountain.yAxis,
@@ -310,6 +322,8 @@ yAxisEff <- yAxisEff %>%
     roll=cummean(accuracy),
     mean=mean(accuracy),
     sd=sd(accuracy),
+    # For each observation the difference between the cumulative mean
+    # and the mean is calculated in sd
     se=abs(roll-mean)/sd)
 
 
@@ -347,157 +361,6 @@ yAxisLongMean$durSe <- sapply(1:length(yAxisLongMean$trialNum),
 yAxisLongMean <- melt(yAxisLongMean, "trialNum")
 
 
-
-############     PLOTS     ##########################
-plotAcc <- ggplot(data=yAxisAccLong,
-                  aes(x=trialNumYAxis,
-                      y=value,
-                      alpha = variable,
-                      color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
-
-
-plotAccOne <- ggplot(data=yAxisAccLong,
-                  aes(x=trialNumYAxis,
-                      y=value,
-                      alpha = variable,
-                      color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  scale_y_continuous(limits=c(0, 20)) +
-  geom_line() +
-  theme(panel.margin = unit(4.5, "mm"))
-
-plotDur <- ggplot(data=yAxisDurLong,
-                     aes(x=trialNumYAxis,
-                         y=value,
-                         alpha = variable,
-                         color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Duration (in seconds)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
-
-plotScores <- ggplot(data=yAxisScoresLong,
-                  aes(x=trialNumYAxis,
-                      y=value,
-                      alpha = variable,
-                      color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Scores (in points)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
-
-plotAccMean <- ggplot(data=yAxisMeanLong,
-                  aes(x=trialNumYAxis,
-                      y=valueAcc,
-                      alpha = variableAcc)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  scale_x_continuous(limits=c(0, 75)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_line()
-
-plotDurMean <- ggplot(data=subset(yAxisMeanLong,
-                                  valueAcc<3
-                                  & trialNumYAxis>1),
-                      aes(x=trialNumYAxis,
-                          y=valueDur)) +
-  scale_x_continuous(limits=c(0, 75)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Duration (in seconds)") +
-  geom_line()
-
-# Accuracy by duration
-plotAccByDur <- ggplot(data=data.mountain.yAxis,
-                       aes(x=result,
-                           y=duration,
-                           color=name)) +
-  geom_point() +
-  xlab("Scores (percentage error)") +
-  ylab("Duration (in seconds)") +
-  ggtitle("Score in function of duration") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-# Path length by duration
-plotLengthByDur <- ggplot(data=data.mountain.yAxis,
-                       aes(x=pathLength,
-                           y=duration,
-                           color=name)) +
-  geom_point(data = data.mountain.yAxis, aes(y = duration)) +
-  xlab("Path length (in pixels)") +
-  ylab("Duration (in seconds)") +
-  scale_x_continuous(limits=c(0, 10000)) +
-  ggtitle("Path length in function of duration") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-# Path length by accuracy
-plotLengthByAcc <- ggplot(data=data.mountain.yAxis,
-                          aes(x=pathLength,
-                              y=result,
-                              color=name)) +
-  geom_point() +
-  xlab("Path length (in pixels)") +
-  ylab("Accuracy (in percent error)") +
-  scale_x_continuous(limits=c(0, 10000)) +
-  ggtitle("Path length in function of duration") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-# Accuracy with thresholds
-plotAccThresh <- ggplot(data=yAxisAccLong,
-                        aes(x=trialNumYAxis,
-                            y=value,
-                            alpha = variable,
-                            color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  scale_y_continuous(limits=c(0, 35)) +
-  geom_line() +
-  facet_grid(name ~ .) +
-  ggtitle("Accuracy in the mountain task with thresholds 
-          \nfrom the frequency threshold task") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6)) +
-  theme(panel.margin = unit(4.5, "mm")) +
-  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100,
-                 linetype=condition),
-             meanThresholdsSubjLong,
-             show_guide=TRUE) +
-  guides(linetype = guide_legend("Frequency thresholds"))
-
-
-
-
-
 ######### ACCURACY WITH THRESHOLD MEANS
 meanThresholdsLong <- data.frame(condition=
                                    levels(factor(meanThresholdsSubjLong$condition)),
@@ -506,110 +369,6 @@ meanThresholdsLong <- data.frame(condition=
                                           meanThresholdsSubjLong$condition,
                                           mean))
 row.names(meanThresholdsLong) <- NULL
-
-plotAccThreshMean <- ggplot(data=yAxisMeanLong,
-                            aes(x=trialNumYAxis,
-                                y=valueAcc,
-                                alpha = variableAcc)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  scale_x_continuous(limits=c(0, 75)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_line() +
-  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
-                 linetype=condition),
-             meanThresholdsLong,
-             show_guide=TRUE)
-
-
-####### Accuracy by frequency
-plotAccByFreq <- ggplot(data=data.mountain.yAxis,
-                       aes(x=result,
-                           y=targetTone,
-                           color=name)) +
-  geom_point() +
-  xlab("Scores (percentage error)") +
-  ylab("Frequency of the target tone (in Hz)") +
-  ggtitle("Score in function of frequency of the target tone") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-
-plotPathLength <- ggplot(data=pathLengthAllLong,
-                         aes(x=trialNumYAxis,
-                             y=pathLength,
-                             #                              alpha = variable,
-                             color=name)) +
-  #   scale_alpha_manual(name="Display", labels=c("Raw values",
-  #                                               "Rolling mean \n(10 values)"),
-  #                      values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_point() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm")) +
-  scale_y_continuous(limits=c(0, 5000))
-
-
-plotPathCoord <- ggplot(data=subset(pathLength,
-                                    trialNumYAxis==seq(1, 100, 20)),
-                          aes(x=time,
-                              y=YNorm,
-                              color=trialNumYAxis)) +
-  geom_line(size = 0.8) +
-  xlab("Time (in milliseconds)") +
-  ylab("Y path (in pixels)") +
-  scale_y_continuous(limits=c(-700, 700)) +
-  scale_x_continuous(limits=c(0, 30000)) +
-#   geom_hline(aes(yintercept=yTopDist, color=as.character(trialNumYAxis))) +
-  facet_grid(name ~ .) +
-  ggtitle("Normalize Y path in function of time") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-# Plot crossing number
-plotCrossNum <- ggplot(data=crossNum,
-                     aes(x=trialNum,
-                         y=reversals,
-                         color=name)) +
-  geom_line(size = 0.8) +
-  xlab("Trial number") +
-  ylab("Number of target crossing") +
-  scale_y_continuous(limits=c(0, 20)) +
-#   scale_x_continuous(limits=c(0, 20000)) +
-  #   geom_hline(aes(yintercept=yTopDist, color=as.character(trialNumYAxis))) +
-  facet_grid(name ~ .) +
-  ggtitle("Number of target crossing for each participant and each trial") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-plotCrossNumMean <- ggplot(data=crossNumMean,
-                      aes(x=trialNum,
-                          y=result)) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_line()
-
-
-plotSdDiff <- ggplot(data=yAxisEff,
-                     aes(x=trialNum,
-                         y=se,
-                         color=name)) +
-  scale_y_continuous(limits=c(0, 2)) +
-  scale_x_continuous(limits=c(0, 75)) +
-  ylab("Standard deviation from the mean") +
-  xlab("Trials") +
-  geom_line()
-
-
-plotSdDiffMean <- ggplot(data=yAxisLongMean,
-                         aes(x=trialNum,
-                             y=se)) +
-  xlab("Trials") +
-  ylab("Standard deviation") +
-  scale_x_continuous(limits=c(0, 75)) +
-  geom_line()
 
 
 test <- data.frame(mountainThresh
@@ -626,6 +385,12 @@ test <- data.frame(mountainThresh
 test <- data.frame(name=rownames(test), test)
 test <- melt(test)
 
+meanThresholdsSubj <- data.frame(name = levels(
+  factor(thresholdsAllLong$name)),
+  tapply(thresholdsAllLong$threshold,
+         list(thresholdsAllLong$name,
+              thresholdsAllLong$condition),
+         mean))
 
 ## Scatter plots mountain by thresholds
 mountainByThresh <- data.frame(meanThresholdsSubj,
@@ -648,31 +413,3 @@ mountainByThresh <- data.frame(meanThresholdsSubj,
                                      & data.mountain.yAxis$trialNumYAxis<75],
                                    mean))
 row.names(mountainByThresh) <- NULL
-
-# Accuracy by detection threshold
-plotMountainByThreshDet <- ggplot(data=mountainByThresh,
-                       aes(x=mountain,
-                           y=detection)) +
-  geom_point() +
-#   scale_y_continuous(limits=c(0, 75)) +
-#   scale_x_continuous(limits=c(0.5, 2)) +
-  geom_smooth(method=lm) +
-  xlab("Mountain accuracy (percentage error)") +
-  ylab("Detection threshold") +
-  ggtitle("Mountain accuracy by detection threshold") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-plotMountainByThreshId <- ggplot(data=mountainByThresh,
-                                  aes(x=mountain,
-                                      y=identification)) +
-  geom_point() +
-  #   scale_y_continuous(limits=c(0, 75)) +
-  #   scale_x_continuous(limits=c(0.5, 2)) +
-  geom_smooth(method=lm) +
-  xlab("Mountain accuracy (percentage error)") +
-  ylab("Identification threshold") +
-  ggtitle("Mountain accuracy by identification threshold") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6))
-
-
-                               

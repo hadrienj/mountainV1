@@ -7,8 +7,11 @@ se <- function(x) sqrt(var(x)/length(x))
 
 # va01 and df22 did the longitudinal experiment
 data.threshold.longi <- subset(data, (grepl("threshold", id))
-                                      & ((grepl("va", name))
-                                      | (grepl("df", name))),
+                                      & (grepl("dp02", name))
+                                      | (grepl("kh13", name))
+                                      | (grepl("ss10", name))
+                                      | (grepl("el17", name))
+                                      | (grepl("vv17", name)),
                                c(id, trialNum,sessionNum,sessionThreshNum,
                                  reversal,  reversals,  task,  startTrial,
                                  tone1, tone2,  tone3, tone4, deltaF,
@@ -41,7 +44,7 @@ thresholdsLongiAllreshaped1 <- reshape(thresholdsLongiAllWide, direction= "long"
                                              "5","6","7","8",
                                              "9","10","11","12",
                                              "13","14","15","16",
-                                             "17","18","19","20"))
+                                             "17", "18", "19", "20"))
 thresholdsLongiAllLong <- reshape(thresholdsLongiAllreshaped1, direction= "long",
                              varying=list(2:3),
                              times=list("detection","identification"))
@@ -92,7 +95,7 @@ thresholdsLongiAllPercentReshape1 <- reshape(thresholdsLongiAllPercent,
                                                    "5","6","7","8",
                                                    "9","10","11","12",
                                                    "13","14","15","16",
-                                                   "17","18","19","20"))
+                                                   "17", "18", "19", "20"))
 thresholdsLongiAllPercentLong <- reshape(thresholdsLongiAllPercentReshape1,
                                         direction= "long",
                                     varying=list(2:3),
@@ -117,72 +120,15 @@ meanThresholdLongiPercentLong <- melt(meanThresholdsLongiPercent, id.var="sessio
                                  value.name = "threshold")
 
 
-# Prepare plots
-plotThresholdsLongi <- ggplot(data=thresholdsLongiAllLong,
-                         aes(x=as.numeric(session),
-                             y=threshold,
-                             color=name,
-                             linetype=condition),
-                         alpha = 0.4) +
-  geom_line() +
-  xlab("Sessions") +
-  ylab("Thresholds") +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(3.5, "mm")) +
-  scale_x_continuous(breaks=seq(0, 21, 1)) +
-  scale_y_continuous(limits=c(0, 500)) +
-  geom_vline(xintercept = c(5, 9, 13, 17),
-                            linetype="longdash",
-                            color="azure4")
-
-plotThresholdsLongiMean <- ggplot(data=thresholdsLongiMeanLong,
-                              aes(x=as.numeric(session),
-                                  y=threshold,
-                                  linetype=condition),
-                              alpha = 0.4) +
-  geom_line() +
-  xlab("Sessions") +
-  ylab("Thresholds") +
-  scale_x_continuous(breaks=seq(0, 21, 1)) +
-  scale_y_continuous(limits=c(0, 500)) +
-  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
-
-plotThresholdsLongiPercent <- ggplot(data=thresholdsLongiAllPercentLong,
-                                aes(x=as.numeric(session),
-                                    y=threshold,
-                                    color=name,
-                                    linetype=condition),
-                                alpha = 0.4) +
-  geom_line() +
-  xlab("Sessions") +
-  ylab("Thresholds") +
-  scale_x_continuous(breaks=seq(0, 21, 1)) +
-  scale_y_continuous(limits=c(0, 2.5)) +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(3.5, "mm")) +
-  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
-
-plotMeanThresholdsLongiPercent <- ggplot(data=meanThresholdLongiPercentLong,
-                                    aes(x=session,
-                                        y=threshold,
-                                        linetype=condition),
-                                    alpha = 0.4) +
-  geom_line() +
-  xlab("Sessions") +
-  ylab("Thresholds") +
-  scale_x_continuous(breaks=seq(0, 21, 1)) +
-  scale_y_continuous(limits=c(0, 2.5)) +
-  ggtitle("Mean threshold for detection and identification conditions") +
-  theme(plot.title = element_text(vjust=2, lineheight=.6)) +
-  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
-
-
 #################### Y axis analysis ######################
 # Same procedure as for yAxis anlysis but without excluding
 # the sessions after the first
 data.mountain.yAxis.longi <- subset(data,
-                                    ((grepl("va", name))
-                                     | (grepl("df", name)))
+                                    ((grepl("kh13", name))
+                                     | (grepl("ss10", name))
+                                     | (grepl("el17", name))
+                                     | (grepl("dp02", name))
+                                     | (grepl("vv17", name)))
                                     & grepl("yAxis", condition),
                                     c(id, yTopDist, targetTone, CurXY, trialNumYAxis,
                                       result, totalScore, sessionNum, name, duration,
@@ -255,10 +201,16 @@ trialNumTot <- data.frame(name=levels(factor(data.mountain.yAxis.longi$name)),
                                  length))
 row.names(trialNumTot) <- NULL
 
-data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="va01"] <-
-  0:(trialNumTot$trialNum[trialNumTot$name=="va01"]-1)
-data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="df22"] <-
-  0:(trialNumTot$trialNum[trialNumTot$name=="df22"]-1)
+data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="kh13"] <-
+  0:(trialNumTot$trialNum[trialNumTot$name=="kh13"]-1)
+# data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="ss10"] <-
+#   0:(trialNumTot$trialNum[trialNumTot$name=="ss10"]-1)
+data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="el17"] <-
+  0:(trialNumTot$trialNum[trialNumTot$name=="el17"]-1)
+data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="dp02"] <-
+  0:(trialNumTot$trialNum[trialNumTot$name=="dp02"]-1)
+data.mountain.yAxis.longi$trialNumTot[data.mountain.yAxis.longi$name=="vv17"] <-
+  0:(trialNumTot$trialNum[trialNumTot$name=="vv17"]-1)
 
 # Calculate the total scores for each participant and each session
 totalScores <- data.frame(name=levels(factor(data.mountain.yAxis.longi$name)),
@@ -296,53 +248,4 @@ yAxisScoresLongiLong <- melt(yAxisScoresLongi, c("id", "name", "trialNumTot"))
 yAxisAccLongi <- subset(data.mountain.yAxis.longi,
                    select = c(id, result, YAxisAccuracyRoll, name, trialNumTot))
 yAxisAccLongiLong <- melt(yAxisAccLongi, c("id", "name", "trialNumTot"))
-
-
-
-
-# Prepare plots
-plotAccLongi <- ggplot(data=yAxisAccLongiLong,
-                  aes(x=trialNumTot,
-                      y=value,
-                      alpha = variable,
-                      color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Accuracy (in percent error)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
-
-plotDurLongi <- ggplot(data=yAxisDurLongiLong,
-                  aes(x=trialNumTot,
-                      y=value,
-                      alpha = variable,
-                      color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Duration (in seconds)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
-
-plotScoresLongi <- ggplot(data=yAxisScoresLongiLong,
-                     aes(x=trialNumTot,
-                         y=value,
-                         alpha = variable,
-                         color=name)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  guides(color=FALSE) +
-  xlab("Trials") +
-  ylab("Scores (in points)") +
-  geom_line() +
-  facet_grid(name ~ .) +
-  theme(panel.margin = unit(4.5, "mm"))
 
