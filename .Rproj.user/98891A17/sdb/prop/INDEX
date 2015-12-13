@@ -1,3 +1,4 @@
+="======"
 %2FVolumes%2FHADRI_2T%2Fetudes%2Farchives%2F2014%2Fcogmaster_M2%2FCours%2FAS%2FAS-cours1.R="B9EDC1A2"
 ~%2FDownloads%2FRep-Res-Book-master%2FBookMake.R="AE7764B9"
 ~%2FDownloads%2FRep-Res-Book-master%2FSource%2FChildren%2FChapter1%2Fchapter1.Rnw="3E7D8344"
@@ -34,16 +35,13 @@
 ~%2FDropbox%2Fprojets%2Fen_cours%2FMOOC_R_prog%2Fcorr.R="86194766"
 ~%2FDropbox%2Fprojets%2Fen_cours%2FMOOC_R_prog%2Fpollutantmean.R="4D20E33E"
 ~%2FDropbox%2Fprojets%2Fen_cours%2FMOOC_R_prog%2FpollutentMean.R="855CB38A"
-<<<<<<< HEAD
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2FlongitudAnalysis.R="872569A0"
+~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2Fplots.R="C0BA8873"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2FpreProcFirstDesign.R="55DCAEA1"
+~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2Fstats.R="B304EE11"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2Fthreshold.R="DA6784FB"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2FyAxis.R="773132FB"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2Fanalysis.Rmd="2FA2449D"
-=======
-~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2FlongitudAnalysis.R="34E788AB"
-~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2FR%2Fplots.R="C0BA8873"
-~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2Fanalysis.Rmd="D2F2A869"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fauditory_mountain%2Fr_analyses%2Faro_poster.Rnw="8E63504C"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fknoblauch_maloney.R="20EFADB1"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Flsp_team%2FRMarkdownTools%2FRMarkdownTools.Rmd="B749FB0E"
@@ -52,4 +50,3 @@
 ~%2FDropbox%2Fprojets%2Fen_cours%2Fstud_meet_30.09.15%2Fex.Rmd="F62A1A03"
 ~%2FDropbox%2Fprojets%2Fen_cours%2Ftest%2Fstats%2Faov.R="4D017637"
 ~%2FDropbox%2Freferences%2FPerso%2Fcourse.R="2497F062"
->>>>>>> integrate_commits

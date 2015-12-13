@@ -69,7 +69,7 @@ thresholdAllPrepreLong <- aggregate(threshold ~ name + prepre + condition,
 meanThresholdLong <- aggregate(threshold ~ session + condition,
                                FUN=function(x) c(mean=mean(x),
                                                  sem=sd(x)/sqrt(length(
-                                                   levels(factor(data.threshold$name))))),
+                                                   levels(factor(thresholdsAllLong$name))))),
                                data=thresholdsAllLong)
 meanThresholdLong <- do.call(data.frame, meanThresholdLong)
 # Calculate the mean threshold for each participant and each condition

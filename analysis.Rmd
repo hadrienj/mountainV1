@@ -35,7 +35,7 @@ library(kfigr)
 knitr::opts_chunk$set(fig.path='figures/')
 knitr::opts_chunk$set(comment = NA, results = "asis", comment = NA, tidy = F)
 options("scipen"=100, "digits"=2)
-opts_chunk$set(dev = 'svg')
+opts_chunk$set(dev = 'pdf')
 opts_chunk$set(fig.cap='')
 ```
 
@@ -132,6 +132,14 @@ plotThresholdsPercent
 ```
 
 ### Detection threshold in function of identification threshold
+
+#### Mean among session
+
+```{r plotDetByIdAll, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotDetByIdAll
+
+```
 
 #### For each session
 

@@ -50,6 +50,27 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
   xlab("Sessions") +
   ylab("Thresholds") +
   ggtitle("Mean threshold for detection and identification conditions") +
+#   annotate("text",
+#            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+#            x = 3.5, y = 250, size = 4) +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotMeanThresholdInd <- ggplot(data=meanThresholdLong,
+                               aes(x=session,
+                                   y=threshold.mean,
+                                   linetype=condition),
+                               alpha = 0.3) +
+  geom_line() +
+  geom_ribbon(aes(ymin=threshold.mean-threshold.sem,
+                  ymax=threshold.mean+threshold.sem),
+              alpha =0.2) +
+  geom_point(data=thresholdsAllLong,
+             aes(x=session,
+                 y=threshold,
+                 color=condition)) +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  ggtitle("Mean threshold for detection and identification conditions") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotMeanThresholdsPercent <- ggplot(data=meanThresholdPercentLong,
@@ -61,6 +82,27 @@ plotMeanThresholdsPercent <- ggplot(data=meanThresholdPercentLong,
   xlab("Sessions") +
   ylab("Thresholds") +
   ggtitle("Mean threshold for detection and identification conditions") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotDetByIdAll <- ggplot(meanThresholdsSubjLong, aes(
+  x=threshold[condition=="detection"],
+  y=threshold[condition=="identification"],
+  color=name[condition=="identification"])) +
+  geom_point() +
+  coord_fixed() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape(name = "Sessions") +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(10, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(10, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n for all subjects and all sessions") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDetById <- ggplot(thresholdsAllLong, aes(
