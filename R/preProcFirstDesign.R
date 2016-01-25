@@ -11,6 +11,8 @@ raw.data.sa20 <- json.data.sa20$rows$doc
 raw.data.sa20$name <-"sa20"
 raw.data.sa20$sessionNumMount <- "1"
 raw.data.sa20$trainSession <-"0"
+raw.data.sa20$targetToneNoRoving <- NA
+raw.data.sa20$roving <- TRUE
 
 # Import Json file
 json.file.ab22 <- "./raw_data/ab22.txt"
@@ -20,6 +22,8 @@ raw.data.ab22 <- json.data.ab22$rows$doc
 raw.data.ab22$name <-"ab22"
 raw.data.ab22$sessionNumMount <- "1"
 raw.data.ab22$trainSession <-"0"
+raw.data.ab22$targetToneNoRoving <- NA
+raw.data.ab22$roving <- TRUE
 
 # Import Json file
 json.file.dd04 <- "./raw_data/dd04.txt"
@@ -31,6 +35,8 @@ raw.data.dd04$sessionNumMount <- "1"
 raw.data.dd04$trainSession <-"0"
 raw.data.dd04$tonePosX <- NA
 raw.data.dd04$tonePosY <- NA
+raw.data.dd04$targetToneNoRoving <- NA
+raw.data.dd04$roving <- TRUE
 
 # Import Json file
 json.file.ap08 <- "./raw_data/ap08.txt"
@@ -42,6 +48,8 @@ raw.data.ap08$sessionNumMount <- "1"
 raw.data.ap08$trainSession <-"0"
 raw.data.ap08$tonePosX <- NA
 raw.data.ap08$tonePosY <- NA
+raw.data.ap08$targetToneNoRoving <- NA
+raw.data.ap08$roving <- TRUE
 
 # Import Json file
 json.file.shr28 <- "./raw_data/shr28.txt"
@@ -53,6 +61,8 @@ raw.data.shr28$sessionNumMount <- "1"
 raw.data.shr28$trainSession <-"0"
 raw.data.shr28$tonePosX <- NA
 raw.data.shr28$tonePosY <- NA
+raw.data.shr28$targetToneNoRoving <- NA
+raw.data.shr28$roving <- TRUE
 
 # Import Json file
 json.file.hj12 <- "./raw_data/hj12.txt"
@@ -64,6 +74,8 @@ raw.data.hj12$sessionNumMount <- "1"
 raw.data.hj12$trainSession <-"0"
 raw.data.hj12$tonePosX <- NA
 raw.data.hj12$tonePosY <- NA
+raw.data.hj12$targetToneNoRoving <- NA
+raw.data.hj12$roving <- TRUE
 
 # Import Json file
 json.file.ll07_proc <- "./raw_data/ll07_proc.txt"
@@ -75,6 +87,8 @@ raw.data.ll07_proc$sessionNumMount <- "1"
 raw.data.ll07_proc$trainSession <-"0"
 raw.data.ll07_proc$tonePosX <- NA
 raw.data.ll07_proc$tonePosY <- NA
+raw.data.ll07_proc$targetToneNoRoving <- NA
+raw.data.ll07_proc$roving <- TRUE
 
 # Import Json file
 json.file.va01 <- "./raw_data/va01.txt"
@@ -86,6 +100,8 @@ raw.data.va01$sessionNumMount <- "1"
 raw.data.va01$trainSession <-"0"
 raw.data.va01$tonePosX <- NA
 raw.data.va01$tonePosY <- NA
+raw.data.va01$targetToneNoRoving <- NA
+raw.data.va01$roving <- TRUE
 
 # Import Json file
 json.file.df22 <- "./raw_data/df22.txt"
@@ -97,6 +113,8 @@ raw.data.df22$sessionNumMount <- "1"
 raw.data.df22$trainSession <-"0"
 raw.data.df22$tonePosX <- NA
 raw.data.df22$tonePosY <- NA
+raw.data.df22$targetToneNoRoving <- NA
+raw.data.df22$roving <- TRUE
 
 # Import Json file
 json.file.ab21 <- "./raw_data/ab21.txt"
@@ -108,6 +126,8 @@ raw.data.ab21$sessionNumMount <- "1"
 raw.data.ab21$trainSession <-"0"
 raw.data.ab21$tonePosX <- NA
 raw.data.ab21$tonePosY <- NA
+raw.data.ab21$targetToneNoRoving <- NA
+raw.data.ab21$roving <- TRUE
 
 # Import Json file
 json.file.jc08 <- "./raw_data/jc08.txt"
@@ -119,6 +139,8 @@ raw.data.jc08$sessionNumMount <- "1"
 raw.data.jc08$trainSession <-"0"
 raw.data.jc08$tonePosX <- NA
 raw.data.jc08$tonePosY <- NA
+raw.data.jc08$targetToneNoRoving <- NA
+raw.data.jc08$roving <- TRUE
 
 # Import Json file
 json.file.gw25 <- "./raw_data/gw25.txt"
@@ -130,6 +152,8 @@ raw.data.gw25$sessionNumMount <- "1"
 raw.data.gw25$trainSession <-"0"
 raw.data.gw25$tonePosX <- NA
 raw.data.gw25$tonePosY <- NA
+raw.data.gw25$targetToneNoRoving <- NA
+raw.data.gw25$roving <- TRUE
 
 # Import Json file
 json.file.mn15 <- "./raw_data/mn15.txt"
@@ -141,6 +165,8 @@ raw.data.mn15$sessionNumMount <- "1"
 raw.data.mn15$trainSession <-"0"
 raw.data.mn15$tonePosX <- NA
 raw.data.mn15$tonePosY <- NA
+raw.data.mn15$targetToneNoRoving <- NA
+raw.data.mn15$roving <- TRUE
 
 # Import Json file
 json.file.el20 <- "./raw_data/el20.txt"
@@ -152,6 +178,8 @@ raw.data.el20$sessionNumMount <- "1"
 raw.data.el20$trainSession <-"0"
 raw.data.el20$tonePosX <- NA
 raw.data.el20$tonePosY <- NA
+raw.data.el20$targetToneNoRoving <- NA
+raw.data.el20$roving <- TRUE
 
 # Import Json file
 json.file.jd12 <- "./raw_data/jd12.txt"
@@ -163,6 +191,8 @@ raw.data.jd12$sessionNumMount <- "1"
 raw.data.jd12$trainSession <-"0"
 raw.data.jd12$tonePosX <- NA
 raw.data.jd12$tonePosY <- NA
+raw.data.jd12$targetToneNoRoving <- NA
+raw.data.jd12$roving <- TRUE
 
 # Import Json file
 json.file.hp02 <- "./raw_data/hp02.txt"
@@ -174,6 +204,8 @@ raw.data.hp02$sessionNumMount <- "1"
 raw.data.hp02$trainSession <-"0"
 raw.data.hp02$tonePosX <- NA
 raw.data.hp02$tonePosY <- NA
+raw.data.hp02$targetToneNoRoving <- NA
+raw.data.hp02$roving <- TRUE
 
 # Import Json file
 json.file.va01_2 <- "./raw_data/va01_2.txt"
@@ -185,6 +217,8 @@ raw.data.va01_2$sessionNumMount <- "2"
 raw.data.va01_2$trainSession <-"1"
 raw.data.va01_2$tonePosX <- NA
 raw.data.va01_2$tonePosY <- NA
+raw.data.va01_2$targetToneNoRoving <- NA
+raw.data.va01_2$roving <- TRUE
 
 # Import Json file
 json.file.df22_2 <- "./raw_data/df22_2.txt"
@@ -196,6 +230,8 @@ raw.data.df22_2$sessionNumMount <- "2"
 raw.data.df22_2$trainSession <-"1"
 raw.data.df22_2$tonePosX <- NA
 raw.data.df22_2$tonePosY <- NA
+raw.data.df22_2$targetToneNoRoving <- NA
+raw.data.df22_2$roving <- TRUE
 
 # Import Json file
 json.file.va01_3 <- "./raw_data/va01_3.txt"
@@ -207,6 +243,8 @@ raw.data.va01_3$sessionNumMount <- "3"
 raw.data.va01_3$trainSession <-"2"
 raw.data.va01_3$tonePosX <- NA
 raw.data.va01_3$tonePosY <- NA
+raw.data.va01_3$targetToneNoRoving <- NA
+raw.data.va01_3$roving <- TRUE
 
 # Import Json file
 json.file.df22_3 <- "./raw_data/df22_3.txt"
@@ -218,6 +256,8 @@ raw.data.df22_3$sessionNumMount <- "3"
 raw.data.df22_3$trainSession <-"2"
 raw.data.df22_3$tonePosX <- NA
 raw.data.df22_3$tonePosY <- NA
+raw.data.df22_3$targetToneNoRoving <- NA
+raw.data.df22_3$roving <- TRUE
 
 # Import Json file
 json.file.va01_4 <- "./raw_data/va01_4.txt"
@@ -229,6 +269,8 @@ raw.data.va01_4$sessionNumMount <- "4"
 raw.data.va01_4$trainSession <-"3"
 raw.data.va01_4$tonePosX <- NA
 raw.data.va01_4$tonePosY <- NA
+raw.data.va01_4$targetToneNoRoving <- NA
+raw.data.va01_4$roving <- TRUE
 
 # Import Json file
 json.file.df22_4 <- "./raw_data/df22_4.txt"
@@ -240,6 +282,8 @@ raw.data.df22_4$sessionNumMount <- "4"
 raw.data.df22_4$trainSession <-"3"
 raw.data.df22_4$tonePosX <- NA
 raw.data.df22_4$tonePosY <- NA
+raw.data.df22_4$targetToneNoRoving <- NA
+raw.data.df22_4$roving <- TRUE
 
 # Import Json file
 json.file.va01_5 <- "./raw_data/va01_5.txt"
@@ -251,6 +295,8 @@ raw.data.va01_5$sessionNumMount <- "5"
 raw.data.va01_5$trainSession <-"4"
 raw.data.va01_5$tonePosX <- NA
 raw.data.va01_5$tonePosY <- NA
+raw.data.va01_5$targetToneNoRoving <- NA
+raw.data.va01_5$roving <- TRUE
 
 # Import Json file
 json.file.df22_5 <- "./raw_data/df22_5.txt"
@@ -262,6 +308,8 @@ raw.data.df22_5$sessionNumMount <- "5"
 raw.data.df22_5$trainSession <-"4"
 raw.data.df22_5$tonePosX <- NA
 raw.data.df22_5$tonePosY <- NA
+raw.data.df22_5$targetToneNoRoving <- NA
+raw.data.df22_5$roving <- TRUE
 
 # Import Json file
 json.file.ss28 <- "./raw_data/ss28.txt"
@@ -273,6 +321,8 @@ raw.data.ss28$sessionNumMount <- "1"
 raw.data.ss28$trainSession <-"0"
 raw.data.ss28$tonePosX <- NA
 raw.data.ss28$tonePosY <- NA
+raw.data.ss28$targetToneNoRoving <- NA
+raw.data.ss28$roving <- TRUE
 
 # Import Json file
 json.file.lj01 <- "./raw_data/lj01_proc.txt"
@@ -284,6 +334,8 @@ raw.data.lj01$sessionNumMount <- "1"
 raw.data.lj01$trainSession <-"0"
 raw.data.lj01$tonePosX <- NA
 raw.data.lj01$tonePosY <- NA
+raw.data.lj01$targetToneNoRoving <- NA
+raw.data.lj01$roving <- TRUE
 
 ########## Second longitudinal study ##########
 
@@ -297,6 +349,8 @@ raw.data.dp02$sessionNumMount <- "1"
 raw.data.dp02$trainSession <-"0"
 raw.data.dp02$tonePosX <- NA
 raw.data.dp02$tonePosY <- NA
+raw.data.dp02$targetToneNoRoving <- NA
+raw.data.dp02$roving <- TRUE
 
 # Import Json file
 json.file.dp02_1 <- "./raw_data/dp02_1.txt"
@@ -308,6 +362,8 @@ raw.data.dp02_1$sessionNumMount <- "2"
 raw.data.dp02_1$trainSession <-"1"
 raw.data.dp02_1$tonePosX <- NA
 raw.data.dp02_1$tonePosY <- NA
+raw.data.dp02_1$targetToneNoRoving <- NA
+raw.data.dp02_1$roving <- TRUE
 
 json.file.dp02_2 <- "./raw_data/dp02_2.txt"
 json.data.dp02_2 <- jsonlite::fromJSON(json.file.dp02_2)
@@ -318,6 +374,8 @@ raw.data.dp02_2$sessionNumMount <- "3"
 raw.data.dp02_2$trainSession <-"2"
 raw.data.dp02_2$tonePosX <- NA
 raw.data.dp02_2$tonePosY <- NA
+raw.data.dp02_2$targetToneNoRoving <- NA
+raw.data.dp02_2$roving <- TRUE
 
 json.file.dp02_3 <- "./raw_data/dp02_3.txt"
 json.data.dp02_3 <- jsonlite::fromJSON(json.file.dp02_3)
@@ -328,6 +386,8 @@ raw.data.dp02_3$sessionNumMount <- "4"
 raw.data.dp02_3$trainSession <-"3"
 raw.data.dp02_3$tonePosX <- NA
 raw.data.dp02_3$tonePosY <- NA
+raw.data.dp02_3$targetToneNoRoving <- NA
+raw.data.dp02_3$roving <- TRUE
 
 json.file.dp02_4 <- "./raw_data/dp02_4.txt"
 json.data.dp02_4 <- jsonlite::fromJSON(json.file.dp02_4)
@@ -338,6 +398,8 @@ raw.data.dp02_4$sessionNumMount <- "5"
 raw.data.dp02_4$trainSession <-"4"
 raw.data.dp02_4$tonePosX <- NA
 raw.data.dp02_4$tonePosY <- NA
+raw.data.dp02_4$targetToneNoRoving <- NA
+raw.data.dp02_4$roving <- TRUE
 
 
 # Import Json file
@@ -350,6 +412,8 @@ raw.data.el17$sessionNumMount <- "1"
 raw.data.el17$trainSession <-"0"
 raw.data.el17$tonePosX <- NA
 raw.data.el17$tonePosY <- NA
+raw.data.el17$targetToneNoRoving <- NA
+raw.data.el17$roving <- TRUE
 
 # Import Json file
 json.file.el17_1 <- "./raw_data/el17_1.txt"
@@ -361,6 +425,8 @@ raw.data.el17_1$sessionNumMount <- "2"
 raw.data.el17_1$trainSession <-"1"
 raw.data.el17_1$tonePosX <- NA
 raw.data.el17_1$tonePosY <- NA
+raw.data.el17_1$targetToneNoRoving <- NA
+raw.data.el17_1$roving <- TRUE
 
 json.file.el17_2 <- "./raw_data/el17_2.txt"
 json.data.el17_2 <- jsonlite::fromJSON(json.file.el17_2)
@@ -371,6 +437,8 @@ raw.data.el17_2$sessionNumMount <- "3"
 raw.data.el17_2$trainSession <-"2"
 raw.data.el17_2$tonePosX <- NA
 raw.data.el17_2$tonePosY <- NA
+raw.data.el17_2$targetToneNoRoving <- NA
+raw.data.el17_2$roving <- TRUE
 
 json.file.el17_3 <- "./raw_data/el17_3.txt"
 json.data.el17_3 <- jsonlite::fromJSON(json.file.el17_3)
@@ -381,6 +449,8 @@ raw.data.el17_3$sessionNumMount <- "4"
 raw.data.el17_3$trainSession <-"3"
 raw.data.el17_3$tonePosX <- NA
 raw.data.el17_3$tonePosY <- NA
+raw.data.el17_3$targetToneNoRoving <- NA
+raw.data.el17_3$roving <- TRUE
 
 json.file.el17_4 <- "./raw_data/el17_4.txt"
 json.data.el17_4 <- jsonlite::fromJSON(json.file.el17_4)
@@ -391,6 +461,8 @@ raw.data.el17_4$sessionNumMount <- "5"
 raw.data.el17_4$trainSession <-"4"
 raw.data.el17_4$tonePosX <- NA
 raw.data.el17_4$tonePosY <- NA
+raw.data.el17_4$targetToneNoRoving <- NA
+raw.data.el17_4$roving <- TRUE
 
 # Import Json file
 json.file.kh13_proc <- "./raw_data/kh13_proc.txt"
@@ -402,6 +474,8 @@ raw.data.kh13_proc$sessionNumMount <- "1"
 raw.data.kh13_proc$trainSession <-"0"
 raw.data.kh13_proc$tonePosX <- NA
 raw.data.kh13_proc$tonePosY <- NA
+raw.data.kh13_proc$targetToneNoRoving <- NA
+raw.data.kh13_proc$roving <- TRUE
 
 # Import Json file
 json.file.kh13_1 <- "./raw_data/kh13_1.txt"
@@ -413,6 +487,8 @@ raw.data.kh13_1$sessionNumMount <- "2"
 raw.data.kh13_1$trainSession <-"1"
 raw.data.kh13_1$tonePosX <- NA
 raw.data.kh13_1$tonePosY <- NA
+raw.data.kh13_1$targetToneNoRoving <- NA
+raw.data.kh13_1$roving <- TRUE
 
 json.file.kh13_2 <- "./raw_data/kh13_2.txt"
 json.data.kh13_2 <- jsonlite::fromJSON(json.file.kh13_2)
@@ -423,6 +499,8 @@ raw.data.kh13_2$sessionNumMount <- "3"
 raw.data.kh13_2$trainSession <-"2"
 raw.data.kh13_2$tonePosX <- NA
 raw.data.kh13_2$tonePosY <- NA
+raw.data.kh13_2$targetToneNoRoving <- NA
+raw.data.kh13_2$roving <- TRUE
 
 json.file.kh13_3 <- "./raw_data/kh13_3.txt"
 json.data.kh13_3 <- jsonlite::fromJSON(json.file.kh13_3)
@@ -433,6 +511,8 @@ raw.data.kh13_3$sessionNumMount <- "4"
 raw.data.kh13_3$trainSession <-"3"
 raw.data.kh13_3$tonePosX <- NA
 raw.data.kh13_3$tonePosY <- NA
+raw.data.kh13_3$targetToneNoRoving <- NA
+raw.data.kh13_3$roving <- TRUE
 
 json.file.kh13_4 <- "./raw_data/kh13_4.txt"
 json.data.kh13_4 <- jsonlite::fromJSON(json.file.kh13_4)
@@ -443,6 +523,8 @@ raw.data.kh13_4$sessionNumMount <- "5"
 raw.data.kh13_4$trainSession <-"4"
 raw.data.kh13_4$tonePosX <- NA
 raw.data.kh13_4$tonePosY <- NA
+raw.data.kh13_4$targetToneNoRoving <- NA
+raw.data.kh13_4$roving <- TRUE
 
 # Import Json file
 json.file.ss10_proc <- "./raw_data/ss10_proc.txt"
@@ -454,6 +536,8 @@ raw.data.ss10_proc$sessionNumMount <- "1"
 raw.data.ss10_proc$trainSession <-"0"
 raw.data.ss10_proc$tonePosX <- NA
 raw.data.ss10_proc$tonePosY <- NA
+raw.data.ss10_proc$targetToneNoRoving <- NA
+raw.data.ss10_proc$roving <- TRUE
 
 # Import Json file
 json.file.ss10_1 <- "./raw_data/ss10_1.txt"
@@ -465,6 +549,8 @@ raw.data.ss10_1$sessionNumMount <- "2"
 raw.data.ss10_1$trainSession <-"1"
 raw.data.ss10_1$tonePosX <- NA
 raw.data.ss10_1$tonePosY <- NA
+raw.data.ss10_1$targetToneNoRoving <- NA
+raw.data.ss10_1$roving <- TRUE
 
 json.file.ss10_2_proc <- "./raw_data/ss10_2_proc.txt"
 json.data.ss10_2_proc <- jsonlite::fromJSON(json.file.ss10_2_proc)
@@ -475,6 +561,8 @@ raw.data.ss10_2_proc$sessionNumMount <- "3"
 raw.data.ss10_2_proc$trainSession <-"2"
 raw.data.ss10_2_proc$tonePosX <- NA
 raw.data.ss10_2_proc$tonePosY <- NA
+raw.data.ss10_2_proc$targetToneNoRoving <- NA
+raw.data.ss10_2_proc$roving <- TRUE
 
 json.file.ss10_3 <- "./raw_data/ss10_3.txt"
 json.data.ss10_3 <- jsonlite::fromJSON(json.file.ss10_3)
@@ -485,6 +573,8 @@ raw.data.ss10_3$sessionNumMount <- "4"
 raw.data.ss10_3$trainSession <-"3"
 raw.data.ss10_3$tonePosX <- NA
 raw.data.ss10_3$tonePosY <- NA
+raw.data.ss10_3$targetToneNoRoving <- NA
+raw.data.ss10_3$roving <- TRUE
 
 json.file.ss10_4 <- "./raw_data/ss10_4.txt"
 json.data.ss10_4 <- jsonlite::fromJSON(json.file.ss10_4)
@@ -495,6 +585,8 @@ raw.data.ss10_4$sessionNumMount <- "5"
 raw.data.ss10_4$trainSession <-"4"
 raw.data.ss10_4$tonePosX <- NA
 raw.data.ss10_4$tonePosY <- NA
+raw.data.ss10_4$targetToneNoRoving <- NA
+raw.data.ss10_4$roving <- TRUE
 
 
 # Import Json file
@@ -507,6 +599,8 @@ raw.data.vv17$sessionNumMount <- "1"
 raw.data.vv17$trainSession <-"0"
 raw.data.vv17$tonePosX <- NA
 raw.data.vv17$tonePosY <- NA
+raw.data.vv17$targetToneNoRoving <- NA
+raw.data.vv17$roving <- TRUE
 
 # Import Json file
 json.file.vv17_1_proc <- "./raw_data/vv17_1_proc.txt"
@@ -518,6 +612,8 @@ raw.data.vv17_1_proc$sessionNumMount <- "2"
 raw.data.vv17_1_proc$trainSession <-"1"
 raw.data.vv17_1_proc$tonePosX <- NA
 raw.data.vv17_1_proc$tonePosY <- NA
+raw.data.vv17_1_proc$targetToneNoRoving <- NA
+raw.data.vv17_1_proc$roving <- TRUE
 
 json.file.vv17_2_proc <- "./raw_data/vv17_2_proc.txt"
 json.data.vv17_2_proc <- jsonlite::fromJSON(json.file.vv17_2_proc)
@@ -528,6 +624,8 @@ raw.data.vv17_2_proc$sessionNumMount <- "3"
 raw.data.vv17_2_proc$trainSession <-"2"
 raw.data.vv17_2_proc$tonePosX <- NA
 raw.data.vv17_2_proc$tonePosY <- NA
+raw.data.vv17_2_proc$targetToneNoRoving <- NA
+raw.data.vv17_2_proc$roving <- TRUE
 
 json.file.vv17_3 <- "./raw_data/vv17_3.txt"
 json.data.vv17_3 <- jsonlite::fromJSON(json.file.vv17_3)
@@ -538,6 +636,8 @@ raw.data.vv17_3$sessionNumMount <- "4"
 raw.data.vv17_3$trainSession <-"3"
 raw.data.vv17_3$tonePosX <- NA
 raw.data.vv17_3$tonePosY <- NA
+raw.data.vv17_3$targetToneNoRoving <- NA
+raw.data.vv17_3$roving <- TRUE
 
 json.file.vv17_4 <- "./raw_data/vv17_4.txt"
 json.data.vv17_4 <- jsonlite::fromJSON(json.file.vv17_4)
@@ -548,6 +648,111 @@ raw.data.vv17_4$sessionNumMount <- "5"
 raw.data.vv17_4$trainSession <-"4"
 raw.data.vv17_4$tonePosX <- NA
 raw.data.vv17_4$tonePosY <- NA
+raw.data.vv17_4$targetToneNoRoving <- NA
+raw.data.vv17_4$roving <- TRUE
+
+####### 20/01/16 No roving
+
+json.file.bb17 <- "./raw_data/bb17.txt"
+json.data.bb17 <- jsonlite::fromJSON(json.file.bb17)
+# Put data in a data frame
+raw.data.bb17 <- json.data.bb17$rows$doc
+raw.data.bb17$name <-"bb17"
+raw.data.bb17$sessionNumMount <- "1"
+raw.data.bb17$trainSession <-"0"
+raw.data.bb17$tonePosX <- NA
+raw.data.bb17$tonePosY <- NA
+
+json.file.abh28 <- "./raw_data/abh28.txt"
+json.data.abh28 <- jsonlite::fromJSON(json.file.abh28)
+# Put data in a data frame
+raw.data.abh28 <- json.data.abh28$rows$doc
+raw.data.abh28$name <-"abh28"
+raw.data.abh28$sessionNumMount <- "1"
+raw.data.abh28$trainSession <-"0"
+raw.data.abh28$tonePosX <- NA
+raw.data.abh28$tonePosY <- NA
+
+json.file.ak28 <- "./raw_data/ak28.txt"
+json.data.ak28 <- jsonlite::fromJSON(json.file.ak28)
+# Put data in a data frame
+raw.data.ak28 <- json.data.ak28$rows$doc
+raw.data.ak28$name <-"ak28"
+raw.data.ak28$sessionNumMount <- "1"
+raw.data.ak28$trainSession <-"0"
+raw.data.ak28$tonePosX <- NA
+raw.data.ak28$tonePosY <- NA
+
+json.file.ss07 <- "./raw_data/ss07.txt"
+json.data.ss07 <- jsonlite::fromJSON(json.file.ss07)
+# Put data in a data frame
+raw.data.ss07 <- json.data.ss07$rows$doc
+raw.data.ss07$name <-"ss07"
+raw.data.ss07$sessionNumMount <- "1"
+raw.data.ss07$trainSession <-"0"
+raw.data.ss07$tonePosX <- NA
+raw.data.ss07$tonePosY <- NA
+
+json.file.sd19 <- "./raw_data/sd19.txt"
+json.data.sd19 <- jsonlite::fromJSON(json.file.sd19)
+# Put data in a data frame
+raw.data.sd19 <- json.data.sd19$rows$doc
+raw.data.sd19$name <-"sd19"
+raw.data.sd19$sessionNumMount <- "1"
+raw.data.sd19$trainSession <-"0"
+raw.data.sd19$tonePosX <- NA
+raw.data.sd19$tonePosY <- NA
+
+json.file.ab12 <- "./raw_data/ab12.txt"
+json.data.ab12 <- jsonlite::fromJSON(json.file.ab12)
+# Put data in a data frame
+raw.data.ab12 <- json.data.ab12$rows$doc
+raw.data.ab12$name <-"ab12"
+raw.data.ab12$sessionNumMount <- "1"
+raw.data.ab12$trainSession <-"0"
+raw.data.ab12$tonePosX <- NA
+raw.data.ab12$tonePosY <- NA
+
+json.file.df14 <- "./raw_data/df14.txt"
+json.data.df14 <- jsonlite::fromJSON(json.file.df14)
+# Put data in a data frame
+raw.data.df14 <- json.data.df14$rows$doc
+raw.data.df14$name <-"df14"
+raw.data.df14$sessionNumMount <- "1"
+raw.data.df14$trainSession <-"0"
+raw.data.df14$tonePosX <- NA
+raw.data.df14$tonePosY <- NA
+
+json.file.cm12 <- "./raw_data/cm12.txt"
+json.data.cm12 <- jsonlite::fromJSON(json.file.cm12)
+# Put data in a data frame
+raw.data.cm12 <- json.data.cm12$rows$doc
+raw.data.cm12$name <-"cm12"
+raw.data.cm12$sessionNumMount <- "1"
+raw.data.cm12$trainSession <-"0"
+raw.data.cm12$tonePosX <- NA
+raw.data.cm12$tonePosY <- NA
+
+json.file.mn17 <- "./raw_data/mn17.txt"
+json.data.mn17 <- jsonlite::fromJSON(json.file.mn17)
+# Put data in a data frame
+raw.data.mn17 <- json.data.mn17$rows$doc
+raw.data.mn17$name <-"mn17"
+raw.data.mn17$sessionNumMount <- "1"
+raw.data.mn17$trainSession <-"0"
+raw.data.mn17$tonePosX <- NA
+raw.data.mn17$tonePosY <- NA
+
+json.file.lg06 <- "./raw_data/lg06.txt"
+json.data.lg06 <- jsonlite::fromJSON(json.file.lg06)
+# Put data in a data frame
+raw.data.lg06 <- json.data.lg06$rows$doc
+raw.data.lg06$name <-"lg06"
+raw.data.lg06$sessionNumMount <- "1"
+raw.data.lg06$trainSession <-"0"
+raw.data.lg06$tonePosX <- NA
+raw.data.lg06$tonePosY <- NA
+
 
 raw.data <- rbind(# raw.data.ab22,
                   raw.data.ab21,
@@ -599,8 +804,18 @@ raw.data <- rbind(# raw.data.ab22,
                   raw.data.vv17_1_proc,
                   raw.data.vv17_2_proc,
                   raw.data.vv17_3,
-                  raw.data.vv17_4
-                  )
+                  raw.data.vv17_4,
+                  raw.data.bb17,
+                  raw.data.abh28,
+                  raw.data.ab12,
+                  raw.data.ak28,
+                  raw.data.sd19,
+                  raw.data.ss07,
+                  raw.data.df14,
+                  raw.data.cm12,
+                  raw.data.mn17,
+                  raw.data.lg06
+                )
 
 # Change the column names
 colnames(raw.data)[1] <- "id"
@@ -731,8 +946,10 @@ sessionNum("vv17", 3, 3)
 data$rev <- NULL
 row.names(data) <- NULL
 
-# Sort the data according to time
-data <- data[order(data$startTrial),]
+# Merge the two time columns ('time' for trials and 'startTrial' for threshold)
+data$startTime <- ifelse(is.na(data$time), data$startTrial, data$time)
+data$time <- NULL
+data$startTrial <- NULL
 
 # Add duration variable in seconds
 # Create function to extract the last value of each matrix (= each trial) from the CurXY
@@ -741,3 +958,18 @@ data$duration <- sapply(data$CurXY, extractDur)
 
 data$duration <- as.numeric(data$duration)
 
+# Sort the data according to time
+data <- data[order(data$startTime),]
+
+# Fix trial number
+data <- ddply(data, .(name, condition, sessionNumMount),
+              mutate, trialNumYAxis = 0:(length(result)-1))
+
+####### 20/01/16 No roving
+
+# Bad session number for bb17 in threshold because refresh page with going to 
+# the frequency threshold page...
+data$sessionNum[data$name=="bb17"] = gsub("3", "2",
+                                          data$sessionNum[data$name=="bb17"])
+data$sessionNum[data$name=="bb17"] = gsub("4", "3",
+                                          data$sessionNum[data$name=="bb17"])

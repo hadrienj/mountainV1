@@ -21,8 +21,52 @@ wiltestDetById <- wilcox.test(meanThresholdsSubjLong$threshold[
             meanThresholdsSubjLong$threshold[
   meanThresholdsSubjLong$condition=='identification'], paired=TRUE)
 
+# With roving
+## test procedural learning (session 1 vs. 2)
+wilProc <- wilcox.test(thresholdsAllLong$threshold[
+  thresholdsAllLong$session==1],
+                    thresholdsAllLong$threshold[
+  thresholdsAllLong$session==2],
+                    paired=TRUE)
+## test audio motor learning (sessions 1 and 2 vs. 3 and 4)
+wilAM <- wilcox.test(thresholdAllPrepostLong$threshold[
+  thresholdAllPrepostLong$prepost=='pre'],
+                     thresholdAllPrepostLong$threshold[
+  thresholdAllPrepostLong$prepost=='post'],
+                       paired=TRUE)
+## test threshold task learning (sessions 1 and 3 vs. 2 and 4)
+wilTask <- wilcox.test(thresholdAllPrepreLong$threshold[
+  thresholdAllPrepreLong$prepre=='first'],
+  thresholdAllPrepreLong$threshold[
+    thresholdAllPrepreLong$prepre=='second'],
+  paired=TRUE)
+
+# Without roving
+## test procedural learning (session 1 vs. 2)
+wilProc <- wilcox.test(thresholdsAllLong$threshold[
+  thresholdsAllLong$session==1],
+  thresholdsAllLong$threshold[
+    thresholdsAllLong$session==2],
+  paired=TRUE)
+## test audio motor learning (sessions 1 and 2 vs. 3 and 4)
+wilAM <- wilcox.test(thresholdAllPrepostLong$threshold[
+  thresholdAllPrepostLong$prepost=='pre'],
+  thresholdAllPrepostLong$threshold[
+    thresholdAllPrepostLong$prepost=='post'],
+  paired=TRUE)
+## test threshold task learning (sessions 1 and 3 vs. 2 and 4)
+wilTask <- wilcox.test(thresholdAllPrepreLong$threshold[
+  thresholdAllPrepreLong$prepre=='first'],
+  thresholdAllPrepreLong$threshold[
+    thresholdAllPrepreLong$prepre=='second'],
+  paired=TRUE)
+
+
+
+
 # t test
 # ttestDetById <- t.test(meanThresholdsSubjLong$threshold[
 #   meanThresholdsSubjLong$condition=='detection'],
 #                        meanThresholdsSubjLong$threshold[
 #   meanThresholdsSubjLong$condition=='identification'], paired=TRUE)
+

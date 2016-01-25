@@ -2,12 +2,12 @@ data.mountain.yAxis <- subset(data,
                               grepl("yAxis", condition) & sessionNumMount==1,
                               c(id, yTopDist, targetTone, CurXY, trialNumYAxis,
                                 result, totalScore, sessionNum, name, duration,
-                                time, score, sessionNumMount))
+                                startTime, score, sessionNumMount))
 
 
 # Sort the data according to time then to trial number
 data.mountain.yAxis <- data.mountain.yAxis[order(
-  data.mountain.yAxis$time, data.mountain.yAxis$trialNumYAxis),]
+  data.mountain.yAxis$startTime, data.mountain.yAxis$trialNumYAxis),]
 row.names(data.mountain.yAxis) <- NULL
 
 
@@ -82,15 +82,33 @@ yAxisAcc <- subset(data.mountain.yAxis,
                    select = c(id, result, YAxisAccuracyRoll, name, trialNumYAxis))
 yAxisAccLong <- melt(yAxisAcc, c("id", "name", "trialNumYAxis"))
 
-# Calculate meanand duration by trial
+# Create moving sd of accuracy for each participant
+yAxisAccLong$movingSd <- as.numeric(
+  ave(yAxisAccLong$value,
+      yAxisAccLong$name,
+      FUN = function(x) rollapply(
+        x,
+        width = 10,
+        FUN = sd,
+        fill = NA,
+        partial = FALSE)))
+
+# Calculate mean and duration by trial
 yAxisAccMean <- data.frame(trialNumYAxis=as.numeric(levels(factor(yAxisAcc$trialNumYAxis))),
                            result=tapply(yAxisAcc$result,
                                          yAxisAcc$trialNumYAxis,
-                                         mean))
+                                         mean),
+                           sd=tapply(yAxisAcc$result,
+                                     yAxisAcc$trialNumYAxis,
+                                     sd))
 yAxisDurMean <- data.frame(trialNumYAxis=as.numeric(levels(factor(yAxisDur$trialNumYAxis))),
                            result=tapply(yAxisDur$duration,
                                          yAxisDur$trialNumYAxis,
                                          mean))
+# Add the mean among participants of the rolling sd
+yAxisAccMean$sdMean <- tapply(yAxisAccLong$movingSd[yAxisAccLong$variable=="result"],
+                              yAxisAccLong$trialNumYAxis[yAxisAccLong$variable=="result"],
+                              mean)
 row.names(yAxisAccMean) <- NULL
 row.names(yAxisDurMean) <- NULL
 # Make moving average for mean accuracy and duration
@@ -111,11 +129,11 @@ yAxisDurMean$YAxisDurRoll <- as.numeric(
         fill = NA,
         partial = FALSE)))
 # Create long data frame for mean accuracy and duration
-yAxisAccMeanLong <- melt(yAxisAccMean, "trialNumYAxis")
+yAxisAccMeanLong <- melt(yAxisAccMean, c("trialNumYAxis", "sd", "sdMean"))
 yAxisDurMeanLong <- melt(yAxisDurMean, "trialNumYAxis")
 
-colnames(yAxisAccMeanLong)[2] <- "variableAcc"
-colnames(yAxisAccMeanLong)[3] <- "valueAcc"
+colnames(yAxisAccMeanLong)[4] <- "variableAcc"
+colnames(yAxisAccMeanLong)[5] <- "valueAcc"
 colnames(yAxisDurMeanLong)[2] <- "variableDur"
 colnames(yAxisDurMeanLong)[3] <- "valueDur"
 
@@ -127,7 +145,7 @@ pathLengthprep <- data.frame(t(sapply(data.mountain.yAxis$CurXY,
                              function(x) data.frame(rbind(x)))),
                     name=data.mountain.yAxis$name,
                     trialNumYAxis=data.mountain.yAxis$trialNum,
-                    startTrial=data.mountain.yAxis$time,
+                    startTime=data.mountain.yAxis$startTime,
                     yTopDist=data.mountain.yAxis$yTopDist)
 pathLength <- data.frame(X=unlist(data.frame(pathLengthprep)$X1),
                     Y=unlist(data.frame(pathLengthprep)$X2),
@@ -138,7 +156,7 @@ pathLength <- data.frame(X=unlist(data.frame(pathLengthprep)$X1),
                     trialNumYAxis=rep(pathLengthprep$trialNumYAxis,
                                  sapply(data.frame(pathLengthprep)$X1,
                                         length)),
-                    startTrial=rep(pathLengthprep$startTrial,
+                    startTime=rep(pathLengthprep$startTime,
                                  sapply(data.frame(pathLengthprep)$X1,
                                         length)),
                     yTopDist=rep(pathLengthprep$yTopDist,
@@ -209,7 +227,7 @@ data.mountain.yAxis <- merge(data.mountain.yAxis,
 
 # Sort the data according to time then to trial number
 data.mountain.yAxis <- data.mountain.yAxis[order(
-  data.mountain.yAxis$time, data.mountain.yAxis$trialNumYAxis),]
+  data.mountain.yAxis$startTime, data.mountain.yAxis$trialNumYAxis),]
 
 # Remove row.names
 row.names(data.mountain.yAxis) <- NULL
@@ -413,3 +431,4 @@ mountainByThresh <- data.frame(meanThresholdsSubj,
                                      & data.mountain.yAxis$trialNumYAxis<75],
                                    mean))
 row.names(mountainByThresh) <- NULL
+

@@ -13,7 +13,7 @@ data.threshold.longi <- subset(data, (grepl("threshold", id))
                                       | (grepl("el17", name))
                                       | (grepl("vv17", name)),
                                c(id, trialNum,sessionNum,sessionThreshNum,
-                                 reversal,  reversals,  task,  startTrial,
+                                 reversal,  reversals,  task,  startTime,
                                  tone1, tone2,  tone3, tone4, deltaF,
                                  goodAnswer,	roving,	answer,	score, name,
                                  trainSession))
@@ -132,11 +132,11 @@ data.mountain.yAxis.longi <- subset(data,
                                     & grepl("yAxis", condition),
                                     c(id, yTopDist, targetTone, CurXY, trialNumYAxis,
                                       result, totalScore, sessionNum, name, duration,
-                                      time, score, sessionNumMount))
+                                      startTime, score, sessionNumMount))
 
 # Sort the data according to time then to trial number
 data.mountain.yAxis.longi <- data.mountain.yAxis.longi[order(
-  data.mountain.yAxis.longi$time, data.mountain.yAxis.longi$trialNumYAxis),]
+  data.mountain.yAxis.longi$startTime, data.mountain.yAxis.longi$trialNumYAxis),]
 
 row.names(data.mountain.yAxis.longi) <- NULL
 

@@ -523,7 +523,7 @@
 			"file": "analysis.Rmd",
 			"settings":
 			{
-				"buffer_size": 14454,
+				"buffer_size": 14653,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "R/preProcFirstDesign.R",
 			"settings":
 			{
-				"buffer_size": 25393,
+				"buffer_size": 30165,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "R/longitudAnalysis.R",
 			"settings":
 			{
-				"buffer_size": 11958,
+				"buffer_size": 11971,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "R/threshold.R",
 			"settings":
 			{
-				"buffer_size": 5548,
+				"buffer_size": 5550,
 				"line_ending": "Unix"
 			}
 		},
@@ -563,7 +563,7 @@
 			"file": "R/plots.R",
 			"settings":
 			{
-				"buffer_size": 21195,
+				"buffer_size": 25463,
 				"line_ending": "Unix"
 			}
 		},
@@ -571,7 +571,7 @@
 			"file": "R/yAxis.R",
 			"settings":
 			{
-				"buffer_size": 16727,
+				"buffer_size": 17458,
 				"line_ending": "Unix"
 			}
 		},
@@ -1348,6 +1348,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"sd19",
+			"abh28",
+			"ak28",
+			"$roving <- NA",
+			"abh28",
+			"raw.data.ss10_2_proc",
+			"<- NA\n\n# Import Json file",
+			"raw.data. <-",
+			"sa20$roving",
+			"ving <- NA",
+			"vv17_4",
 			"kh13",
 			"x[",
 			"rbind",
@@ -1464,18 +1475,7 @@
 			"answer",
 			"date",
 			"sec",
-			"milli",
-			"id",
-			"i",
-			"server",
-			"i",
-			"test",
-			"serve",
-			"server",
-			"remoteDB",
-			"remoteDb",
-			"aXSmoothed",
-			"accelerometerUpdate"
+			"milli"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -1507,15 +1507,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14454,
+						"buffer_size": 14653,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								720,
-								720
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1538,15 +1538,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25393,
+						"buffer_size": 30165,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								23285,
+								23285
 							]
 						],
 						"settings":
@@ -1557,7 +1557,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9023.0,
+						"translation.y": 15258.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1598,15 +1598,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11958,
+						"buffer_size": 11971,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								485,
-								485
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1629,15 +1629,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5548,
+						"buffer_size": 5550,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3994,
-								4012
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1660,15 +1660,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21195,
+						"buffer_size": 25463,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21037,
-								21037
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1691,15 +1691,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16727,
+						"buffer_size": 17458,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15559,
-								15559
+								0,
+								0
 							]
 						],
 						"settings":

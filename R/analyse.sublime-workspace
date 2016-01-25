@@ -1,0 +1,1977 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"raw.data.dp",
+				"raw.data.dp02_1"
+			],
+			[
+				"lib",
+				"library	(analysis.Rmd)"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"hello",
+				"helloAll"
+			],
+			[
+				"accurac",
+				"accuracyScore"
+			],
+			[
+				"ma",
+				"margin"
+			],
+			[
+				"sessio",
+				"sessionThreshNum"
+			],
+			[
+				"c",
+				"carrier"
+			],
+			[
+				"update",
+				"updatePage"
+			],
+			[
+				"font",
+				"font-style"
+			],
+			[
+				"rev",
+				"reversals"
+			],
+			[
+				"score",
+				"scoresList"
+			],
+			[
+				"second",
+				"secondPartButton"
+			],
+			[
+				"cli",
+				"clickTone"
+			],
+			[
+				"tonep",
+				"tonePosY"
+			],
+			[
+				"tone",
+				"tonePosX"
+			],
+			[
+				"ima",
+				"imagesSize"
+			],
+			[
+				"tonp",
+				"tonePosX"
+			],
+			[
+				"Cur",
+				"CurXY"
+			],
+			[
+				"aY",
+				"aYSmoothed"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"point",
+				"pointerEvents"
+			],
+			[
+				"pa",
+				"padding-top"
+			],
+			[
+				"total",
+				"totalScore"
+			],
+			[
+				"asce",
+				"ascendingRamp"
+			],
+			[
+				"bu",
+				"buttons"
+			],
+			[
+				"points",
+				"pointsCounter"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"fon",
+				"font-style"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"glob",
+				"globalScore"
+			],
+			[
+				"tri",
+				"trialTime"
+			],
+			[
+				"acc",
+				"accurateScore"
+			],
+			[
+				"trialNumY",
+				"trialNumYAxis"
+			],
+			[
+				"trialNumLi",
+				"trialNumLines"
+			],
+			[
+				"count",
+				"countTrial"
+			],
+			[
+				"y",
+				"yAxis"
+			],
+			[
+				"inc",
+				"increment"
+			],
+			[
+				"firs",
+				"firstTrial"
+			],
+			[
+				"af",
+				"afterTrial"
+			],
+			[
+				"tas",
+				"task"
+			],
+			[
+				"first",
+				"firstTask"
+			],
+			[
+				"curr",
+				"currentTime"
+			],
+			[
+				"gain",
+				"gainTones"
+			],
+			[
+				"osc",
+				"oscTones"
+			],
+			[
+				"chos",
+				"chooseSounds"
+			],
+			[
+				"gen",
+				"genSine"
+			],
+			[
+				"list",
+				"scoresList"
+			],
+			[
+				"scor",
+				"scoresList"
+			],
+			[
+				"thresho",
+				"threshold"
+			],
+			[
+				"thres",
+				"threshold"
+			],
+			[
+				"strat",
+				"start1"
+			],
+			[
+				"displ",
+				"displayFeedbackTest"
+			],
+			[
+				"last",
+				"lastTones"
+			],
+			[
+				"disp",
+				"displayFeedback"
+			],
+			[
+				"changea",
+				"changeActiveSideInv"
+			],
+			[
+				"active",
+				"activeSide"
+			],
+			[
+				"act",
+				"activeSide"
+			],
+			[
+				"left",
+				"leftZone"
+			],
+			[
+				"play",
+				"playgroundHeight"
+			],
+			[
+				"new",
+				"newCanvas"
+			],
+			[
+				"newc",
+				"newCtx"
+			],
+			[
+				"nu",
+				"trialNum"
+			],
+			[
+				"canvas",
+				"canvas2"
+			],
+			[
+				"dvi",
+				"activeDivNum"
+			],
+			[
+				"cance",
+				"canCenterAnswered"
+			],
+			[
+				"smooth",
+				"smoothFactor"
+			],
+			[
+				"smoo",
+				"smoothFactor"
+			],
+			[
+				"aX",
+				"aXSmoothed"
+			],
+			[
+				"input",
+				"inputVal"
+			],
+			[
+				"val",
+				"valNum"
+			],
+			[
+				"smoot",
+				"smoothVal"
+			],
+			[
+				"outpu",
+				"outputVal"
+			],
+			[
+				"lat",
+				"lastVal"
+			],
+			[
+				"inp",
+				"inputVal"
+			],
+			[
+				"las",
+				"lastVal"
+			],
+			[
+				"la",
+				"lastVal"
+			],
+			[
+				"mean",
+				"meanPosY"
+			],
+			[
+				"buff",
+				"bufferSound1"
+			],
+			[
+				"load",
+				"loadSound"
+			],
+			[
+				"sou",
+				"sound1"
+			],
+			[
+				"pl",
+				"playSound"
+			],
+			[
+				"cu",
+				"CurY"
+			],
+			[
+				"canv",
+				"canvas1"
+			],
+			[
+				"can",
+				"canvas0"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"canRig",
+				"canRight"
+			],
+			[
+				"answ",
+				"answeredTrial"
+			],
+			[
+				"touch",
+				"touchStart"
+			],
+			[
+				"activ",
+				"activeDivNum"
+			],
+			[
+				"zone",
+				"zoneTest"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"init",
+				"initSequence"
+			],
+			[
+				"wav",
+				"waveArray"
+			],
+			[
+				"en",
+				"environ"
+			],
+			[
+				"ser",
+				"SERVER_ADDRESS"
+			],
+			[
+				"session",
+				"sessionNum"
+			],
+			[
+				"sessi",
+				"sessionNum"
+			],
+			[
+				"start",
+				"startSession"
+			],
+			[
+				"sess",
+				"sessionThreshNum"
+			],
+			[
+				"font-s",
+				"font-style"
+			],
+			[
+				"fo",
+				"font-style"
+			],
+			[
+				"set",
+				"setTimeout"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"paddin",
+				"padding-bottom"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"delta",
+				"deltaF"
+			],
+			[
+				"fre",
+				"freqDomains"
+			],
+			[
+				"data",
+				"dataArray"
+			],
+			[
+				"choo",
+				"chooseTones"
+			],
+			[
+				"cho",
+				"chooseTones"
+			],
+			[
+				"ans",
+				"answerButtonsText"
+			],
+			[
+				"answer",
+				"answerButtons"
+			],
+			[
+				"thre",
+				"thresholdNew"
+			],
+			[
+				"delt",
+				"deltaF"
+			],
+			[
+				"revers",
+				"reversal"
+			],
+			[
+				"thr",
+				"threshold1"
+			],
+			[
+				"task",
+				"taskOrder"
+			],
+			[
+				"counte",
+				"counterbalanced"
+			],
+			[
+				"order",
+				"taskOrder"
+			],
+			[
+				"pair",
+				"pairDiff"
+			],
+			[
+				"good",
+				"goodAnswer"
+			],
+			[
+				"trial",
+				"trialNum"
+			],
+			[
+				"coun",
+				"counterBal"
+			],
+			[
+				"num",
+				"number"
+			],
+			[
+				"l",
+				"log"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/analysis.Rmd",
+			"settings":
+			{
+				"buffer_size": 14632,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "preProcFirstDesign.R",
+			"settings":
+			{
+				"buffer_size": 25692,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "make.R",
+			"settings":
+			{
+				"buffer_size": 91,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "longitudAnalysis.R",
+			"settings":
+			{
+				"buffer_size": 11962,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "threshold.R",
+			"settings":
+			{
+				"buffer_size": 5551,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "plots.R",
+			"settings":
+			{
+				"buffer_size": 22965,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "yAxis.R",
+			"settings":
+			{
+				"buffer_size": 16884,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "glm.R",
+			"settings":
+			{
+				"buffer_size": 23893,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\nR version 3.2.2 (2015-08-14) -- \"Fire Safety\"\nCopyright (C) 2015 The R Foundation for Statistical Computing\nPlatform: x86_64-apple-darwin13.4.0 (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n> library(rjson)\n> library(ggplot2)\nUse suppressPackageStartupMessages to eliminate package startup messages.\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n\nAttaching package: 'dplyr'\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n> library(rCharts)\n> library(zoo)\n\nAttaching package: 'zoo'\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\nknitr hook \"anchor\" is now available\n> json.file.vv17_2_proc <- \"./raw_data/vv17_2_proc.txt\"\n> json.data.vv17_2_proc <- jsonlite::fromJSON(json.file.vv17_2_proc)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/vv17_2_proc.txt\n                     (right here) ------^\n> # Put data in a data frame\n> raw.data.vv17_2_proc <- json.data.vv17_2_proc$rows$doc\nError: object 'json.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$name <-\"vv17_2_proc\"\nError in raw.data.vv17_2_proc$name <- \"vv17_2_proc\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$sessionNumMount <- \"1\"\nError in raw.data.vv17_2_proc$sessionNumMount <- \"1\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$trainSession <-\"0\"\nError in raw.data.vv17_2_proc$trainSession <- \"0\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$tonePosX <- NA\nError in raw.data.vv17_2_proc$tonePosX <- NA : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$tonePosY <- NA\nError in raw.data.vv17_2_proc$tonePosY <- NA : \n  object 'raw.data.vv17_2_proc' not found\n> json.file.dp02 <- \"./raw_data/dp02.txt\"\n> json.data.dp02 <- jsonlite::fromJSON(json.file.dp02)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> json.data.dp02 <- jsonlite::fromJSON(\"./raw_data/dp02.txt\")\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> json.data.dp02 <- jsonlite::fromJSON(./raw_data/dp02.txt)\nError in jsonlite::fromJSON(./raw_data/dp02.txt) : object '.' not found\n> json.file.lj01 <- \"./raw_data/lj01_proc.txt\"\n> json.data.lj01 <- jsonlite::fromJSON(json.file.lj01)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/lj01_proc.txt\n                     (right here) ------^\n> library(rjson)\n> json.data.dp02 <- jsonlite::fromJSON(\"./raw_data/dp02.txt\")\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> library(ggplot2)\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n> library(rCharts)\n> library(zoo)\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\n> ",
+			"settings":
+			{
+				"buffer_size": 3744,
+				"line_ending": "Unix",
+				"name": "*REPL* [r]",
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "Packages/knitr/knitr-Markdown.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+					""
+				],
+				[
+					"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+					"JSON"
+				],
+				[
+					"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+					"Property List"
+				],
+				[
+					"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+					"YAML (Block Style)"
+				],
+				[
+					"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+					"YAML (Default Style)"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/AAAPackageDev/Support/Convert to ....sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/knitr/knitr-Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/knitr/knitr-Markdown.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/knitr/knitr-Markdown.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 274.0,
+		"last_filter": "kni",
+		"selected_items":
+		[
+			[
+				"kni",
+				"Build With: knitr-Markdown"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"repl",
+				"SublimeREPL: Shell"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"glu",
+				"Glue - Launch"
+			],
+			[
+				"new",
+				"Git: New Branch"
+			],
+			[
+				"br",
+				"Git: Change Branch"
+			],
+			[
+				"pu",
+				"Git: Push Current Branch"
+			],
+			[
+				"co",
+				"Git: Commit"
+			],
+			[
+				"add",
+				"Git: Add..."
+			],
+			[
+				"che",
+				"Git: Checkout Current File"
+			],
+			[
+				"de",
+				"Git: Delete Branch"
+			],
+			[
+				"mer",
+				"Git: Merge Branch"
+			],
+			[
+				"ch",
+				"Git: Change Branch"
+			],
+			[
+				"ne",
+				"Git: New Branch"
+			],
+			[
+				"dele",
+				"Git: Delete Branch"
+			],
+			[
+				"me",
+				"Git: Merge Branch"
+			],
+			[
+				"git add",
+				"Git: Add Current File"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"bra",
+				"Git: New Branch"
+			],
+			[
+				"sta",
+				"Git: Status"
+			],
+			[
+				"ad",
+				"Git: Add..."
+			],
+			[
+				"a",
+				"Git: Add..."
+			],
+			[
+				"git status",
+				"Git: Status"
+			],
+			[
+				"git",
+				"Git: Log All"
+			],
+			[
+				"m",
+				"Git: Merge Branch"
+			],
+			[
+				"nes",
+				"Build: New Build System"
+			],
+			[
+				"CO",
+				"Git: Commit"
+			],
+			[
+				"ADD",
+				"Git: Add..."
+			],
+			[
+				"pull",
+				"Git: Pull Current Branch"
+			],
+			[
+				"pus",
+				"Git: Push Current Branch"
+			],
+			[
+				"del",
+				"Git: Delete Branch"
+			],
+			[
+				"n",
+				"Git: New Branch"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"amen",
+				"Git: Amend Commit"
+			],
+			[
+				"d",
+				"Git: Delete Branch"
+			],
+			[
+				"pac",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"pa",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"pack v",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"new sy",
+				"z:AAAPackageDev: New YAML Syntax Definition"
+			],
+			[
+				"new pa",
+				"z:AAAPackageDev: New Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pack vi",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"view pac",
+				"PackageResourceViewer: Extract Package"
+			],
+			[
+				"packa",
+				"Package Control: Enable Package"
+			],
+			[
+				"package",
+				"Preferences: Browse Packages"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"pac v",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"pack vie",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"set ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"set jav",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"packa vi",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"set j",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"pac vi",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"packagev",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"packagere",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"Package Control: inst",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"com",
+				"Git: Commit"
+			],
+			[
+				"merg",
+				"GitGutter: Compare Against HEAD"
+			],
+			[
+				"pul",
+				"Git: Pull Current Branch"
+			],
+			[
+				"add .",
+				"Git: Add..."
+			],
+			[
+				"h",
+				"HTML: Encode Special Characters"
+			],
+			[
+				"c",
+				"Git: Commit"
+			],
+			[
+				"push",
+				"Git: Push Current Branch"
+			],
+			[
+				"comm",
+				"Git: Commit"
+			],
+			[
+				"commi",
+				"Git: Commit"
+			],
+			[
+				"log",
+				"Git: Log All"
+			],
+			[
+				"q",
+				"Git: Quick Commit"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"reb",
+				"Git: Pull Using Rebase"
+			],
+			[
+				"bran",
+				"Git: New Branch"
+			],
+			[
+				"rebas",
+				"Git: Pull Using Rebase"
+			],
+			[
+				"grap",
+				"Git: Graph Current File"
+			],
+			[
+				"set",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"gr",
+				"Set Syntax: Git Graph"
+			],
+			[
+				"lo",
+				"Git: Log Current File"
+			],
+			[
+				"Q",
+				"Git: Quick Commit"
+			],
+			[
+				"qui",
+				"Git: Quick Commit"
+			],
+			[
+				"qu",
+				"Git: Quick Commit"
+			],
+			[
+				"ch  ",
+				"Git: Change Branch"
+			],
+			[
+				"delet",
+				"Git: Delete Branch"
+			],
+			[
+				"delete",
+				"Git: Delete Branch"
+			],
+			[
+				"diff",
+				"Git: Diff All Files"
+			],
+			[
+				"merge",
+				"Git: Merge Branch"
+			],
+			[
+				"check",
+				"Git: Checkout Tag"
+			],
+			[
+				"chec",
+				"Git: Checkout Current File"
+			],
+			[
+				"git c",
+				"Git: Checkout Current File"
+			],
+			[
+				"graph",
+				"Git: Graph Current File"
+			],
+			[
+				"ame",
+				"Git: Amend Commit"
+			],
+			[
+				"git p",
+				"Git: Pull Current Branch"
+			],
+			[
+				"am",
+				"Git: Amend Commit"
+			],
+			[
+				"checkout",
+				"Git: Checkout Tag"
+			],
+			[
+				"gra",
+				"Set Syntax: Git Graph"
+			],
+			[
+				"dif",
+				"Git: Diff All Files"
+			],
+			[
+				"gitn",
+				"Git: New Branch"
+			],
+			[
+				"git Checkout ",
+				"Git: Checkout Current File"
+			],
+			[
+				"gi",
+				"Git: Commit history"
+			],
+			[
+				"git ",
+				"Git: Checkout Tag"
+			],
+			[
+				"git log",
+				"Git: Log All"
+			],
+			[
+				"chan",
+				"Git: Change Branch"
+			],
+			[
+				"cha",
+				"Git: Change Branch"
+			],
+			[
+				"virtu",
+				"Virtualenv: SublimeREPL - Python"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"virut",
+				"Virtualenv: Activate"
+			],
+			[
+				"acti",
+				"Virtualenv: Deactivate"
+			],
+			[
+				"vi",
+				"Virtualenv: Activate"
+			],
+			[
+				"vir",
+				"Virtualenv: Activate"
+			],
+			[
+				"pip",
+				"Package Control: Install Package"
+			],
+			[
+				"act",
+				"Virtualenv: Activate"
+			],
+			[
+				"virt",
+				"Virtualenv: Add directory"
+			],
+			[
+				"virtua",
+				"Virtualenv: Activate"
+			],
+			[
+				"virtual",
+				"Virtualenv: New"
+			],
+			[
+				"b",
+				"Git: Change Branch"
+			],
+			[
+				"branc",
+				"Git: Change Branch"
+			],
+			[
+				"commit",
+				"Git: Commit"
+			],
+			[
+				"statu",
+				"Git: Status"
+			],
+			[
+				"git comm",
+				"Set Syntax: Git Commit Message"
+			],
+			[
+				"change",
+				"Git: Change Branch"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"packag",
+				"Package Control: Remove Package"
+			],
+			[
+				"git chan",
+				"Git: Change Branch"
+			],
+			[
+				"git chec",
+				"Git: Change Branch"
+			],
+			[
+				"git che",
+				"Git: Checkout Current File"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"latex",
+				"LaTeXTools: Reconfigure and migrate settings"
+			]
+		],
+		"width": 584.0
+	},
+	"console":
+	{
+		"height": 161.0,
+		"history":
+		[
+			"print(view.syntax_name(view.sel()[0].begin()))",
+			"build",
+			"join_lines",
+			"show_scope_name",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/lsp/Dropbox/projets/en_cours/test/table/table.html",
+		"/Users/lsp/Downloads/test.html",
+		"/Users/lsp/Downloads/Untitled.html",
+		"/Users/lsp/Dropbox/projets/en_cours/test/table/table",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/analysis.html",
+		"/Users/lsp/Dropbox/projets/en_cours/lspens/RMarkdownTools/index.html",
+		"/Users/lsp/Downloads/untitled.mmd",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/config.txt",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/R-Box.sublime-settings",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/SublimeREPL.sublime-settings",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/.Rproj.user/98891A17/build_options",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/raw_data/ab21.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/R/Package Control Messages",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/speech.sublime-project",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/speech/settings.py",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/auditory_mountain/templates/threshold.html",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/auditory_mountain/static/js/threshold.js",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/auditory_mountain/views.py",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/auditory_mountain/urls.py",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/auditory_mountain/settings.py",
+		"/Users/lsp/Dropbox/projets/en_cours/speech/auditory_mountain/.env",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/Glue.sublime-settings",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/.gitignore",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/settings.py",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/threshold.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/client.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/helloAll.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/css/style.css",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/app.js",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/urls.py",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/threshold.js",
+		"/Users/lsp/Dropbox/projets/en_cours/fftPython/test_python.py",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/views.py",
+		"/Volumes/HADRI_2T/papiers/etudes/motivation_cv/cv latex 2014/cv_3.tex",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/Procfile",
+		"/Users/lsp/Downloads/Expé en ligne - code/templates/index.php",
+		"/Users/lsp/Downloads/Expé en ligne - code/index.php",
+		"/Users/lsp/Downloads/Expé en ligne - code/includes/present.js",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/analyses.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/.gitignore",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/threshold1.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/models.py",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/r_analyses/style.css",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/auditory_mount/style.css",
+		"/Users/lsp/Downloads/jc12.txt",
+		"/Users/lsp/Downloads/The influence of short term perceptual learning of pitch discrimination and modulation discrimination on subcortical envelope-following and cortical steady-state EEG responses.html",
+		"/Users/lsp/Downloads/The influence of short term perceptual learning of pitch discrimination and modulation discrimination on subcortical envelope-following and cortical steady-state EEG responses_files/fulltext-html-tab.js",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/heroku.env",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/.env",
+		"/Users/lsp/Downloads/ll07.txt",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/r_analyses/raw_data/dd04.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/r_analyses/raw_data/hj12.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/r_analyses/raw_data/ap08.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/r_analyses/raw_data/ab22.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/auditory_mount/.gitignore",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/individual_data/raw_data/ab22.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/individual_data/raw_data/read_me.md",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/individual_data/test.css",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/individual_data/raw_data/sa20.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/individual_data/threshold.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/threshold.html",
+		"/Users/lsp/Downloads/sa20.txt",
+		"/Users/lsp/Dropbox/projets/en_cours/plot_functions/plot_functions.py",
+		"/Users/lsp/Dropbox/projets/en_cours/MOOC_signal_processing/sms-tools-master/workspace/A2/A2Part2.py",
+		"/Users/lsp/Dropbox/projets/en_cours/MOOC_signal_processing/sms-tools-master/workspace/A2/A2Part3_1.py",
+		"/Users/lsp/anaconda/pkgs/ipython-3.0.0-py27_0/lib/python2.7/site-packages/IPython/html/static/components/codemirror/mode/sql/sql.js",
+		"/Users/lsp/Downloads/eee.txt",
+		"/Users/lsp/Downloads/threshold.Rmd",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/threshold.Rmd",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/libs/js/jquery-1.11.2.js",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/analyses/test.pnw",
+		"/Users/lsp/.bash_profile",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A2/A2Part3.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/lectures/2-DFT/plots-code/dft-complex-sine-1.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/lectures/2-DFT/plots-code/complex-sinewaves.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A2/A2Part1.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A2/A2Part2.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A3/A3Part1.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A1/A1Part2.py",
+		"/Volumes/HADRI_COPY/etudes/archives/2014/MOOC/MOOC_signal_processing/sms-tools-master/workspace/A1/A1Part3.py",
+		"/Users/lsp/Dropbox/projets/en_cours/fftPython/test_python",
+		"/Users/lsp/Downloads/threshold.json",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/test.html",
+		"/Users/lsp/Downloads/kalman-master/test/test.html",
+		"/Users/lsp/Dropbox/projets/en_cours/test/test.html",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/Typescript/JavaScript_custom1.tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/Color Scheme - Default/Monokai_custom.tmTheme",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/Typescript/JavaScript_custom.tmLanguage",
+		"/Users/lsp/Downloads/JavaScript.tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/JavaScript/JavaScript.tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/JavaScriptNext - ES6 Syntax/Monokai Phoenix.tmTheme",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/javascript_custom1.JSON-tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/JavaScript_custom2.YAML-tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/javascript_custom.tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/JavaScriptNext - ES6 Syntax/Monokai Phoenix.YAML-tmTheme",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/Color Scheme - Default/Monokai.tmTheme",
+		"/Users/lsp/Downloads/JavaScript_custom2.YAML-tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/javascript_custom.JSON-tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/Sublime Snippets (raw).JSON-tmLanguage.YAML-tmLanguage",
+		"/Users/lsp/Library/Application Support/Sublime Text 3/Packages/User/javascript_custom.JSON-tmLanguage.YAML-tmLanguage",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/qwer.js",
+		"/Applications/Sublime Text.app/Contents/MacOS/Packages/JavaScript.sublime-package",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/registration/login.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/templates/register.html",
+		"/Users/lsp/Downloads/Color Scheme - Default.sublime-package",
+		"/Applications/Sublime Text.app/Contents/MacOS/Packages/Color Scheme - Default.sublime-package",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/libs/css/jquery.mobile-1.4.5.min.css",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/libs/css/jquery.mobile.custom.theme.min.css",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/wsgi.py",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/manage.py",
+		"/Users/lsp/.virtualenvs/auditory_mountain/bin/activate",
+		"/Users/lsp/.heroku/error.log",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/settings_dev.py",
+		"/Users/lsp/.virtualenvs/auditory_mountain/bin/postactivate",
+		"/Users/lsp/.virtualenvs/test/bin/postdeactivate",
+		"/Users/lsp/.virtualenvs/test/bin/postactivate",
+		"/Users/lsp/Downloads/auditory/auditory_mountain/settings.py",
+		"/Users/lsp/.gitconfig",
+		"/Users/lsp/Downloads/test/untitled.html",
+		"/Users/lsp/Downloads/test/style.css",
+		"/Users/lsp/Downloads/untitled.html",
+		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/static/js/app.js",
+		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/client/client.html",
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/app (Copie en conflit de MacBook Pro de lsp 2015-05-18).js",
+		"/Users/lsp/Dropbox/projets/en_cours/django/bud/bud/templates/operations.html",
+		"/Users/lsp/Dropbox/projets/en_cours/django/bud/addForms/models.py"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 108.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"kh13",
+			"x[",
+			"rbind",
+			", cache=TRUE",
+			"vv17_2",
+			"vv17_1",
+			"vv17",
+			"dp02",
+			"dp02_2",
+			"dp02_1",
+			"dp02",
+			"dp02_1",
+			"1",
+			"_1",
+			"dp02",
+			"lj01",
+			"json.file.lj01",
+			"mountainb",
+			"mountain",
+			"meanThresholdsSubj",
+			"auditory_mountain",
+			"height",
+			"64615E",
+			"choice",
+			"playtones",
+			"feedb",
+			"display",
+			"disp",
+			"choose",
+			"Width",
+			"WIDTH",
+			"Width",
+			"WIDTH",
+			"Width",
+			"WIDTH",
+			"size",
+			";\n",
+			"*/\n",
+			"html",
+			"<p",
+			"pouch",
+			"var acc",
+			"append",
+			"totalScore",
+			"trialNum",
+			"tota",
+			"remove",
+			"env",
+			"-H ",
+			"_0 -H ",
+			",",
+			"-H D",
+			" \"",
+			",",
+			"-H D",
+			",",
+			"\n c",
+			" c",
+			" C",
+			" c",
+			"\"c",
+			",",
+			"\"",
+			"0",
+			"@",
+			"put(",
+			"put",
+			"retur",
+			"return",
+			"retur",
+			"retrun",
+			"sessiont",
+			"repli",
+			"threshold",
+			"firstTouch",
+			"sessionThreshNum",
+			"threshn",
+			"thresh",
+			"chooseNextTrial(1",
+			"next",
+			"choose",
+			"choosen",
+			"totalScore",
+			"total",
+			"xt tr",
+			"next trial",
+			"Next trial",
+			"next t",
+			"button",
+			"displ",
+			"second p",
+			"Commencer ",
+			"commencer",
+			"rial(10",
+			"10",
+			"merc",
+			",er",
+			"sessionThreshNum",
+			"numé",
+			"sess",
+			"dow",
+			"cli",
+			"choo",
+			"env",
+			"chirp",
+			"carrier",
+			"test",
+			"data",
+			"randVar",
+			"nextTrialButton",
+			"answerButton",
+			"accelerometerUpdate",
+			"start",
+			"answer",
+			"date",
+			"sec",
+			"milli",
+			"id",
+			"i",
+			"server",
+			"i",
+			"test",
+			"serve",
+			"server",
+			"remoteDB",
+			"remoteDb",
+			"aXSmoothed",
+			"accelerometerUpdate"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"scoreTotal",
+			"} .",
+			"} #",
+			" ",
+			"    "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/analysis.Rmd",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14632,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/knitr/knitr-Markdown.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 782.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "preProcFirstDesign.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 25692,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9023.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "make.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 91,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								46
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "longitudAnalysis.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11962,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "threshold.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5551,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "plots.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "yAxis.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16884,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 9174.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "glm.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1292,
+								1292
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 11858.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 8,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3744,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3744,
+								3744
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"auto_indent": false,
+							"detect_indentation": false,
+							"gutter": false,
+							"history_arrows": true,
+							"indent_subsequent_lines": false,
+							"line_numbers": false,
+							"repl": true,
+							"repl_external_id": "r",
+							"repl_id": "495573db87154a08a971eb9d3ec11eff",
+							"repl_restart_args":
+							{
+								"additional_scopes":
+								[
+									"tex.latex.knitr"
+								],
+								"cmd":
+								{
+									"linux":
+									[
+										"R",
+										"--interactive",
+										"--no-readline"
+									],
+									"osx":
+									[
+										"R",
+										"--interactive",
+										"--no-readline"
+									],
+									"windows":
+									[
+										"Rterm.exe",
+										"--ess",
+										"--encoding=$win_cmd_encoding"
+									]
+								},
+								"cmd_postfix": "\n",
+								"cwd": "$file_path",
+								"encoding":
+								{
+									"linux": "utf8",
+									"osx": "utf8",
+									"windows": "$win_cmd_encoding"
+								},
+								"extend_env":
+								{
+									"linux":
+									{
+										"PATH": "{PATH}:/usr/local/bin"
+									},
+									"osx":
+									{
+										"PATH": "{PATH}:/usr/local/bin"
+									},
+									"windows":
+									{
+									}
+								},
+								"external_id": "r",
+								"soft_quit": "\nquit(save=\"no\")\n",
+								"suppress_echo":
+								{
+									"linux": true,
+									"osx": true,
+									"windows": false
+								},
+								"syntax": "Packages/R/R Console.tmLanguage",
+								"type": "subprocess"
+							},
+							"repl_sublime2": false,
+							"smart_indent": false,
+							"spell_check": false,
+							"syntax": "Packages/R/R Console.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2255.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 41.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.797245442544,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 271.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 198.0
+	},
+	"output.package_dev":
+	{
+		"height": 148.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 148.0
+	},
+	"pinned_build_system": "Packages/knitr/knitr-Markdown.sublime-build",
+	"project": "analyse.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pu",
+				"~/Dropbox/projets/en_cours/fftPython/test_python.py"
+			],
+			[
+				"",
+				"~/Dropbox/projets/en_cours/Projet auditory training/aud_train_decembre/aud_training_decembre.tex"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Dropbox/projets/en_cours/speech/speech.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

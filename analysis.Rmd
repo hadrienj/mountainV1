@@ -16,6 +16,7 @@ o: analysis.html
 
 
 ```{r initialization, echo=FALSE, message=FALSE, warning=FALSE}
+library(plyr)
 library(rjson)
 library(ggplot2)
 library(RColorBrewer)
@@ -29,22 +30,23 @@ library(grid)
 library(knitr)
 library(pander)
 library(kfigr)
+library(XLConnect)
 ```
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(fig.path='figures/')
 knitr::opts_chunk$set(comment = NA, results = "asis", comment = NA, tidy = F)
 options("scipen"=100, "digits"=2)
-opts_chunk$set(dev = 'pdf')
+opts_chunk$set(dev = 'svg')
 opts_chunk$set(fig.cap='')
 ```
 
-```{r preProc, include=FALSE}
+```{r preProc, include=FALSE, cache=FALSE}
 # Pre processing of the data from the first design
 source("R/preProcFirstDesign.R")
 ```
 
-```{r thresholds, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+```{r thresholds, include=F, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
 # Check if there are frequency threshold data
 if ('deltaF' %in% names(data)) {
   source("R/threshold.R")
@@ -71,10 +73,6 @@ if ('targetTone' %in% names(data)) {
 }
 ```
 
-```{r longitudinal, include=F, echo=FALSE, message=FALSE, warning=FALSE}
-# Load longitudinal analysis script (five days testing)
-source("R/longitudAnalysis.R")
-```
 
 ```{r stats, include=F, echo=FALSE, message=FALSE, warning=FALSE}
 # Load longitudinal analysis script (five days testing)
@@ -271,7 +269,7 @@ plotAccThresh
 
 ```
 
-```{r plotAccThreshMean, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plotAccThreshMean, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=7}
 
 plotAccThreshMean
 
@@ -295,7 +293,7 @@ The mean thresholds are calculated from all participant's deltaF for each sessio
 
 ```{r plotMeanThresholds, echo=FALSE, message=FALSE, warning=FALSE}
 
-plotMeanThresholds
+plotMeanThresholdsPerc
 
 ```
 
@@ -377,9 +375,9 @@ plotThresholdsLongi
 
 #### Mean
 
-```{r plotThresholdsLongiMean, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3}
+```{r plotThresholdsLongiMean, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.width=6}
 
-plotThresholdsLongiMean
+plotThresholdsLongiMeanPerc
 
 ```
 

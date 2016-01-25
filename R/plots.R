@@ -55,6 +55,24 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
 #            x = 3.5, y = 250, size = 4) +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
+# Mean thresholds in percentage of error
+plotMeanThresholdsPerc <- ggplot(data=meanThresholdLong,
+                             aes(x=session,
+                                 y=(2^(threshold.mean/1200)-1)*100,
+                                 linetype=condition),
+                             alpha = 0.3) +
+  geom_line() +
+  geom_ribbon(aes(ymin=(2^(threshold.mean/1200)-1)*100-(2^(threshold.sem/1200)-1)*100,
+                  ymax=(2^(threshold.mean/1200)-1)*100+(2^(threshold.sem/1200)-1)*100),
+              alpha =0.2) +
+  xlab("Sessions") +
+  ylab("Thresholds (percentage of error)") +
+  ggtitle("Mean threshold for detection and identification conditions") +
+  #   annotate("text",
+  #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+  #            x = 3.5, y = 250, size = 4) +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
 plotMeanThresholdInd <- ggplot(data=meanThresholdLong,
                                aes(x=session,
                                    y=threshold.mean,
@@ -67,7 +85,8 @@ plotMeanThresholdInd <- ggplot(data=meanThresholdLong,
   geom_point(data=thresholdsAllLong,
              aes(x=session,
                  y=threshold,
-                 color=condition)) +
+                 color=condition),
+             size=3.5) +
   xlab("Sessions") +
   ylab("Thresholds") +
   ggtitle("Mean threshold for detection and identification conditions") +
@@ -88,16 +107,16 @@ plotDetByIdAll <- ggplot(meanThresholdsSubjLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],
   color=name[condition=="identification"])) +
-  geom_point() +
+  geom_point(size=3.5) +
   coord_fixed() +
   geom_abline(intercept = 0, slope = 1) +
   scale_colour_discrete(name = "Participants") +
   scale_shape(name = "Sessions") +
   scale_x_continuous(trans=log_trans(),
-                     limits=c(10, 600),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   scale_y_continuous(trans=log_trans(),
-                     limits=c(10, 600),
+                     limits=c(5, 600),
                      breaks=c(5, 10, 20, 50, 100, 200, 500)) +
   xlab("Detection threshold") +
   ylab("Identification threshold") +
@@ -109,7 +128,8 @@ plotDetById <- ggplot(thresholdsAllLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],
   color=name[condition=="identification"])) +
-  geom_point(aes(shape=as.character(session[condition=="identification"]))) +
+  geom_point(aes(shape=as.character(session[condition=="identification"])),
+             size=3.5) +
   coord_fixed() +
   geom_abline(intercept = 0, slope = 1) +
   scale_colour_discrete(name = "Participants") +
@@ -130,7 +150,8 @@ plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],
   color=name[condition=="identification"])) +
-  geom_point(aes(shape=prepost[condition=="identification"])) +
+  geom_point(aes(shape=prepost[condition=="identification"]),
+             size=3.5) +
   coord_fixed() +
   geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "first"),
             size=0.4, aes(group=name[condition=="identification"])) +
@@ -154,7 +175,8 @@ plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],
   color=name[condition=="identification"])) +
-  geom_point(aes(shape=prepre[condition=="identification"])) +
+  geom_point(aes(shape=prepre[condition=="identification"]),
+             size=3.5) +
   coord_fixed() +
   geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "last"),
             size=0.4, aes(group=name[condition=="identification"])) +
@@ -302,7 +324,7 @@ plotAccByDur <- ggplot(data=data.mountain.yAxis,
                        aes(x=result,
                            y=duration,
                            color=name)) +
-  geom_point() +
+  geom_point(size=3.5) +
   xlab("Scores (percentage error)") +
   ylab("Duration (in seconds)") +
   ggtitle("Score in function of duration") +
@@ -313,7 +335,8 @@ plotLengthByDur <- ggplot(data=data.mountain.yAxis,
                           aes(x=pathLength,
                               y=duration,
                               color=name)) +
-  geom_point(data = data.mountain.yAxis, aes(y = duration)) +
+  geom_point(data = data.mountain.yAxis, aes(y = duration),
+             size=3.5) +
   xlab("Path length (in pixels)") +
   ylab("Duration (in seconds)") +
   scale_x_continuous(limits=c(0, 10000)) +
@@ -325,7 +348,7 @@ plotLengthByAcc <- ggplot(data=data.mountain.yAxis,
                           aes(x=pathLength,
                               y=result,
                               color=name)) +
-  geom_point() +
+  geom_point(size=3.5) +
   xlab("Path length (in pixels)") +
   ylab("Accuracy (in percent error)") +
   scale_x_continuous(limits=c(0, 10000)) +
@@ -361,23 +384,42 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
 
 
 
-plotAccThreshMean <- ggplot(data=yAxisMeanLong,
-                            aes(x=trialNumYAxis,
-                                y=valueAcc,
-                                alpha = variableAcc)) +
-  scale_alpha_manual(name="Display", labels=c("Raw values",
-                                              "Rolling mean \n(10 values)"),
-                     values=c(0.3, 1)) +
-  scale_x_continuous(limits=c(0, 75)) +
-  scale_y_continuous(limits=c(0, 15)) +
-  guides(color=FALSE) +
+plotAccThreshMean <- ggplot(data=yAxisAccMean,
+                            aes(x=trialNumYAxis)) +
+  scale_x_continuous(limits=c(0, 72)) +
+  scale_y_continuous(limits=c(-5, 17)) +
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
-  geom_line() +
+  geom_line(aes(y=result,
+                color = "Raw mean")) +
+  geom_line(aes(y=YAxisAccuracyRoll,
+                color='Rolling mean \n(10 values)')) +
+  geom_line(aes(y=sdMean,
+                color='Rolling SD \n(10 values)')) +
+  geom_ribbon(aes(ymin=result-sd,
+                  ymax=result+sd),
+              alpha =0.2) +
+  # legend
   geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
-                 linetype=condition),
-             meanThresholdsLong,
-             show_guide=TRUE)
+                 linetype="Detection"),
+             meanThresholdsLong[meanThresholdsLong$condition == "detection",],
+             show_guide=FALSE) +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype="Identification"),
+             meanThresholdsLong[meanThresholdsLong$condition == "identification",],
+             show_guide=FALSE) +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "detection",],
+            aes(68, (2^(mean/1200)-1)*100, label = 'Detection', vjust = -1), size = 4) +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "identification",],
+            aes(68, (2^(mean/1200)-1)*100, label = 'Identification', vjust = -1), size = 4) +
+  scale_colour_manual("", 
+                      breaks = c("Raw mean", "Rolling mean \n(10 values)", 'Rolling SD \n(10 values)'),
+                      values = c("grey", "black", "royalblue1")) +
+  theme(legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title=element_text(size=12),
+        legend.key.height=unit(2,"line"))
+
 
 
 ####### Accuracy by frequency
@@ -385,7 +427,7 @@ plotAccByFreq <- ggplot(data=data.mountain.yAxis,
                         aes(x=result,
                             y=targetTone,
                             color=name)) +
-  geom_point() +
+  geom_point(size=3.5) +
   xlab("Scores (percentage error)") +
   ylab("Frequency of the target tone (in Hz)") +
   ggtitle("Score in function of frequency of the target tone") +
@@ -403,7 +445,7 @@ plotPathLength <- ggplot(data=pathLengthAllLong,
   guides(color=FALSE) +
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
-  geom_point() +
+  geom_point(size=3.5) +
   facet_grid(name ~ .) +
   theme(panel.margin = unit(4.5, "mm")) +
   scale_y_continuous(limits=c(0, 5000))
@@ -472,7 +514,7 @@ plotSdDiffMean <- ggplot(data=yAxisLongMean,
 plotMountainByThreshDet <- ggplot(data=mountainByThresh,
                                   aes(x=mountain,
                                       y=detection)) +
-  geom_point() +
+  geom_point(size=3.5) +
   #   scale_y_continuous(limits=c(0, 75)) +
   #   scale_x_continuous(limits=c(0.5, 2)) +
   geom_smooth(method=lm) +
@@ -484,7 +526,7 @@ plotMountainByThreshDet <- ggplot(data=mountainByThresh,
 plotMountainByThreshId <- ggplot(data=mountainByThresh,
                                  aes(x=mountain,
                                      y=identification)) +
-  geom_point() +
+  geom_point(size=3.5) +
   #   scale_y_continuous(limits=c(0, 75)) +
   #   scale_x_continuous(limits=c(0.5, 2)) +
   geom_smooth(method=lm) +
@@ -518,9 +560,22 @@ plotThresholdsLongiMean <- ggplot(data=thresholdsLongiMeanLong,
                                   alpha = 0.4) +
   geom_line() +
   xlab("Sessions") +
-  ylab("Thresholds") +
+  ylab("Thresholds (in cents)") +
   scale_x_continuous(breaks=seq(0, 21, 1)) +
   scale_y_continuous(limits=c(0, 500)) +
+  geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
+
+# Threshold in percentage of error
+plotThresholdsLongiMeanPerc <- ggplot(data=thresholdsLongiMeanLong,
+                                  aes(x=as.numeric(session),
+                                      y=(2^(threshold/1200)-1)*100,
+                                      linetype=condition),
+                                  alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds (in percentage of error)") +
+  scale_x_continuous(breaks=seq(0, 21, 1)) +
+  scale_y_continuous(limits=c(0, 20)) +
   geom_vline(xintercept = c(5, 9, 13, 17), linetype="longdash", color="azure4")
 
 plotThresholdsLongiPercent <- ggplot(data=thresholdsLongiAllPercentLong,
