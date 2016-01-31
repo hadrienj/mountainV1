@@ -12,7 +12,45 @@ plotThresholds <- ggplot(data=thresholdsAllLong,
   facet_grid(name ~ ., scale='free') +
   theme(panel.margin = unit(3.5, "mm"))
 
+plotThresholdsRov <- ggplot(data=thresholdsAllLongRov,
+                         aes(x=as.numeric(session),
+                             y=threshold,
+                             color=name,
+                             linetype=condition),
+                         alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  facet_grid(name ~ ., scale='free') +
+  theme(panel.margin = unit(3.5, "mm"))
+
+plotThresholdsNoRov <- ggplot(data=thresholdsAllLongNoRov,
+                            aes(x=as.numeric(session),
+                                y=threshold,
+                                color=name,
+                                linetype=condition),
+                            alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  facet_grid(name ~ ., scale='free') +
+  theme(panel.margin = unit(3.5, "mm"))
+
 plotThresholdsOneLog <- ggplot(data=thresholdsAllLong,
+                               aes(x=as.numeric(session),
+                                   y=threshold,
+                                   color=name,
+                                   linetype=condition),
+                               alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(10, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  theme(panel.margin = unit(3.5, "mm"))
+
+plotThresholdsOneLogRov <- ggplot(data=thresholdsAllLongRov,
                                aes(x=as.numeric(session),
                                    y=threshold,
                                    color=name,
@@ -41,6 +79,29 @@ plotThresholdsPercent <- ggplot(data=thresholdsAllPercentLong,
 plotMeanThresholds <- ggplot(data=meanThresholdLong,
                              aes(x=session,
                                  y=threshold.mean,
+                                 linetype=condition,
+                                 colour=roving),
+                             alpha = 0.3) +
+  geom_line() +
+  geom_ribbon(aes(ymin=threshold.mean-threshold.sem,
+                  ymax=threshold.mean+threshold.sem,
+                  fill=roving),
+              alpha =0.15,
+              colour=NA) +
+  scale_colour_discrete(name="Experimental\nCondition",
+                      breaks=c("ctrl", "trt1"),
+                      labels=c("Control", "Treatment 1")) +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  ggtitle("Mean threshold for detection and identification conditions") +
+#   annotate("text",
+#            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+#            x = 3.5, y = 250, size = 4) +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotMeanThresholdsRov <- ggplot(data=meanThresholdLongRov,
+                             aes(x=session,
+                                 y=threshold.mean,
                                  linetype=condition),
                              alpha = 0.3) +
   geom_line() +
@@ -50,9 +111,27 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
   xlab("Sessions") +
   ylab("Thresholds") +
   ggtitle("Mean threshold for detection and identification conditions") +
-#   annotate("text",
-#            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
-#            x = 3.5, y = 250, size = 4) +
+  #   annotate("text",
+  #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+  #            x = 3.5, y = 250, size = 4) +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+
+plotMeanThresholdsNoRov <- ggplot(data=meanThresholdLongNoRov,
+                             aes(x=session,
+                                 y=threshold.mean,
+                                 linetype=condition),
+                             alpha = 0.3) +
+  geom_line() +
+  geom_ribbon(aes(ymin=threshold.mean-threshold.sem,
+                  ymax=threshold.mean+threshold.sem),
+              alpha =0.2) +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  ggtitle("Mean threshold for detection and identification conditions") +
+  #   annotate("text",
+  #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+  #            x = 3.5, y = 250, size = 4) +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 # Mean thresholds in percentage of error
@@ -654,9 +733,23 @@ plotScoresLongi <- ggplot(data=yAxisScoresLongiLong,
   facet_grid(name ~ .) +
   theme(panel.margin = unit(4.5, "mm"))
 
+###### Test for interactive charts
 
-
-n1 <- nPlot(value ~ trialNumYAxis,
-            data = subset(yAxisAccLong, variable=="result"),
+n1 <- nPlot(threshold ~ session,
+            data = thresholdsAllLongNoRov,
             group = 'name',
             type = "lineChart")
+n1$addFilters("condition")
+n1
+
+nplotThresholdsNoRov <- nPlot(data=thresholdsAllLongNoRov,
+       aes(x=as.numeric(session),
+           y=threshold,
+           color=name,
+           linetype=condition),
+       alpha = 0.4) +
+  geom_line() +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  facet_grid(name ~ ., scale='free') +
+  theme(panel.margin = unit(3.5, "mm"))

@@ -110,8 +110,24 @@ meanThresholdPercentLong <- melt(meanThresholdsPercent, id.var="session",
                           value.name = "threshold")
 
 # Create variable for roving and no roving conditions
-thresholdRov <- subset(thresholdsAllLong, roving == TRUE)
-thresholdNoRov <- subset(thresholdsAllLong, roving == FALSE)
+thresholdsAllLongRov <- subset(thresholdsAllLong, roving == TRUE)
+thresholdsAllLongNoRov <- subset(thresholdsAllLong, roving == FALSE)
+
+# Calculate the mean threshold for each session and each condition
+meanThresholdLongRov <- aggregate(threshold ~ session + condition + roving,
+                               FUN=function(x) c(mean=mean(x),
+                                                 sem=sd(x)/sqrt(length(
+                                                   levels(factor(thresholdsAllLongRov$name))))),
+                               data=thresholdsAllLongRov)
+meanThresholdLongRov <- do.call(data.frame, meanThresholdLongRov)
+
+# Calculate the mean threshold for each session and each condition
+meanThresholdLongNoRov <- aggregate(threshold ~ session + condition + roving,
+                               FUN=function(x) c(mean=mean(x),
+                                                 sem=sd(x)/sqrt(length(
+                                                   levels(factor(thresholdsAllLongNoRov$name))))),
+                               data=thresholdsAllLongNoRov)
+meanThresholdLongNoRov <- do.call(data.frame, meanThresholdLongNoRov)
 
 ############ DELTAF ANALYSES ############
 

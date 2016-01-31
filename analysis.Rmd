@@ -109,9 +109,9 @@ plotDeltaF
 
 The thresholds are calculated from the DeltaF values corresponding to the last 10 reversals. The procedure was repeated two times before training (sessions 1 and 2) and two times after (sessions 3 and 4). The figure bellow shows these thresholds across sessions for the detection and identification conditions:    
 
-```{r plotThresholds, echo=FALSE, message=FALSE, warning=FALSE, fig.height=length(levels(factor(raw.data$name)))*1.1}
+```{r plotThresholdsRov, echo=FALSE, message=FALSE, warning=FALSE, fig.height=length(levels(factor(raw.data$name)))*1.1}
 
-plotThresholds
+plotThresholdsRov
 
 ```
 
@@ -463,6 +463,12 @@ The same thing can be done with the mean among participants for each trial.
 # plotSdDiffMean
 
 ```
+
+# No roving condition
+
+## 
+plotThresholdsNoRov
+
 
 # Statistical tests
 
