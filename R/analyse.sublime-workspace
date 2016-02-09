@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"pack",
+				"packages"
+			],
+			[
 				"raw.data.dp",
 				"raw.data.dp02_1"
 			],
@@ -510,10 +514,6 @@
 			[
 				"num",
 				"number"
-			],
-			[
-				"l",
-				"log"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/analysis.Rmd",
 			"settings":
 			{
-				"buffer_size": 14632,
+				"buffer_size": 10314,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "preProcFirstDesign.R",
 			"settings":
 			{
-				"buffer_size": 25692,
+				"buffer_size": 33338,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "longitudAnalysis.R",
 			"settings":
 			{
-				"buffer_size": 11962,
+				"buffer_size": 11971,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "threshold.R",
 			"settings":
 			{
-				"buffer_size": 5551,
+				"buffer_size": 7497,
 				"line_ending": "Unix"
 			}
 		},
@@ -563,7 +563,7 @@
 			"file": "plots.R",
 			"settings":
 			{
-				"buffer_size": 22965,
+				"buffer_size": 41441,
 				"line_ending": "Unix"
 			}
 		},
@@ -571,7 +571,7 @@
 			"file": "yAxis.R",
 			"settings":
 			{
-				"buffer_size": 16884,
+				"buffer_size": 22352,
 				"line_ending": "Unix"
 			}
 		},
@@ -584,12 +584,13 @@
 			}
 		},
 		{
-			"contents": "\nR version 3.2.2 (2015-08-14) -- \"Fire Safety\"\nCopyright (C) 2015 The R Foundation for Statistical Computing\nPlatform: x86_64-apple-darwin13.4.0 (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n> library(rjson)\n> library(ggplot2)\nUse suppressPackageStartupMessages to eliminate package startup messages.\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n\nAttaching package: 'dplyr'\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n> library(rCharts)\n> library(zoo)\n\nAttaching package: 'zoo'\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\nknitr hook \"anchor\" is now available\n> json.file.vv17_2_proc <- \"./raw_data/vv17_2_proc.txt\"\n> json.data.vv17_2_proc <- jsonlite::fromJSON(json.file.vv17_2_proc)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/vv17_2_proc.txt\n                     (right here) ------^\n> # Put data in a data frame\n> raw.data.vv17_2_proc <- json.data.vv17_2_proc$rows$doc\nError: object 'json.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$name <-\"vv17_2_proc\"\nError in raw.data.vv17_2_proc$name <- \"vv17_2_proc\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$sessionNumMount <- \"1\"\nError in raw.data.vv17_2_proc$sessionNumMount <- \"1\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$trainSession <-\"0\"\nError in raw.data.vv17_2_proc$trainSession <- \"0\" : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$tonePosX <- NA\nError in raw.data.vv17_2_proc$tonePosX <- NA : \n  object 'raw.data.vv17_2_proc' not found\n> raw.data.vv17_2_proc$tonePosY <- NA\nError in raw.data.vv17_2_proc$tonePosY <- NA : \n  object 'raw.data.vv17_2_proc' not found\n> json.file.dp02 <- \"./raw_data/dp02.txt\"\n> json.data.dp02 <- jsonlite::fromJSON(json.file.dp02)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> json.data.dp02 <- jsonlite::fromJSON(\"./raw_data/dp02.txt\")\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> json.data.dp02 <- jsonlite::fromJSON(./raw_data/dp02.txt)\nError in jsonlite::fromJSON(./raw_data/dp02.txt) : object '.' not found\n> json.file.lj01 <- \"./raw_data/lj01_proc.txt\"\n> json.data.lj01 <- jsonlite::fromJSON(json.file.lj01)\nError: lexical error: invalid char in json text.\n                                       ./raw_data/lj01_proc.txt\n                     (right here) ------^\n> library(rjson)\n> json.data.dp02 <- jsonlite::fromJSON(\"./raw_data/dp02.txt\")\nError: lexical error: invalid char in json text.\n                                       ./raw_data/dp02.txt\n                     (right here) ------^\n> library(ggplot2)\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n> library(rCharts)\n> library(zoo)\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\n> ",
+			"contents": "WARNING: ignoring environment value of R_HOME\n\nR version 3.2.2 (2015-08-14) -- \"Fire Safety\"\nCopyright (C) 2015 The R Foundation for Statistical Computing\nPlatform: x86_64-apple-darwin13.4.0 (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n> library(plyr)\n> library(rjson)\n> library(ggplot2)\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n\nAttaching package: 'dplyr'\n\nThe following objects are masked from 'package:plyr':\n\n    arrange, count, desc, failwith, id, mutate, rename, summarise,\n    summarize\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n> library(rCharts)\n> library(zoo)\n\nAttaching package: 'zoo'\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\nknitr hook \"anchor\" is now available\n> library(plyr)\n> library(rjson)\n> library(ggplot2)\n> library(RColorBrewer)\n> library(devtools)\n> library(reshape2)\n> library(scales)\n> library(dplyr)\n> library(rCharts)\n> library(zoo)\n> library(grid)\n> library(knitr)\n> library(pander)\n> library(kfigr)\n> View(data[100:110,])\nError in data[100:110, ] : object of type 'closure' is not subsettable\n> view(data[100:110,])\nError: could not find function \"view\"\n> View(data)\n> view <- function(data, autofilter=TRUE) {\n+     # data: data frame\n+     # autofilter: whether to apply a filter to make sorting and filtering e< to apply a filter to make sorting and filtering ea                        sier\n+     open_command <- switch(Sys.info()[['sysname']],\n+                            Windows= 'open',\n+                            Linux  = 'xdg-open',\n+                            Darwin = 'open')\n+     require(XLConnect)\n+     temp_file <- paste0(tempfile(), '.xlsx')\n+     wb <- loadWorkbook(temp_file, create = TRUE)\n+     createSheet(wb, name = \"temp\")\n+     writeWorksheet(wb, data, sheet = \"temp\", startRow = 1, startCol = 1)\n+     if (autofilter) setAutoFilter(wb, 'temp', aref('A1', dim(data)))\n+     saveWorkbook(wb, )\n+     system(paste(open_command, temp_file))\n+ }\n> view(data[100:110,])\nLoading required package: XLConnect\nError in view(data[100:110, ]) : could not find function \"loadWorkbook\"\nIn addition: Warning message:\nIn library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :\n  there is no package called 'XLConnect'\n> install.packages('XLConnect')\n--- Please select a CRAN mirror for use in this session ---\nalso installing the dependencies 'XLConnectJars', 'rJava'\n\ntrying URL 'https://cran.univ-paris1.fr/bin/macosx/mavericks/contrib/3.2/XLConnectJars_0.2-9.tgz'\nContent type 'application/x-gzip' length 12967447 bytes (12.4 MB)\n==================================================\ndownloaded 12.4 MB\n\ntrying URL 'https://cran.univ-paris1.fr/bin/macosx/mavericks/contrib/3.2/rJava_0.9-7.tgz'\nContent type 'application/x-gzip' length 604271 bytes (590 KB)\n==================================================\ndownloaded 590 KB\n\ntrying URL 'https://cran.univ-paris1.fr/bin/macosx/mavericks/contrib/3.2/XLConnect_0.2-11.tgz'\nContent type 'application/x-gzip' length 4980233 bytes (4.7 MB)\n==================================================\ndownloaded 4.7 MB\n\n\nThe downloaded binary packages are in\n	/var/folders/b0/snlt9b7546s0vyrx3jxmzwj80000gn/T//RtmpPGs3ge/downloaded_packages\n> library(XLConnect)\nLoading required package: XLConnectJars\nXLConnect 0.2-11 by Mirai Solutions GmbH [aut],\n  Martin Studer [cre],\n  The Apache Software Foundation [ctb, cph] (Apache POI, Apache Commons\n    Codec),\n  Stephen Colebourne [ctb, cph] (Joda-Time Java library)\nhttp://www.mirai-solutions.com ,\nhttp://miraisolutions.wordpress.com\n> view(data[100:110,])\nError in writeWorksheet(wb, data, sheet = \"temp\", startRow = 1, startCol = 1) : \n  error in evaluating the argument 'data' in selecting a method for function 'writeWorksheet': Error in data[100:110, ] : object of type 'closure' is not subsettable\n> Error: X11 fatal IO error: please save work and shut down R\n> ",
 			"settings":
 			{
-				"buffer_size": 3744,
+				"buffer_size": 4626,
 				"line_ending": "Unix",
 				"name": "*REPL* [r]",
+				"read_only": true,
 				"scratch": true
 			}
 		}
@@ -1203,6 +1204,8 @@
 	},
 	"file_history":
 	[
+		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/.gitignore",
+		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/pandoc-config.json",
 		"/Users/lsp/Dropbox/projets/en_cours/test/table/table.html",
 		"/Users/lsp/Downloads/test.html",
 		"/Users/lsp/Downloads/Untitled.html",
@@ -1328,9 +1331,7 @@
 		"/Users/lsp/Downloads/untitled.html",
 		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/static/js/app.js",
 		"/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/client/client.html",
-		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/app (Copie en conflit de MacBook Pro de lsp 2015-05-18).js",
-		"/Users/lsp/Dropbox/projets/en_cours/django/bud/bud/templates/operations.html",
-		"/Users/lsp/Dropbox/projets/en_cours/django/bud/addForms/models.py"
+		"/Users/lsp/Dropbox/projets/en_cours/DjangoServer/auditory_mountain/auditory_mountain/auditory_mountain/static/js/app (Copie en conflit de MacBook Pro de lsp 2015-05-18).js"
 	],
 	"find":
 	{
@@ -1348,6 +1349,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"$roving <- FALSE",
+			"FALSE",
+			"raw.data.vv17_4$roving <- FALSE\n",
+			"raw.data.vv17_4$roving <- FALSE",
+			"mn17",
+			"ss07",
 			"kh13",
 			"x[",
 			"rbind",
@@ -1469,13 +1476,7 @@
 			"i",
 			"server",
 			"i",
-			"test",
-			"serve",
-			"server",
-			"remoteDB",
-			"remoteDb",
-			"aXSmoothed",
-			"accelerometerUpdate"
+			"test"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -1507,7 +1508,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14632,
+						"buffer_size": 10314,
 						"regions":
 						{
 						},
@@ -1520,13 +1521,13 @@
 						],
 						"settings":
 						{
-							"r_box_status": false,
+							"r_box_status": true,
 							"syntax": "Packages/knitr/knitr-Markdown.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 782.0,
+						"translation.y": 10.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1538,7 +1539,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 25692,
+						"buffer_size": 33338,
 						"regions":
 						{
 						},
@@ -1557,7 +1558,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9023.0,
+						"translation.y": 491.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1598,38 +1599,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11962,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"r_box_status": false,
-							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "threshold.R",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5551,
+						"buffer_size": 11971,
 						"regions":
 						{
 						},
@@ -1655,12 +1625,43 @@
 					"type": "text"
 				},
 				{
+					"buffer": 4,
+					"file": "threshold.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7497,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
 					"buffer": 5,
 					"file": "plots.R",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22965,
+						"buffer_size": 41441,
 						"regions":
 						{
 						},
@@ -1682,7 +1683,7 @@
 						"translation.y": 2.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1691,7 +1692,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16884,
+						"buffer_size": 22352,
 						"regions":
 						{
 						},
@@ -1709,11 +1710,11 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 9174.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1758,15 +1759,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3744,
+						"buffer_size": 4626,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3744,
-								3744
+								2230,
+								2230
 							]
 						],
 						"settings":
@@ -1780,7 +1781,7 @@
 							"line_numbers": false,
 							"repl": true,
 							"repl_external_id": "r",
-							"repl_id": "495573db87154a08a971eb9d3ec11eff",
+							"repl_id": "eb687fc26a97477d8d7eaeb8cb5dd1bd",
 							"repl_restart_args":
 							{
 								"additional_scopes":
@@ -1848,7 +1849,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2255.0,
+						"translation.y": 1619.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1890,7 +1891,7 @@
 		"rows":
 		[
 			0.0,
-			0.797245442544,
+			0.766461325572,
 			1.0
 		]
 	},

@@ -7,13 +7,7 @@
 #    - meanThresholdsSubjLong (mean threshold for each subj and each condition)
 #    - thresholdAllPrepostLong (mean threshold pre and post for each
 # participant and condition)
-#
-# Output plots:
-#    - plotThresholds (thresh for each subject, condition and session)
-#    - plotMeanThresholds (mean thresh for each condition and session)
-#    - plotDetById (identification against detection thresh for each subject)
-#    - plotDeltaF (deltaF against trials for each subject)
-#    - plotDeltaFMeans (mean deltaF against trials)
+
 
 
 data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
@@ -80,7 +74,7 @@ meanThresholdLong <- aggregate(threshold ~ session + condition + roving,
                                data=thresholdsAllLong)
 meanThresholdLong <- do.call(data.frame, meanThresholdLong)
 # Calculate the mean threshold for each participant and each condition
-meanThresholdsSubjLong <- aggregate(threshold ~ name + condition,
+meanThresholdsSubjLong <- aggregate(threshold ~ name + condition + roving,
                                FUN=mean,
                                data=thresholdsAllLong,
                                na.rm=T)
@@ -128,6 +122,21 @@ meanThresholdLongNoRov <- aggregate(threshold ~ session + condition + roving,
                                                    levels(factor(thresholdsAllLongNoRov$name))))),
                                data=thresholdsAllLongNoRov)
 meanThresholdLongNoRov <- do.call(data.frame, meanThresholdLongNoRov)
+
+######### ACCURACY WITH THRESHOLD MEANS
+meanThresholdsLong <- data.frame(condition=
+                                   levels(factor(meanThresholdsSubjLong$condition)),
+                                 mean=
+                                   tapply(meanThresholdsSubjLong$threshold,
+                                          list(meanThresholdsSubjLong$condition,
+                                            meanThresholdsSubjLong$roving),
+                                          mean))
+row.names(meanThresholdsLong) <- NULL
+colnames(meanThresholdsLong)[2] <- "FALSE"
+colnames(meanThresholdsLong)[3] <- "TRUE"
+
+meanThresholdsLong <- melt(meanThresholdsLong, variable.name="roving")
+colnames(meanThresholdsLong)[3] <- "mean"
 
 ############ DELTAF ANALYSES ############
 

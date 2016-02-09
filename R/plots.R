@@ -1,4 +1,3 @@
-
 # Prepare plots
 plotThresholds <- ggplot(data=thresholdsAllLong,
                          aes(x=as.numeric(session),
@@ -87,13 +86,16 @@ plotMeanThresholds <- ggplot(data=meanThresholdLong,
                   ymax=threshold.mean+threshold.sem,
                   fill=roving),
               alpha =0.15,
-              colour=NA) +
-  scale_colour_discrete(name="Experimental\nCondition",
-                      breaks=c("ctrl", "trt1"),
-                      labels=c("Control", "Treatment 1")) +
+              colour=NA,
+              show_guide=FALSE) +
+  scale_colour_discrete(name = "Roving",
+                        labels=c('No roving', 'Roving')) +
+  scale_linetype_discrete(name = "Condition",
+                        labels=c('Detection', 'Identification')) +
   xlab("Sessions") +
   ylab("Thresholds") +
-  ggtitle("Mean threshold for detection and identification conditions") +
+  ggtitle("Mean threshold for detection and identification conditions
+          \n with and without roving") +
 #   annotate("text",
 #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
 #            x = 3.5, y = 250, size = 4) +
@@ -110,7 +112,7 @@ plotMeanThresholdsRov <- ggplot(data=meanThresholdLongRov,
               alpha =0.2) +
   xlab("Sessions") +
   ylab("Thresholds") +
-  ggtitle("Mean threshold for detection and identification conditions") +
+  ggtitle("Mean threshold with roving") +
   #   annotate("text",
   #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
   #            x = 3.5, y = 250, size = 4) +
@@ -128,11 +130,34 @@ plotMeanThresholdsNoRov <- ggplot(data=meanThresholdLongNoRov,
               alpha =0.2) +
   xlab("Sessions") +
   ylab("Thresholds") +
-  ggtitle("Mean threshold for detection and identification conditions") +
+  ggtitle("Mean threshold without roving") +
   #   annotate("text",
   #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
   #            x = 3.5, y = 250, size = 4) +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+
+
+plotMeanThresholdsFacet <- ggplot(data=meanThresholdLong,
+                                aes(x=session,
+                                    y=threshold.mean,
+                                    linetype=condition),
+                                alpha = 0.3) +
+  geom_line() +
+  geom_ribbon(aes(ymin=threshold.mean-threshold.sem,
+                  ymax=threshold.mean+threshold.sem),
+              alpha =0.2) +
+  xlab("Sessions") +
+  ylab("Thresholds") +
+  ggtitle("Mean threshold with roving") +
+  #   annotate("text",
+  #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
+  #            x = 3.5, y = 250, size = 4) +
+  theme(plot.title = element_text(vjust=2, lineheight=.6)) +
+  facet_grid(. ~roving, labeller = label_both)
+
+
+
 
 # Mean thresholds in percentage of error
 plotMeanThresholdsPerc <- ggplot(data=meanThresholdLong,
@@ -200,7 +225,82 @@ plotDetByIdAll <- ggplot(meanThresholdsSubjLong, aes(
   xlab("Detection threshold") +
   ylab("Identification threshold") +
   ggtitle("Detection against identification thresholds
-          \n for all subjects and all sessions") +
+          \n for all subjects (average of all sessions)") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotDetByIdAllNoRov <- ggplot(subset(meanThresholdsSubjLong, roving==FALSE),
+                                     aes(
+  x=threshold[condition=="detection"],
+  y=threshold[condition=="identification"],
+  color=name[condition=="identification"])) +
+  geom_point(size=3.5) +
+  coord_fixed() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape(name = "Sessions") +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n without roving (average of all sessions)") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotDetByIdAllRov <- ggplot(subset(meanThresholdsSubjLong, roving==TRUE),
+                              aes(
+                                x=threshold[condition=="detection"],
+                                y=threshold[condition=="identification"],
+                                color=name[condition=="identification"])) +
+  geom_point(size=3.5) +
+  coord_fixed() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Participants") +
+  scale_shape(name = "Sessions") +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n with roving (average of all sessions)") +
+  theme(plot.title = element_text(vjust=2, lineheight=.6))
+
+plotDetByIdAllRovVsNoRov <- ggplot(meanThresholdsSubjLong,
+                         aes(
+                           x=threshold[condition=="detection"],
+                           y=threshold[condition=="identification"],
+                           color=roving[condition=="identification"])) +
+  geom_point(size=3.5) +
+  coord_fixed() +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name = "Conditions",
+                        labels=c(paste0("No roving (n=",
+                                       length(levels(factor(meanThresholdsSubjLong$name[
+                                         meanThresholdsSubjLong$roving==FALSE]))),
+                                       ")"),
+                                 paste0("Roving (n=",
+                                       length(levels(factor(meanThresholdsSubjLong$name[
+                                         meanThresholdsSubjLong$roving==TRUE]))),
+                                       ")")
+                                 )) +
+  scale_shape(name = "Sessions") +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(5, 600),
+                     breaks=c(5, 10, 20, 50, 100, 200, 500)) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  ggtitle("Detection against identification thresholds
+          \n for all subjects (average of all sessions)") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
 plotDetById <- ggplot(thresholdsAllLong, aes(
@@ -328,7 +428,7 @@ plotAcc <- ggplot(data=yAxisAccLong,
   theme(panel.margin = unit(4.5, "mm"))
 
 
-plotAccOne <- ggplot(data=yAxisAccLong,
+plotAccRovOne <- ggplot(data=yAxisAccRovLong,
                      aes(x=trialNumYAxis,
                          y=value,
                          alpha = variable,
@@ -342,6 +442,44 @@ plotAccOne <- ggplot(data=yAxisAccLong,
   scale_y_continuous(limits=c(0, 20)) +
   geom_line() +
   theme(panel.margin = unit(4.5, "mm"))
+
+plotAccNoRovOne <- ggplot(data=yAxisAccNoRovLong,
+                        aes(x=trialNumYAxis,
+                            y=value,
+                            alpha = variable,
+                            color=name)) +
+  scale_alpha_manual(name="Display", labels=c("Raw values",
+                                              "Rolling mean \n(10 values)"),
+                     values=c(0.3, 1)) +
+  guides(color=FALSE) +
+  xlab("Trials") +
+  ylab("Accuracy (in percent error)") +
+  scale_y_continuous(limits=c(0, 20)) +
+  geom_line() +
+  theme(panel.margin = unit(4.5, "mm"))
+
+plotAccOne <- ggplot() +
+  scale_alpha_manual(name="Display", labels=c("Raw values",
+                                              "Rolling mean \n(10 values)"),
+                     values=c(0.3, 1)) +
+  guides(color=FALSE) +
+  xlab("Trials") +
+  ylab("Accuracy (in percent error)") +
+  scale_y_continuous(limits=c(0, 20)) +
+  geom_point(data=yAxisAccLong,
+             aes(x=trialNumYAxis,
+                 y=value,
+                 color=roving)) +
+  theme(panel.margin = unit(4.5, "mm")) +
+  scale_x_continuous(limits=c(0, 75)) +
+  geom_line(data=yAxisAccNoRovMeanLong,
+            aes(x=trialNumYAxis,
+                y=valueAcc),
+            color="red") +
+  geom_line(data=yAxisAccRovMeanLong,
+            aes(x=trialNumYAxis,
+                y=valueAcc),
+            color="blue")
 
 plotDur <- ggplot(data=yAxisDurLong,
                   aes(x=trialNumYAxis,
@@ -460,13 +598,56 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
   guides(linetype = guide_legend("Frequency thresholds"))
 
 
+plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean,
+                              aes(x=trialNumYAxis)) +
+    scale_x_continuous(limits=c(0, 72)) +
+    scale_y_continuous(limits=c(0, 8)) +
+    xlab("Trials") +
+    ylab("Accuracy (in percent error)") +
+    geom_line(aes(y=result,
+                  color = "Raw mean")) +
+    geom_line(aes(y=YAxisAccuracyRoll,
+                  color='Rolling mean \n(10 values)')) +
+    geom_line(aes(y=sdMean,
+                  color='Rolling SD \n(10 values)')) +
+#     geom_ribbon(aes(ymin=result-sd,
+#                     ymax=result+sd),
+#                 alpha =0.2) +
+    # legend
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                   linetype="Detection"),
+               subset(meanThresholdsLong,
+                      condition == "detection"
+                      & roving==TRUE),
+               show_guide=FALSE) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                   linetype="Identification"),
+               subset(meanThresholdsLong,
+                      condition == "identification"
+                      & roving==TRUE),
+               show_guide=FALSE) +
+    geom_text(data=subset(meanThresholdsLong,
+                          condition == "detection"
+                          & roving==TRUE),
+              aes(5, (2^(mean/1200)-1)*100, label = 'Detection', vjust = 1.2),
+              size = 4) +
+    geom_text(data=subset(meanThresholdsLong,
+                          condition == "identification"
+                          & roving==TRUE),
+              aes(5, (2^(mean/1200)-1)*100, label = 'Identification', vjust = -0.6),
+              size = 4) +
+    scale_colour_manual("", 
+                        breaks = c("Raw mean", "Rolling mean \n(10 values)", 'Rolling SD \n(10 values)'),
+                        values = c("grey", "black", "royalblue1")) +
+    theme(legend.text=element_text(size=12),
+          legend.title=element_text(size=12),
+          axis.title=element_text(size=12),
+          legend.key.height=unit(2,"line"))
 
-
-
-plotAccThreshMean <- ggplot(data=yAxisAccMean,
-                            aes(x=trialNumYAxis)) +
-  scale_x_continuous(limits=c(0, 72)) +
-  scale_y_continuous(limits=c(-5, 17)) +
+plotAccThreshMeanNoRov <- ggplot(data=yAxisAccNoRovMean,
+                               aes(x=trialNumYAxis)) +
+  scale_x_continuous(limits=c(0, 56)) +
+  scale_y_continuous(limits=c(0, 8)) +
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
   geom_line(aes(y=result,
@@ -475,31 +656,125 @@ plotAccThreshMean <- ggplot(data=yAxisAccMean,
                 color='Rolling mean \n(10 values)')) +
   geom_line(aes(y=sdMean,
                 color='Rolling SD \n(10 values)')) +
-  geom_ribbon(aes(ymin=result-sd,
-                  ymax=result+sd),
-              alpha =0.2) +
+  #     geom_ribbon(aes(ymin=result-sd,
+  #                     ymax=result+sd),
+  #                 alpha =0.2) +
   # legend
   geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
                  linetype="Detection"),
-             meanThresholdsLong[meanThresholdsLong$condition == "detection",],
+             subset(meanThresholdsLong,
+                    condition == "detection"
+                    & roving==FALSE),
              show_guide=FALSE) +
   geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
                  linetype="Identification"),
-             meanThresholdsLong[meanThresholdsLong$condition == "identification",],
+             subset(meanThresholdsLong,
+                    condition == "identification"
+                    & roving==FALSE),
              show_guide=FALSE) +
-  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "detection",],
-            aes(68, (2^(mean/1200)-1)*100, label = 'Detection', vjust = -1), size = 4) +
-  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "identification",],
-            aes(68, (2^(mean/1200)-1)*100, label = 'Identification', vjust = -1), size = 4) +
+  geom_text(data=subset(meanThresholdsLong,
+                        condition == "detection"
+                        & roving==FALSE),
+            aes(5, (2^(mean/1200)-1)*100, label = 'Detection', vjust = 1.2),
+            size = 4) +
+  geom_text(data=subset(meanThresholdsLong,
+                        condition == "identification"
+                        & roving==FALSE),
+            aes(5, (2^(mean/1200)-1)*100, label = 'Identification', vjust = -0.6),
+            size = 4) +
   scale_colour_manual("", 
-                      breaks = c("Raw mean", "Rolling mean \n(10 values)", 'Rolling SD \n(10 values)'),
+                      breaks = c("Raw mean", "Rolling mean \n(10 values)",
+                                 'Rolling SD \n(10 values)'),
                       values = c("grey", "black", "royalblue1")) +
   theme(legend.text=element_text(size=12),
         legend.title=element_text(size=12),
         axis.title=element_text(size=12),
         legend.key.height=unit(2,"line"))
 
-
+## Accuracy vs thresholds for roving and no-roving conditions
+plotAccThreshMeanRovVsNoRov <- ggplot() +
+  scale_x_continuous(limits=c(0, 60)) +
+  scale_y_continuous(limits=c(-5, 17)) +
+  xlab("Trials") +
+  ylab("Accuracy (in percent error)") +
+  geom_line(data=yAxisAccNoRovMean,
+            aes(x=trialNumYAxis,
+                y=result,
+                color = "No roving (rolling \n mean, 10 values)"),
+            alpha=0.3) +
+  geom_line(data=yAxisAccNoRovMean,
+            aes(x=trialNumYAxis,
+                y=YAxisAccuracyRoll,
+                color='#F8766D')) +
+  geom_line(data=yAxisAccRovMean,
+            aes(x=trialNumYAxis,
+                y=result,
+                color = "Roving (rolling \n mean, 10 values)"),
+            alpha=0.3) +
+  geom_line(data=yAxisAccRovMean,
+            aes(x=trialNumYAxis,
+                y=YAxisAccuracyRoll,
+                color='#00BFC4')) +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype="Detection"),
+             meanThresholdsLong[meanThresholdsLong$condition=="detection"
+                                & meanThresholdsLong$roving==FALSE,],
+             show_guide=FALSE,
+             color='#F8766D') +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype="Detection"),
+             meanThresholdsLong[meanThresholdsLong$condition=="detection"
+                                & meanThresholdsLong$roving==TRUE,],
+             show_guide=FALSE,
+             color='#00BFC4') +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype="Identification"),
+             meanThresholdsLong[meanThresholdsLong$condition=="identification"
+                                & meanThresholdsLong$roving==FALSE,],
+             show_guide=FALSE,
+             color='#F8766D') +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                 linetype="Identification"),
+             meanThresholdsLong[meanThresholdsLong$condition=="identification"
+                                & meanThresholdsLong$roving==TRUE,],
+             show_guide=FALSE,
+             color='#00BFC4') +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "detection"
+                                    & meanThresholdsLong$roving==TRUE,],
+            aes(56, (2^(mean/1200)-1)*100,
+                label = 'Detection', vjust = -0.5),
+            size = 4,
+            color='#00BFC4') +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "identification"
+                                    & meanThresholdsLong$roving==TRUE,],
+            aes(56, (2^(mean/1200)-1)*100,
+                label = 'Identification', vjust = -0.5),
+            size = 4,
+            color='#00BFC4') +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "detection"
+                                    & meanThresholdsLong$roving==FALSE,],
+            aes(56, (2^(mean/1200)-1)*100,
+                label = 'Detection', vjust = -0.5),
+            size = 4,
+            color='#F8766D') +
+  geom_text(data=meanThresholdsLong[meanThresholdsLong$condition == "identification"
+                                    & meanThresholdsLong$roving==FALSE,],
+            aes(56, (2^(mean/1200)-1)*100,
+                label = 'Identification', vjust = -0.5),
+            size = 4,
+            color='#F8766D') +
+  scale_colour_manual("Training task", 
+                      breaks = c("No roving (rolling \n mean, 10 values)",
+                                 "Roving (rolling \n mean, 10 values)"),
+                      values = c("#F8766D", "#00BFC4", "#F8766D", "#00BFC4")) +
+  scale_linetype_manual("Frequency thresholds", 
+                        breaks = c("Identification",
+                                   "Detection"),
+                        values = c("solid", "dotted")) +
+  theme(legend.text=element_text(size=12),
+        legend.title=element_text(size=12),
+        axis.title=element_text(size=12),
+        legend.key.height=unit(2,"line"))
 
 ####### Accuracy by frequency
 plotAccByFreq <- ggplot(data=data.mountain.yAxis,
@@ -531,7 +806,7 @@ plotPathLength <- ggplot(data=pathLengthAllLong,
 
 
 plotPathCoord <- ggplot(data=subset(pathLength,
-                                    trialNumYAxis==seq(1, 100, 20)),
+                                    trialNumYAxis==seq(1, 60, 20)),
                         aes(x=time,
                             y=YNorm,
                             color=trialNumYAxis)) +
@@ -742,14 +1017,23 @@ n1 <- nPlot(threshold ~ session,
 n1$addFilters("condition")
 n1
 
-nplotThresholdsNoRov <- nPlot(data=thresholdsAllLongNoRov,
-       aes(x=as.numeric(session),
-           y=threshold,
-           color=name,
-           linetype=condition),
-       alpha = 0.4) +
-  geom_line() +
-  xlab("Sessions") +
-  ylab("Thresholds") +
-  facet_grid(name ~ ., scale='free') +
-  theme(panel.margin = unit(3.5, "mm"))
+# n2 <- nPlot(deltaF ~ trialNum,
+#             data = data.threshold[data.threshold$trainSession==0,],
+#             group = 'factor(sessionNum)',
+#             type = "lineChart")
+# n2$addFilters("condition")
+# n2
+
+
+# nplotThresholdsNoRov <- nPlot(data=thresholdsAllLongNoRov,
+#        aes(x=as.numeric(session),
+#            y=threshold,
+#            color=name,
+#            linetype=condition),
+#        alpha = 0.4) +
+#   geom_line() +
+#   xlab("Sessions") +
+#   ylab("Thresholds") +
+#   facet_grid(name ~ ., scale='free') +
+#   theme(panel.margin = unit(3.5, "mm"))
+

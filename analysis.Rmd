@@ -37,7 +37,7 @@ library(XLConnect)
 knitr::opts_chunk$set(fig.path='figures/')
 knitr::opts_chunk$set(comment = NA, results = "asis", comment = NA, tidy = F)
 options("scipen"=100, "digits"=2)
-opts_chunk$set(dev = 'svg')
+opts_chunk$set(dev = 'pdf')
 opts_chunk$set(fig.cap='')
 ```
 
@@ -85,6 +85,12 @@ source("R/plots.R")
 
 ```
 
+
+```{r longitudinal, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Load longitudinal analysis script (five days testing)
+source("R/longitudAnalysis.R")
+```
+
 # Individual analyses
 
 ## Frequency threshold task
@@ -115,6 +121,7 @@ plotThresholdsRov
 
 ```
 
+<!---
 ```{r plotThresholdsOneLog, echo=FALSE, message=FALSE, warning=FALSE}
 
 plotThresholdsOneLog
@@ -128,6 +135,7 @@ plotThresholdsOneLog
 plotThresholdsPercent
 
 ```
+-->
 
 ### Detection threshold in function of identification threshold
 
@@ -139,6 +147,7 @@ plotDetByIdAll
 
 ```
 
+<!---
 #### For each session
 
 ```{r plotDetById, echo=FALSE, message=FALSE, warning=FALSE}
@@ -146,6 +155,7 @@ plotDetByIdAll
 plotDetById
 
 ```
+-->
 
 #### Pre vs. post tests
 
@@ -157,6 +167,7 @@ plotDetByIdPrepost
 
 ```
 
+<!---
 #### First vs. second tests
 
 ```{r plotDetByIdPrepre, echo=FALSE, message=FALSE, warning=FALSE}
@@ -164,6 +175,7 @@ plotDetByIdPrepost
 plotDetByIdPrepre
 
 ```
+-->
 
 ## Auditory mountain task
 
@@ -183,6 +195,7 @@ The equation used from va01 (20/07/15) was modified to have a more steeper curve
 
 $$ (\frac{1}{(\frac{duration}{100}+1)^2} + 1) \times 600 \times (\frac{accuracy}{100})^6 $$
 
+<!---
 ### Participant's scores
 
 ```{r plotScores, echo=FALSE, message=FALSE, warning=FALSE, fig.height=length(levels(factor(raw.data$name)))*1.1}
@@ -190,6 +203,7 @@ $$ (\frac{1}{(\frac{duration}{100}+1)^2} + 1) \times 600 \times (\frac{accuracy}
 plotScores
 
 ```
+-->
 
 ### Accuracy of trials
 
@@ -291,7 +305,7 @@ plotAccThreshMean
 The mean thresholds are calculated from all participant's deltaF for each session (first and second in pre-test and third and fourth in post-test) and condition (detection and identification).
 
 
-```{r plotMeanThresholds, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plotMeanThresholdsPerc, echo=FALSE, message=FALSE, warning=FALSE}
 
 plotMeanThresholdsPerc
 
@@ -335,139 +349,67 @@ plotMountainByThreshDet
 
 ```
 
-# Longitudinal analysis
+# ROVING
 
-Two participants (va01 and df22) who did the experiment were invited to do four other sessions (one a day) identical to the the first session (pre-test, training, post-test).
+## Mean identification and detection thresholds
 
-The protocol was also identical but the participants were told that the better one could win 10 euros more and that the total score would be calculated from all the training sessions and all the threshold measures.
+```{r plotMeanThresholds, echo=FALSE, message=FALSE, warning=FALSE}
 
-Thus, the equation used to calculate the total score take into account the global scores to the mountain task of each session, the mean accuracy of all mountain task sessions and the results to each threshold tasks in this way:
-
-$$ ScoreTotal + (1000 \times meanAccuracy) + \frac{20 000 000}{deltaFIdentification} + \frac{20 000 000}{deltaFDetection} $$
-
-```{r competScore, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
-
-competScore_va01 <- round(sum(totalScoresLong$totalScore[totalScoresLong$name=="va01"]), 0) + 1000 * meanAccuracy$meanAcc[meanAccuracy$name=="va01"] + 20000000 / mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="va01" & thresholdsLongiAllLong$condition=="identification"]) + 20000000 / mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="va01" & thresholdsLongiAllLong$condition=="detection"])
-
-competScore_df22 <- round(sum(totalScoresLong$totalScore[totalScoresLong$name=="df22"]), 0) + 1000 * meanAccuracy$meanAcc[meanAccuracy$name=="df22"] + 20000000 / mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="df22" & thresholdsLongiAllLong$condition=="identification"]) + 20000000 / mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="df22" & thresholdsLongiAllLong$condition=="detection"])
+plotMeanThresholds
 
 ```
 
-#### va01: {.lessEmphasized}
+# Frequency thresholds and accuracy in the training task
 
-$$ `r sum(totalScoresLong$totalScore[totalScoresLong$name=="va01"])` + (1000 \times `r meanAccuracy$meanAcc[meanAccuracy$name=="va01"]`) + \frac{20 000 000}{`r mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="va01" & thresholdsLongiAllLong$condition=="identification"])`} + \frac{20 000 000}{`r mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="va01"
-& thresholdsLongiAllLong$condition=="detection"])`} = `r competScore_va01` $$
+```{r plotAccThreshMeanRovVsNoRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-#### df22: {.lessEmphasized}
-$$ `r sum(totalScoresLong$totalScore[totalScoresLong$name=="df22"])` + (1000 \times `r meanAccuracy$meanAcc[meanAccuracy$name=="df22"]`) + \frac{20 000 000}{`r mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="df22" & thresholdsLongiAllLong$condition=="identification"])`} + \frac{20 000 000}{`r mean(thresholdsLongiAllLong$threshold[thresholdsLongiAllLong$name=="df22" & thresholdsLongiAllLong$condition=="detection"])`} = `r competScore_df22` $$
-
-## Frequency threshold task
-
-The frequency threshold tests are done before and after each training session. The dotted vertical lines correspond to each first threshold task.
-
-### All Subjects
-
-```{r plotThresholdsLongi, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotThresholdsLongi
+plotAccThreshMeanRovVsNoRov
 
 ```
 
-#### Mean
+```{r plotMeanThresholdsNoRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-```{r plotThresholdsLongiMean, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3, fig.width=6}
-
-plotThresholdsLongiMeanPerc
+plotMeanThresholdsNoRov
 
 ```
 
-### All Subjects percent
+```{r plotMeanThresholdsRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-```{r plotThresholdsLongiPercent, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotThresholdsLongiPercent
-
-```
-
-### Mean percent
-
-```{r plotMeanThresholdsLongiPercent, echo=FALSE, message=FALSE, warning=FALSE, fig.height=3}
-
-plotMeanThresholdsLongiPercent
-
-```
-
-## Auditory mountain task
-
-### Participant's scores
-
-```{r plotScoresLongi, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotScoresLongi
-
-```
-
-### Accuracy of trials
-
-```{r plotAccLongi, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotAccLongi
-
-```
-
-### Durations of trials
-
-```{r plotDurLongi, echo=FALSE, message=FALSE, warning=FALSE}
-
-plotDurLongi
+plotMeanThresholdsRov
 
 ```
 
 
-# Auditory mountain as a frequency threshold measure
+```{r plotDetByIdAllNoRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-We calculated the efficiency of the auditory mountain task to give an estimate of the frequency threshold. It represents for each trial and each participant the difference between the whole mean of accuracy and the mean from trial 1 to the one presented. This difference is expressed in standard deviation (calculated with the whole trials of each participant). For instance, the value of the trial 21 for mn15 is around one standard deviation. This means that for this participant, the mean of the 21 first trials is away of the global mean by one standard deviation.
-
-**Reference:** Schlauch, R. S., & Rose, R. M. (1990). Two‐, three‐, and four‐interval forced‐choice staircase procedures: Estimator bias and efficiency. *The Journal of the Acoustical Society of America*, 88(2), 732–740.
-
-
-Here is the code used to compute these sd:
-
-```{r code, message=FALSE, warning=FALSE}
-# Create a vector with the cumulative mean of accuracy for each participant
-yAxisEff <- yAxisEff %>%
-  group_by(name) %>%
-  mutate(
-    roll=cummean(accuracy),
-    mean=mean(accuracy),
-    sd=sd(accuracy),
-    # For each observation the difference between the cumulative mean
-    # and the mean is calculated in sd
-    se=abs(roll-mean)/sd)
-```
-
-and here is the form of the table created with the code above:
-
-```{r plotSdDiff, echo=FALSE, message=FALSE, warning=FALSE}
-set.caption('yAxisEff')
-pander(head(yAxisEff))
-
-plotSdDiff
+plotDetByIdAllNoRov
 
 ```
 
-The same thing can be done with the mean among participants for each trial.
+```{r plotDetByIdAllRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-```{r plotSdDiffMean, echo=FALSE, message=FALSE, warning=FALSE}
-
-# plotSdDiffMean
+plotDetByIdAllRov
 
 ```
 
-# No roving condition
+```{r plotDetByIdAllRovVsNoRov, echo=FALSE, message=FALSE, warning=FALSE}
 
-## 
-plotThresholdsNoRov
+plotDetByIdAllRovVsNoRov
+
+```
+
+```{r plotAccThreshMeanNoRov, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThreshMeanNoRov
+
+```
+
+```{r plotAccThreshMeanRov, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThreshMeanRov
+
+```
+
 
 
 # Statistical tests
