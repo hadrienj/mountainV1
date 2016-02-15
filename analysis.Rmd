@@ -75,8 +75,13 @@ if ('targetTone' %in% names(data)) {
 
 
 ```{r stats, include=F, echo=FALSE, message=FALSE, warning=FALSE}
-# Load longitudinal analysis script (five days testing)
+# Load stat analysis script (five days testing)
 source("R/stats.R")
+```
+
+```{r longi, include=F, echo=FALSE, message=FALSE, warning=FALSE}
+# Load longitudinal analysis script (five days testing)
+source("R/longitudAnalysis.R")
 ```
 
 ```{r plots, include=F, echo=FALSE, message=FALSE, warning=FALSE}
@@ -410,6 +415,25 @@ plotAccThreshMeanRov
 
 ```
 
+```{r plotAccThreshMeanRovCents, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThreshMeanRovCents
+
+```
+
+```{r plotAccThreshMeanNoRovCents, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotAccThreshMeanNoRovCents
+
+```
+
+# Longi
+
+```{r plotThresholdsLongiMean, echo=FALSE, message=FALSE, warning=FALSE}
+
+plotThresholdsLongiMean
+
+```
 
 
 # Statistical tests

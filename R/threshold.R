@@ -15,7 +15,7 @@ data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
                            reversal,  reversals,  task,  startTime,
                            tone1, tone2,	tone3, tone4, deltaF,
                            goodAnswer,	roving,	answer,	score, name,
-                           trainSession))
+                           trainSession, outlier))
 
 ############ THRESHOLD ANALYSES ############
 
@@ -23,7 +23,7 @@ data.threshold <- subset(data, grepl("threshold", id) & sessionNumMount==1,
 # The threshold is calculated with the mean of reversals
 # The four first reversals are not taken into account in the mean
 # trainsession == 0 is used to avoid to take data from longitudinal part
-thresholdsAllLong <- aggregate(deltaF ~ name + sessionNum + task + roving,
+thresholdsAllLong <- aggregate(deltaF ~ name + sessionNum + task + roving + outlier,
                                FUN=mean,
                                data=subset(data.threshold, data.threshold$reversals > 4
                                            & data.threshold$reversal==TRUE
@@ -33,7 +33,8 @@ thresholdsAllLong <- aggregate(deltaF ~ name + sessionNum + task + roving,
 colnames(thresholdsAllLong)[2] <- "session"
 colnames(thresholdsAllLong)[3] <- "condition"
 colnames(thresholdsAllLong)[4] <- "roving"
-colnames(thresholdsAllLong)[5] <- "threshold"
+colnames(thresholdsAllLong)[5] <- "outlier"
+colnames(thresholdsAllLong)[6] <- "threshold"
 thresholdsAllLong$session <- sapply(thresholdsAllLong$session,
                                     FUN = function(x) as.numeric(x) + 1)
 
@@ -61,7 +62,7 @@ thresholdAllPrepreLong <- aggregate(threshold ~ name + prepre + condition,
                                      na.rm=T)
 
 # Create a new data frame with the mean threshold for roving and no roving
-thresholdAllRovLong <- aggregate(threshold ~ name + roving + condition,
+thresholdAllRovLong <- aggregate(threshold ~ name + roving + condition + outlier,
                                     FUN=mean,
                                     data=thresholdsAllLong,
                                     na.rm=T)
@@ -74,10 +75,15 @@ meanThresholdLong <- aggregate(threshold ~ session + condition + roving,
                                data=thresholdsAllLong)
 meanThresholdLong <- do.call(data.frame, meanThresholdLong)
 # Calculate the mean threshold for each participant and each condition
-meanThresholdsSubjLong <- aggregate(threshold ~ name + condition + roving,
+meanThresholdsSubjLong <- aggregate(threshold ~ name + condition + roving + outlier,
                                FUN=mean,
                                data=thresholdsAllLong,
                                na.rm=T)
+
+# Factorize the `outlier` variable
+meanThresholdsSubjLong$outlier <- factor(meanThresholdsSubjLong$outlier)
+# Change the order of factor's levels (for further plot)
+meanThresholdsSubjLong$outlier <- relevel(meanThresholdsSubjLong$outlier,  TRUE)
 
 # Calculate the progression in percent of the first session to avoid the
 # high thresholds have more weight on the evolution of the mean

@@ -523,7 +523,7 @@
 			"file": "/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/analysis.Rmd",
 			"settings":
 			{
-				"buffer_size": 10314,
+				"buffer_size": 10796,
 				"line_ending": "Unix"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "preProcFirstDesign.R",
 			"settings":
 			{
-				"buffer_size": 33338,
+				"buffer_size": 11005,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "longitudAnalysis.R",
 			"settings":
 			{
-				"buffer_size": 11971,
+				"buffer_size": 12114,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,15 @@
 			"file": "threshold.R",
 			"settings":
 			{
-				"buffer_size": 7497,
+				"buffer_size": 7827,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "stats.R",
+			"settings":
+			{
+				"buffer_size": 14512,
 				"line_ending": "Unix"
 			}
 		},
@@ -563,7 +571,7 @@
 			"file": "plots.R",
 			"settings":
 			{
-				"buffer_size": 41441,
+				"buffer_size": 53051,
 				"line_ending": "Unix"
 			}
 		},
@@ -1349,6 +1357,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"subset(",
+			"raw.data.ab12$outlier <- FALSE",
+			"tonePosY <- NA",
 			"$roving <- FALSE",
 			"FALSE",
 			"raw.data.vv17_4$roving <- FALSE\n",
@@ -1473,10 +1484,7 @@
 			"sec",
 			"milli",
 			"id",
-			"i",
-			"server",
-			"i",
-			"test"
+			"i"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -1499,7 +1507,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -1508,7 +1516,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10314,
+						"buffer_size": 10796,
 						"regions":
 						{
 						},
@@ -1530,7 +1538,7 @@
 						"translation.y": 10.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1539,15 +1547,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 33338,
+						"buffer_size": 11005,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								11005,
+								11005
 							]
 						],
 						"settings":
@@ -1558,10 +1566,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 491.0,
+						"translation.y": 3934.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1590,7 +1598,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1599,7 +1607,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11971,
+						"buffer_size": 12114,
 						"regions":
 						{
 						},
@@ -1621,7 +1629,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1630,7 +1638,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7497,
+						"buffer_size": 7827,
 						"regions":
 						{
 						},
@@ -1652,24 +1660,55 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "plots.R",
+					"file": "stats.R",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 41441,
+						"buffer_size": 14512,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								13556,
+								13155
+							]
+						],
+						"settings":
+						{
+							"r_box_status": false,
+							"syntax": "Packages/R-Box/syntax/R Extended.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7566.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "plots.R",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 53051,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								42064,
+								42064
 							]
 						],
 						"settings":
@@ -1680,14 +1719,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2.0,
+						"translation.y": 22941.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "yAxis.R",
 					"semi_transient": false,
 					"settings":
@@ -1714,11 +1753,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "glm.R",
 					"semi_transient": false,
 					"settings":
@@ -1745,7 +1784,7 @@
 						"translation.y": 11858.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -1755,7 +1794,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1852,7 +1891,7 @@
 						"translation.y": 1619.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]

@@ -54,25 +54,23 @@ row.names(thresholdsLongiAllLong) <- NULL
 # Rename columns
 colnames(thresholdsLongiAllLong)[3] <- "condition"
 colnames(thresholdsLongiAllLong)[4] <- "threshold"
+thresholdsLongiAllLong$session <- as.numeric(thresholdsLongiAllLong$session)
 
 # Mean of thresholds
-thresholdsLongiMean <- data.frame(session=as.numeric(
-  levels(factor(thresholdsLongiAllLong$session))),
-  threshold=tapply(thresholdsLongiAllLong$threshold,
-                   list(thresholdsLongiAllLong$session,
-                        thresholdsLongiAllLong$condition),
-                   mean))
+thresholdsLongiMean <- aggregate(threshold ~ session + condition,
+                                    FUN=function(x) c(mean=mean(x),
+                                                      sem=sd(x)/sqrt(length(
+                                                        levels(factor(thresholdsLongiAllLong$name))))),
+                                    data=thresholdsLongiAllLong)
+thresholdsLongiMean <- do.call(data.frame, thresholdsLongiMean)
+thresholdsLongiMean$session <- as.numeric(as.character(thresholdsLongiMean$session))
+# Sort the data according to time
+thresholdsLongiMean <- thresholdsLongiMean[order(thresholdsLongiMean$condition,
+                                                 thresholdsLongiMean$session),]
+
 # Remove unused columns
 row.names(thresholdsLongiMean) <- NULL
-colnames(thresholdsLongiMean)[2] <- "detection"
-colnames(thresholdsLongiMean)[3] <- "identification"
 
-thresholdsLongiMeanLong <- melt(thresholdsLongiMean, id.var="session",
-                               variable.name = "condition", 
-                               value.name = "threshold")
-# Sort data by session number
-thresholdsLongiMeanLong <- thresholdsLongiMeanLong[order(
-  thresholdsLongiMeanLong$condition, thresholdsLongiMeanLong$session),]
 
 # Calculate the progression in percent of the first session to avoid the
 # high thresholds have more weight on the evolution of the mean
@@ -106,6 +104,7 @@ row.names(thresholdsLongiAllPercentLong) <- NULL
 # Rename columns
 colnames(thresholdsLongiAllPercentLong)[3] <- "condition"
 colnames(thresholdsLongiAllPercentLong)[4] <- "threshold"
+thresholdsLongiAllPercentLong$session <- as.numeric(thresholdsLongiAllPercentLong$session)
 
 # Calculate the mean threshold for each session
 meanThresholdsLongiPercent <- data.frame(session = as.numeric(

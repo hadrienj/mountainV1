@@ -5,6 +5,10 @@ shap <- function(data, cond, sess, thresholdMax) {
                       & threshold<thresholdMax)
                $threshold)
 }
+cent2Perc <- function(cent) {
+  percent <- (2^(cent/1200)-1)*100
+  return(percent)
+}
 
 # Comparison of identification and detection thresholds
 
@@ -27,7 +31,6 @@ varPrepre <- var.test(thresholdAllPrepreLong$threshold[
 
 
 ## Different variances = use non parametric tests
-
 wiltestDetById <- wilcox.test(meanThresholdsSubjLong$threshold[
   meanThresholdsSubjLong$condition=='detection'],
             meanThresholdsSubjLong$threshold[
@@ -49,6 +52,19 @@ wiltestDetByIdNoRov <- wilcox.test(meanThresholdsSubjLong$threshold[
     & meanThresholdsSubjLong$roving==FALSE],
   paired=TRUE)
 
+cent2Perc(mean(meanThresholdsSubjLong$threshold[
+  meanThresholdsSubjLong$condition=='detection'
+  & meanThresholdsSubjLong$roving==FALSE]))
+cent2Perc(mean(meanThresholdsSubjLong$threshold[
+  meanThresholdsSubjLong$condition=='identification'
+  & meanThresholdsSubjLong$roving==FALSE]))
+
+cent2Perc(mean(meanThresholdsSubjLong$threshold[
+  meanThresholdsSubjLong$condition=='detection'
+  & meanThresholdsSubjLong$roving==TRUE]))
+cent2Perc(mean(meanThresholdsSubjLong$threshold[
+  meanThresholdsSubjLong$condition=='identification'
+  & meanThresholdsSubjLong$roving==TRUE]))
 
 # With roving
 ## test procedural learning (session 1 vs. 2)
@@ -261,6 +277,100 @@ wilTask <- wilcox.test(yAxisAcc$result[
   paired=FALSE)
 
 
+# Mountain
+## Without roving
+### Don't take the first 3 trials into account
+### Take only trials with all subjects (until trial 60)
+wilMountNoRov <- wilcox.test(data.mountain.yAxis$result[
+    data.mountain.yAxis$roving==FALSE &
+    data.mountain.yAxis$trialNumYAxis<18 &
+    data.mountain.yAxis$trialNumYAxis>2],
+  data.mountain.yAxis$result[
+    data.mountain.yAxis$roving==FALSE &
+    data.mountain.yAxis$trialNumYAxis>45 &
+    data.mountain.yAxis$trialNumYAxis<61],
+  paired=TRUE) 
+
+## With roving
+### Don't take the first 3 trials into account
+### Take only trials with all subjects (until trial 60)
+wilMountRov <- wilcox.test(data.mountain.yAxis$result[
+  data.mountain.yAxis$roving==TRUE &
+    data.mountain.yAxis$trialNumYAxis<21 &
+    data.mountain.yAxis$trialNumYAxis>2],
+  data.mountain.yAxis$result[
+    data.mountain.yAxis$roving==TRUE &
+      data.mountain.yAxis$trialNumYAxis>54 &
+      data.mountain.yAxis$trialNumYAxis<73],
+  paired=TRUE) 
+
+# Roving vs. no roving
+wilMountRovVsNoRov <- wilcox.test(data.mountain.yAxis$result[
+  data.mountain.yAxis$roving==FALSE &
+    data.mountain.yAxis$trialNumYAxis<61],
+  data.mountain.yAxis$result[
+    data.mountain.yAxis$roving==TRUE &
+      data.mountain.yAxis$trialNumYAxis<61],
+  paired=FALSE) 
+
+
+# Compare first 25% with last 25% for each subject
+begEnd <- data.frame(beg=cbind(by(list(data.mountain.yAxis$trialNumYAxis,
+                                        data.mountain.yAxis$name),
+                                   data.mountain.yAxis$name,
+                                   function(x) {
+                                     list(data.mountain.yAxis$result[
+                                       data.mountain.yAxis$trialNumYAxis>2
+                                       & data.mountain.yAxis$trialNumYAxis<(round((max(x[1])*25)/100))
+                                       & data.mountain.yAxis$name==x[,2]])
+                                   }
+                                   )
+                                ),
+                   end=cbind(by(list(data.mountain.yAxis$trialNumYAxis,
+                                     data.mountain.yAxis$name),
+                                data.mountain.yAxis$name,
+                                function(x) {
+                                  list(data.mountain.yAxis$result[
+                                    data.mountain.yAxis$trialNumYAxis<=max(x[1])
+                                    & data.mountain.yAxis$trialNumYAxis>
+                                      (max(x[1])-round((max(x[1])*25)/100)+3)
+                                    & data.mountain.yAxis$name==x[,2]])
+                                }
+                   ))
+                   )
+begEnd <- data.frame(name=rownames(begEnd), begEnd)
+begEnd <- cbind(unnest(begEnd, beg), unnest(begEnd, end))
+begEnd[3] <- NULL
+
+
+wilcox.test(begEnd$beg, begEnd$end, paired=TRUE)
+
+# Interactions roving det/id
+detIdRov <- data.frame(cbind(
+  by(list(thresholdsAllLong$threshold[thresholdsAllLong$roving==TRUE],
+          thresholdsAllLong$condition[thresholdsAllLong$roving==TRUE]),
+     list(thresholdsAllLong$name[thresholdsAllLong$roving==TRUE],
+          thresholdsAllLong$session[thresholdsAllLong$roving==TRUE]),
+     function(x) {
+       abs(x[1][x[2]=='detection'] - x[1][x[2]=='identification'])
+     })))
+detIdRov <- melt(detIdRov, variable.name = "session", 
+                 value.name = "rov")
+
+detIdNoRov <- data.frame(cbind(
+  by(list(thresholdsAllLong$threshold[thresholdsAllLong$roving==FALSE],
+          thresholdsAllLong$condition[thresholdsAllLong$roving==FALSE]),
+     list(thresholdsAllLong$name[thresholdsAllLong$roving==FALSE],
+          thresholdsAllLong$session[thresholdsAllLong$roving==FALSE]),
+     function(x) {
+       abs(x[1][x[2]=='detection'] - x[1][x[2]=='identification'])
+     })))
+detIdNoRov <- melt(detIdNoRov, variable.name = "session", 
+                 value.name = "noRov")
+
+detId <- cbind(detIdRov, detIdNoRov)
+
+wilcox.test(detIdNoRov$noRov, detIdNoRov$rov, paired=FALSE)
 
 # t test
 # ttestDetById <- t.test(meanThresholdsSubjLong$threshold[

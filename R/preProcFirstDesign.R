@@ -1,8 +1,8 @@
-
 # library(couchDB)
 # test <- jsonlite::fromJSON(getURL("https://hhh:sclavis@audiitory.iriscouch.com/ab21/_all_docs?include_docs=true"))
 # test1 <- test$rows$doc
 
+rm(raw.data)
 
 getJson <- function(name, nameFile=name, sessionNumMount = "1", trainSession = as.numeric(sessionNumMount)-1,
                     tonePosX = FALSE, tonePosY = FALSE, outlier = FALSE,
@@ -43,7 +43,7 @@ getJson(name="el20", roving=TRUE, outlier=TRUE)
 # getJson(name="jd12", roving=TRUE)
 # getJson(name="hp02", roving=TRUE)
 getJson(name="ss28", roving=TRUE)
-getJson(name="lj01", roving=TRUE)
+getJson(name="lj01", nameFile="lj01_proc", roving=TRUE)
 
 getJson(name="va01", roving=TRUE, outlier=TRUE)
 getJson(name="va01", nameFile="va01_2", sessionNumMount="2", roving=TRUE)
@@ -52,10 +52,10 @@ getJson(name="va01", nameFile="va01_4", sessionNumMount="4", roving=TRUE)
 getJson(name="va01", nameFile="va01_5", sessionNumMount="5", roving=TRUE)
 
 getJson(name="df22", roving=TRUE, outlier=TRUE)
-getJson(name="df22", nameFile="dp02_2", sessionNumMount="2", roving=TRUE)
-getJson(name="df22", nameFile="dp02_3", sessionNumMount="3", roving=TRUE)
-getJson(name="df22", nameFile="dp02_4", sessionNumMount="4", roving=TRUE)
-getJson(name="df22", nameFile="dp02_5", sessionNumMount="5", roving=TRUE)
+getJson(name="df22", nameFile="df22_2", sessionNumMount="2", roving=TRUE)
+getJson(name="df22", nameFile="df22_3", sessionNumMount="3", roving=TRUE)
+getJson(name="df22", nameFile="df22_4", sessionNumMount="4", roving=TRUE)
+getJson(name="df22", nameFile="df22_5", sessionNumMount="5", roving=TRUE)
 
 ########## Second longitudinal study ##########
 getJson(name="dp02", roving=TRUE, outlier=TRUE)
