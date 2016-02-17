@@ -270,7 +270,10 @@ yAxisAccRovMeanLong <- melt(yAxisAccRovMean, c("trialNumYAxis", "sd", "sdMean"))
 colnames(yAxisAccRovMeanLong)[4] <- "variableAcc"
 colnames(yAxisAccRovMeanLong)[5] <- "valueAcc"
 
-
+yAxisAccRovMean$roving <- TRUE
+yAxisAccNoRovMean$roving <- FALSE
+yAxisAccRovNoRovMean <- rbind(yAxisAccRovMean, yAxisAccNoRovMean)
+yAxisAccRovNoRovMean$roving <- factor(yAxisAccRovNoRovMean$roving)
 
 
 #### Extract path length ###

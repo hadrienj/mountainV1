@@ -80,10 +80,9 @@ meanThresholdsSubjLong <- aggregate(threshold ~ name + condition + roving + outl
                                data=thresholdsAllLong,
                                na.rm=T)
 
-# Factorize the `outlier` variable
-meanThresholdsSubjLong$outlier <- factor(meanThresholdsSubjLong$outlier)
-# Change the order of factor's levels (for further plot)
-meanThresholdsSubjLong$outlier <- relevel(meanThresholdsSubjLong$outlier,  TRUE)
+# Factorize the `outlier` variable and set level's order
+meanThresholdsSubjLong$outlier <- factor(meanThresholdsSubjLong$outlier,
+                                         c("TRUE", "FALSE"))
 
 # Calculate the progression in percent of the first session to avoid the
 # high thresholds have more weight on the evolution of the mean

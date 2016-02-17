@@ -370,7 +370,7 @@ detIdNoRov <- melt(detIdNoRov, variable.name = "session",
 
 detId <- cbind(detIdRov, detIdNoRov)
 
-wilcox.test(detIdNoRov$noRov, detIdNoRov$rov, paired=FALSE)
+wilcox.test(detIdNoRov$noRov, detIdRov$rov, paired=FALSE)
 
 # t test
 # ttestDetById <- t.test(meanThresholdsSubjLong$threshold[
