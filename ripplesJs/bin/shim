@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-export NODE_PATH=/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/ripplesJs/lib/node_modules
-export NPM_CONFIG_PREFIX=/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/ripplesJs
-export npm_config_prefix=/Users/lsp/Dropbox/projets/en_cours/auditory_mountain/r_analyses/ripplesJs
-exec ripplesJs/bin/node "$@"
