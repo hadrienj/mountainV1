@@ -9,6 +9,7 @@ analysis_rapport_laurent.pdf
 *.blg
 *.log
 *.md
+!readme.md
 *.nav
 *.snm
 *.gz
