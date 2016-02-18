@@ -479,6 +479,85 @@ plotDetByIdPrepost <- ggplot(thresholdAllPrepostLong, aes(
           \n Pre vs. Post test") +
   theme(plot.title = element_text(vjust=2, lineheight=.6))
 
+plotDetByIdPrepostRov <-
+  ggplot(subset(thresholdAllPrepostLong, roving==TRUE), aes(
+  x=(2^(threshold[condition=="detection"]/1200)-1)*100,
+  y=(2^(threshold[condition=="identification"]/1200)-1)*100,
+  color=outlier[condition=="identification"],
+  shape=prePost[condition=="identification"])) +
+  geom_point(
+             size=3.5) +
+  coord_fixed() +
+  geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "first"),
+            size=0.4, aes(group=name[condition=="identification"])) +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name="",
+                        labels = c("Accurately \n measured \n threshold",
+                                   "Reached upper \n bound of adaptive \n procedure (41%)"),
+                        breaks=c("FALSE", "TRUE")) +
+  scale_shape_manual(name = "", values=c(1, 16)) +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+#   ggtitle("Detection against identification thresholds
+#           \n Pre vs. Post test") +
+  theme(plot.title=element_text(vjust=2, lineheight=.6),
+        legend.key.height=unit(4,"line"),
+        legend.text=element_text(size=18),
+        legend.title=element_text(size=20),
+        axis.title=element_text(size=24),
+        axis.text=element_text(size=16),
+        axis.title.y=element_text(vjust=1.5),
+        panel.grid.major=element_line(colour = "grey90"),
+        panel.background = element_rect(fill = 'white'))
+
+plotDetByIdPrepostNoRov <-
+  ggplot(subset(thresholdAllPrepostLong, roving==FALSE), aes(
+    x=(2^(threshold[condition=="detection"]/1200)-1)*100,
+    y=(2^(threshold[condition=="identification"]/1200)-1)*100,
+    color=outlier[condition=="identification"],
+    shape=prePost[condition=="identification"])) +
+  geom_point(
+    size=3.5) +
+  coord_fixed() +
+  geom_path(arrow=arrow(length=unit(0.3,"cm"), ends = "first"),
+            size=0.4, aes(group=name[condition=="identification"])) +
+  geom_abline(intercept = 0, slope = 1) +
+  scale_colour_discrete(name="",
+                        labels = c("Accurately \n measured \n threshold",
+                                   "Reached upper \n bound of adaptive \n procedure (41%)"),
+                        breaks=c("FALSE", "TRUE")) +
+  scale_shape_manual(name = "", values=c(1, 16)) +
+  scale_x_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
+  xlab("Detection threshold") +
+  ylab("Identification threshold") +
+  #   ggtitle("Detection against identification thresholds
+  #           \n Pre vs. Post test") +
+  theme(plot.title=element_text(vjust=2, lineheight=.6),
+        legend.key.height=unit(4,"line"),
+        legend.text=element_text(size=18),
+        legend.title=element_text(size=20),
+        axis.title=element_text(size=24),
+        axis.text=element_text(size=16),
+        axis.title.y=element_text(vjust=1.5),
+        panel.grid.major=element_line(colour = "grey90"),
+        panel.background = element_rect(fill = 'white'))
+
+
 plotDetByIdPrepre <- ggplot(thresholdAllPrepreLong, aes(
   x=threshold[condition=="detection"],
   y=threshold[condition=="identification"],

@@ -39,15 +39,20 @@ thresholdsAllLong$session <- sapply(thresholdsAllLong$session,
                                     FUN = function(x) as.numeric(x) + 1)
 
 # Assign pre or post value in function of session
-thresholdsAllLong$prepost <- ifelse(thresholdsAllLong$session == 1 |
+thresholdsAllLong$prePost <- ifelse(thresholdsAllLong$session == 1 |
                                       thresholdsAllLong$session == 2,
-                                    "pre",
-                                    "post")
+                                    "Pre-test",
+                                    "Post-test")
 # Create a new data frame with the mean threshold by pre and post test
-thresholdAllPrepostLong <- aggregate(threshold ~ name + prepost + condition,
+thresholdAllPrepostLong <- aggregate(threshold ~ name + prePost + condition
+                                     + outlier + roving,
                                      FUN=mean,
                                      data=thresholdsAllLong,
                                      na.rm=T)
+thresholdAllPrepostLong$prePost <- factor(thresholdAllPrepostLong$prePost,
+                                          c("Pre-test", "Post-test"))
+thresholdAllPrepostLong$outlier <- factor(thresholdAllPrepostLong$outlier,
+                                          c("TRUE", "FALSE"))
 
 # Assign value in function of position in the session (first is 1 and 3,
 # second is 2 and 4)

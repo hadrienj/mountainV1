@@ -31,6 +31,7 @@ library(knitr)
 library(pander)
 library(kfigr)
 library(XLConnect)
+library(tidyr)
 ```
 
 ```{r global_options, include=FALSE}

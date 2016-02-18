@@ -302,7 +302,18 @@ wilMountRov <- wilcox.test(data.mountain.yAxis$result[
     data.mountain.yAxis$roving==TRUE &
       data.mountain.yAxis$trialNumYAxis>54 &
       data.mountain.yAxis$trialNumYAxis<73],
-  paired=TRUE) 
+  paired=TRUE)
+
+
+
+wilMountRovFromMean <- wilcox.test(yAxisAccRovMean$result[
+  yAxisAccRovMean$trialNumYAxis<21 &
+    yAxisAccRovMean$trialNumYAxis>2],
+  yAxisAccRovMean$result[
+    yAxisAccRovMean$roving==TRUE &
+      yAxisAccRovMean$trialNumYAxis>54 &
+      yAxisAccRovMean$trialNumYAxis<73],
+  paired=TRUE)
 
 # Roving vs. no roving
 wilMountRovVsNoRov <- wilcox.test(data.mountain.yAxis$result[
@@ -311,7 +322,7 @@ wilMountRovVsNoRov <- wilcox.test(data.mountain.yAxis$result[
   data.mountain.yAxis$result[
     data.mountain.yAxis$roving==TRUE &
       data.mountain.yAxis$trialNumYAxis<61],
-  paired=FALSE) 
+  paired=FALSE)
 
 
 # Compare first 25% with last 25% for each subject
