@@ -128,7 +128,10 @@ plotMeanThresholdsRovPercentage <-
              linetype=condition),
          alpha = 0.3) +
   geom_line() +
-  scale_y_continuous(limits=c(0, 18)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
   scale_linetype_manual(name = "", values=c('solid', 'dotted'),
                         breaks=c('identification', 'detection'),
                         labels=c('Identification', 'Detection')) +
@@ -137,7 +140,7 @@ plotMeanThresholdsRovPercentage <-
               alpha =0.2) +
   xlab("Sessions") +
   scale_x_discrete(labels=c('Pre1', 'Pre2', 'Post1', 'Post2')) +
-  ylab("Thresholds (in % of error)") +
+  ylab("Thresholds (in %)") +
 #   ggtitle("Mean threshold with roving") +
   #   annotate("text",
   #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
@@ -146,9 +149,10 @@ plotMeanThresholdsRovPercentage <-
         legend.key.height=unit(2,"line"),
         legend.text=element_text(size=22),
         legend.title=element_text(size=22),
-        axis.title=element_text(size=24),
+        axis.title=element_text(size=22),
         axis.text=element_text(size=16),
         axis.title.y=element_text(vjust=1.5),
+        axis.title.x=element_text(vjust=-0.5),
         panel.grid.major.y=element_line(colour = "grey90"),
         panel.background = element_rect(fill = 'white'))
   
@@ -181,13 +185,16 @@ plotMeanThresholdsNoRovPercentage <-
              linetype=condition),
          alpha = 0.3) +
   geom_line() +
-  scale_y_continuous(limits=c(0, 18)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
   geom_ribbon(aes(ymin=(2^((threshold.mean-threshold.sem)/1200)-1)*100,
                   ymax=(2^((threshold.mean+threshold.sem)/1200)-1)*100),
               alpha =0.2) +
   xlab("Sessions") +
   scale_x_discrete(labels=c('Pre1', 'Pre2', 'Post1', 'Post2')) +
-  ylab("Thresholds (in % of error)") +
+  ylab("Thresholds (in %)") +
 #   ggtitle("Mean threshold without roving") +
   #   annotate("text",
   #            label = paste("n = ", length(levels(factor(thresholdsAllLong$name)))),
@@ -199,9 +206,10 @@ plotMeanThresholdsNoRovPercentage <-
         legend.key.height=unit(2,"line"),
         legend.text=element_text(size=22),
         legend.title=element_text(size=22),
-        axis.title=element_text(size=24),
+        axis.title=element_text(size=22),
         axis.text=element_text(size=16),
         axis.title.y=element_text(vjust=1.5),
+        axis.title.x=element_text(vjust=-0.5),
         panel.grid.major.y=element_line(colour = "grey90"),
         panel.background = element_rect(fill = 'white'))
 
@@ -504,17 +512,18 @@ plotDetByIdPrepostRov <-
                      limits=c(0.2, 50),
                      breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
                      labels=function(x) as.character(round(x,1))) +
-  xlab("Detection threshold") +
-  ylab("Identification threshold") +
+  xlab("Detection threshold (in %)") +
+  ylab("Identification threshold (in %)") +
 #   ggtitle("Detection against identification thresholds
 #           \n Pre vs. Post test") +
   theme(plot.title=element_text(vjust=2, lineheight=.6),
         legend.key.height=unit(4,"line"),
         legend.text=element_text(size=18),
         legend.title=element_text(size=20),
-        axis.title=element_text(size=24),
+        axis.title=element_text(size=20),
         axis.text=element_text(size=16),
         axis.title.y=element_text(vjust=1.5),
+        axis.title.x=element_text(vjust=-0.5),
         panel.grid.major=element_line(colour = "grey90"),
         panel.background = element_rect(fill = 'white'))
 
@@ -543,17 +552,18 @@ plotDetByIdPrepostNoRov <-
                      limits=c(0.2, 50),
                      breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
                      labels=function(x) as.character(round(x,1))) +
-  xlab("Detection threshold") +
-  ylab("Identification threshold") +
+  xlab("Detection threshold (in %)") +
+  ylab("Identification threshold (in %)") +
   #   ggtitle("Detection against identification thresholds
   #           \n Pre vs. Post test") +
   theme(plot.title=element_text(vjust=2, lineheight=.6),
         legend.key.height=unit(4,"line"),
         legend.text=element_text(size=18),
         legend.title=element_text(size=20),
-        axis.title=element_text(size=24),
+        axis.title=element_text(size=20),
         axis.text=element_text(size=16),
         axis.title.y=element_text(vjust=1.5),
+        axis.title.x=element_text(vjust=-0.5),
         panel.grid.major=element_line(colour = "grey90"),
         panel.background = element_rect(fill = 'white'))
 
@@ -809,7 +819,10 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
 plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean,
                               aes(x=trialNumYAxis)) +
     scale_x_continuous(limits=c(0, 72)) +
-    scale_y_continuous(limits=c(0, 12)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
     xlab("Trials") +
     ylab("Accuracy (in percent error)") +
     geom_line(aes(y=result,
@@ -906,7 +919,10 @@ plotAccThreshMeanRovCents <- ggplot(data=yAxisAccRovMean,
 plotAccThreshMeanNoRov <- ggplot(data=yAxisAccNoRovMean,
                                aes(x=trialNumYAxis)) +
   scale_x_continuous(limits=c(0, 56)) +
-  scale_y_continuous(limits=c(0, 12)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
   xlab("Trials") +
   ylab("Accuracy (in percent error)") +
   geom_line(aes(y=result,
@@ -1374,9 +1390,12 @@ plotThresholdsLongiMeanPerc <- ggplot(data=thresholdsLongiMean,
               colour=NA,
               show_guide=FALSE) +
   xlab("Sessions") +
-  ylab("Thresholds (in % of error)") +
+  ylab("Thresholds (in %)") +
   scale_x_continuous(breaks=seq(1, 21, 4)) +
-  scale_y_continuous(limits=c(0, 23)) +
+  scale_y_continuous(trans=log_trans(),
+                     limits=c(0.2, 50),
+                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1))) +
   scale_linetype_manual(name = "", values=c('solid', 'dotted'),
                         breaks=c('identification', 'detection'),
                         labels=c('Identification', 'Detection')) +

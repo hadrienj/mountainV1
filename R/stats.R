@@ -353,8 +353,32 @@ begEnd <- data.frame(name=rownames(begEnd), begEnd)
 begEnd <- cbind(unnest(begEnd, beg), unnest(begEnd, end))
 begEnd[3] <- NULL
 
+# Compare the mean of the first 25% with the mean of the last 25%
+begEndMean <- data.frame(beg=cbind(by(list(data.mountain.yAxis$trialNumYAxis,
+                                       data.mountain.yAxis$name),
+                                  data.mountain.yAxis$name,
+                                  function(x) {
+                                    mean(data.mountain.yAxis$result[
+                                      data.mountain.yAxis$trialNumYAxis>2
+                                      & data.mountain.yAxis$trialNumYAxis<(round((max(x[1])*25)/100))
+                                      & data.mountain.yAxis$name==x[,2]])
+                                  }
+                    )
+                    ),
+                    end=cbind(by(list(data.mountain.yAxis$trialNumYAxis,
+                                      data.mountain.yAxis$name),
+                                 data.mountain.yAxis$name,
+                                 function(x) {
+                                   mean(data.mountain.yAxis$result[
+                                     data.mountain.yAxis$trialNumYAxis<=max(x[1])
+                                     & data.mountain.yAxis$trialNumYAxis>
+                                       (max(x[1])-round((max(x[1])*25)/100)+3)
+                                     & data.mountain.yAxis$name==x[,2]])
+                                 }
+                    ))
+                    )
 
-wilcox.test(begEnd$beg, begEnd$end, paired=TRUE)
+wilcox.test(begEndMean$beg, begEndMean$end, paired=TRUE)
 
 # Interactions roving det/id
 detIdRov <- data.frame(cbind(
