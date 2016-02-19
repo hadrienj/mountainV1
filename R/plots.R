@@ -1410,6 +1410,7 @@ plotThresholdsLongiMeanPerc <- ggplot(data=thresholdsLongiMean,
         panel.grid.major.y=element_line(colour = "grey90"),
         panel.background = element_rect(fill = 'white'))
 
+
 # Longitudinal thresholds in percentage of the first session
 plotThresholdsLongiPercent <- ggplot(data=thresholdsLongiAllPercentLong,
                                      aes(x=as.numeric(session),
