@@ -16,7 +16,6 @@ o: analysis.html
 
 
 ```{r initialization, echo=FALSE, message=FALSE, warning=FALSE}
-library(plyr)
 library(rjson)
 library(ggplot2)
 library(RColorBrewer)
@@ -30,8 +29,53 @@ library(grid)
 library(knitr)
 library(pander)
 library(kfigr)
-library(XLConnect)
+# library(XLConnect)
 library(tidyr)
+
+simpleTheme <- theme(panel.grid.major.y = element_blank(),
+                     strip.text = element_text(size=12),
+                     axis.line = element_line(color='grey60', size=1.2),
+                     axis.ticks = element_line(color = "grey60", size = 1),
+                     axis.title = element_text(color = "grey10", size=18),
+                     axis.text = element_text(color = "grey50", size=16),
+                     legend.text = element_text(color = "grey30", size=14),
+                     panel.background = element_blank(),
+                     legend.key = element_blank())
+
+
+anon <- c(
+  `ab12` = "p1",
+  `abh28` = "p2",
+  `ak28` = "p3",
+  `bb17` = "p4",
+  `cm12` = "p5",
+  `df14` = "p6",
+  `lg06` = "p7",
+  `mn17` = "p8",
+  `sd19` = "p9",
+  `ss07` = "p10",
+  
+  `ab21` = "p11",
+  `dd04` = "p12",
+  `df22` = "p13",
+  `dp02` = "p14",
+  `el17` = "p15",
+  `el20` = "p16",
+  `gw25` = "p17",
+  `kh13` = "p18",
+  `lj01` = "p19",
+  `ll07` = "p20",
+  `mn15` = "p21",
+  `ss28` = "p22",
+  `va01` = "p23",
+  `vv17` = "p24"
+)
+
+cent2Perc <- function(cent) {
+  percent <- (2^(cent/1200)-1)*100
+  return(percent)
+}
+
 ```
 
 ```{r global_options, include=FALSE}
@@ -337,6 +381,1154 @@ plotAccMean
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Path examples
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=6, height=4}
+
+# Example for exp 1 (no roving)
+trialExample <- pathLength %>%
+  filter(name=='df14') %>%
+  mutate(phase=ifelse(as.integer(trialNumYAxis)<6, 'start', 
+                      ifelse(as.integer(trialNumYAxis)>136, 'end',
+                             NA)))
+trialExample <- trialExample[!is.na(trialExample$phase),]
+trialExample$phase <- factor(trialExample$phase, levels=c('start', 'end'))
+
+trialExamplePlotExp1 <- trialExample %>%
+  ggplot(data=., aes(x=time/1000, y=YNorm, color=trialNumYAxis)) +
+    geom_point(size=0.2) +
+    simpleTheme +
+    xlim(0, 30) +
+    ylim(-700, 700) +
+    xlab("Time (s)") +
+    ylab("Normalized Y position (px)") +
+    geom_hline(yintercept=0, linetype='dotted') +
+    scale_color_discrete(name='Trial') +
+    facet_grid(phase~.)
+trialExamplePlotExp1
+ggsave('figures/trialExampleExp1.pdf', trialExamplePlotExp1, width=6, height=4)
+
+exampleStart <- pathLength %>%
+  filter(name=='df14', as.integer(trialNumYAxis)==4) %>%
+  mutate(phase='start')
+exampleEnd <- pathLength %>%
+  filter(name=='df14', as.integer(trialNumYAxis)==110) %>%
+  mutate(phase='end')
+example <- rbind(exampleStart, exampleEnd)
+example$phase <- factor(example$phase, levels=c('start', 'end'))
+
+examplePlotExp1 <- example %>%
+  ggplot(data=., aes(x=X, y=YNorm, color=time/1000, group=time)) +
+    geom_point(size=0.6) +
+    geom_line() +
+    simpleTheme +
+    xlab("X position (px)") +
+    ylab("Normalized Y position (px)") +
+    geom_hline(yintercept=0, linetype='dotted') +
+    ylim(-700, 700) +
+    xlim(300, 400) +
+    scale_colour_gradient(low = "#1190FF", high = "#D5623A", name='Time (s)') +
+  facet_grid(~phase)
+
+ggsave('figures/examplePlotExp1.pdf', examplePlotExp1, width=6, height=4)
+
+
+# Examples for exp 2 (roving)
+trialExample <- pathLength %>%
+  filter(name=='dd04') %>%
+  mutate(phase=ifelse(as.integer(trialNumYAxis)<6, 'start', 
+                      ifelse(as.integer(trialNumYAxis)>98, 'end',
+                             NA)))
+trialExample <- trialExample[!is.na(trialExample$phase),]
+trialExample$phase <- factor(trialExample$phase, levels=c('start', 'end'))
+
+trialExampleExp2.pdf <- trialExample %>%
+  ggplot(data=., aes(x=time/1000, y=YNorm, color=trialNumYAxis)) +
+    geom_point(size=0.2) +
+    simpleTheme +
+    xlim(0, 30) +
+    ylim(-600, 600) +
+    xlab("Time (s)") +
+    ylab("Normalized Y position (px)") +
+    geom_hline(yintercept=0, linetype='dotted') +
+    scale_color_discrete(name='Trial') +
+    facet_grid(phase~.)
+trialExamplePlot
+ggsave('figures/trialExampleExp2.pdf', trialExampleExp2.pdf, width=6, height=4)
+
+exampleStart <- pathLength %>%
+  filter(name=='ab21', as.integer(trialNumYAxis)==4) %>%
+  mutate(phase='start')
+exampleEnd <- pathLength %>%
+  filter(name=='ab21', as.integer(trialNumYAxis)==100) %>%
+  mutate(phase='end')
+example <- rbind(exampleStart, exampleEnd)
+example$phase <- factor(example$phase, levels=c('start', 'end'))
+
+examplePlotExp2 <- example %>%
+  ggplot(data=., aes(x=X, y=YNorm, color=time/1000, group=time)) +
+    geom_point(size=0.6) +
+    geom_line() +
+    simpleTheme +
+    xlab("X position (px)") +
+    ylab("Normalized Y position (px)") +
+    geom_hline(yintercept=0, linetype='dotted') +
+    ylim(-700, 700) +
+    xlim(300, 400) +
+    scale_colour_gradient(low = "#1190FF", high = "#D5623A", name='Time (s)') +
+    facet_grid(~phase) +
+    theme()
+examplePlotExp2
+ggsave('figures/examplePlotExp2.pdf', examplePlotExp2, width=6, height=4)
+  
+
+
+```
+
+# Equation for score calculation
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=6, height=4}
+dur <- rep(seq(0, 30), 41)
+acc <- rep(seq(60, 100), 31)
+acc <- acc[order(acc)]
+data <- data.frame(acc=acc, dur=dur)
+data$score <- ((1/(((data$dur/100)+1)^2))+1)*600*(data$acc/100)^6
+
+scoreEquation <- ggplot(data=data, aes(x=acc, y=dur, color=score)) +
+  geom_raster(aes(fill=score)) +
+  geom_contour(aes(z=score), color='gray') +
+  scale_fill_gradient(low = "#1190FF", high = "#D5623A", name='Score') +
+  xlab("Accuracy (% correct)") +
+  ylab("Trial duration (s)") +
+  simpleTheme
+scoreEquation
+ggsave('figures/scoreEquation.pdf', scoreEquation, width=6, height=4)
+
+```
+
+# Score improvements
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=4}
+
+data.mountain.yAxis$name <- as.character(data.mountain.yAxis$name)
+
+data.mountain.yAxis %>%
+  group_by(name) %>%
+  summarise(mean=mean(score))
+
+
+# Without roving
+trainingEffectsExp1 <- data.mountain.yAxis %>%
+  filter(roving==FALSE) %>%
+  group_by(name) %>%
+  summarise(N=length(score1),
+            first25=round(N/4),
+            last25=round(N*3/4),
+            meanFirstScore=mean(score1[trialNumYAxis<first25]),
+            meanLastScore=mean(score1[trialNumYAxis>last25]),
+            meanFirstDur=mean(duration[trialNumYAxis<first25]),
+            meanLastDur=mean(duration[trialNumYAxis>last25]),
+            meanFirstAcc=mean(result[trialNumYAxis<first25]),
+            meanLastAcc=mean(result[trialNumYAxis>last25])) %>%
+  melt(id=c("name", "N", "first25", "last25", "meanLastScore", "meanLastDur", "meanLastAcc"),
+       measure.vars=c("meanFirstScore", "meanFirstDur", "meanFirstAcc"),
+       variable.name="first",
+       value.name="firstVal") %>%
+  melt(id=c("name", "N", "first25", "last25", "first", "firstVal"),
+       measure.vars=c("meanLastScore", "meanLastDur", "meanLastAcc"),
+       variable.name="last",
+       value.name="lastVal") %>%
+  filter((first=="meanFirstScore" & last=="meanLastScore") |
+          (first=="meanFirstDur" & last=="meanLastDur") |
+           (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
+  mutate(metric=c(rep("Score", 10), rep("Trial duration (s)", 10), rep("Accuracy (%)", 10)))
+
+trainingEffectsExp1$name1 <- anon[as.character(trainingEffectsExp1$name)]
+trainingEffectsExp1$name1 <- factor(trainingEffectsExp1$name1, levels=c('p1', 'p2',
+  'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10'))
+
+# Use dummy data to set different limits for each facets
+# https://stackoverflow.com/questions/18046051/setting-individual-axis-limits-with-facet-wrap-and-scales-free-in-ggplot2
+dummyExp1 <- data.frame(firstVal = c(0, 9, 700, 1100, 2, 20), lastVal = c(0, 9, 700, 1100, 2, 20),
+                    metric = c("Accuracy (%)", "Accuracy (%)",
+                               "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
+                    name1='p1', stringsAsFactors=FALSE)
+
+trainingEffectsPlotExp1 <- trainingEffectsExp1 %>%
+  ggplot(aes(firstVal, lastVal, color=name1)) +
+    geom_point(size=3) +
+    geom_blank(data=dummyExp1) + 
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    # xlim(600, 1100) +
+    # ylim(600, 1100) +
+    simpleTheme +
+    xlab("First 25% trials") +
+    ylab("Last 25% trials") +
+    facet_wrap(~metric, scales="free") +
+    scale_color_discrete(name='Participants') +
+    theme(aspect.ratio = 1)
+trainingEffectsPlotExp1
+ggsave('figures/trainingEffectsPlotExp1.pdf', trainingEffectsPlotExp1, width=10, height=4)
+
+
+# Exp2: with roving
+trainingEffectsExp2 <- data.mountain.yAxis %>%
+  filter(roving==TRUE) %>%
+  group_by(name) %>%
+  summarise(N=length(score1),
+            first25=round(N/4),
+            last25=round(N*3/4),
+            meanFirstScore=mean(score1[trialNumYAxis<first25]),
+            meanLastScore=mean(score1[trialNumYAxis>last25]),
+            meanFirstDur=mean(duration[trialNumYAxis<first25]),
+            meanLastDur=mean(duration[trialNumYAxis>last25]),
+            meanFirstAcc=mean(result[trialNumYAxis<first25]),
+            meanLastAcc=mean(result[trialNumYAxis>last25])) %>%
+  melt(id=c("name", "N", "first25", "last25", "meanLastScore", "meanLastDur", "meanLastAcc"),
+       measure.vars=c("meanFirstScore", "meanFirstDur", "meanFirstAcc"),
+       variable.name="first",
+       value.name="firstVal") %>%
+  melt(id=c("name", "N", "first25", "last25", "first", "firstVal"),
+       measure.vars=c("meanLastScore", "meanLastDur", "meanLastAcc"),
+       variable.name="last",
+       value.name="lastVal") %>%
+  filter((first=="meanFirstScore" & last=="meanLastScore") |
+          (first=="meanFirstDur" & last=="meanLastDur") |
+           (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
+  mutate(metric=c(rep("Score", 14), rep("Trial duration (s)", 14), rep("Accuracy (%)", 14)))
+
+trainingEffectsExp2$name1 <- anon[as.character(trainingEffectsExp2$name)]
+trainingEffectsExp2$name1 <- factor(trainingEffectsExp2$name1, levels=c('p11', 'p12',
+  'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20', 'p21', 'p22', 'p23', 'p24'))
+levels(trainingEffectsExp2$name1) <- c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                       'p9', 'p10', 'p11', 'p12', 'p13', 'p14')
+# trainingEffectsExp2 <- data.mountain.yAxis %>%
+#   filter(roving==TRUE) %>%
+#   group_by(name) %>%
+#   summarise(N=length(score1),
+#             first25=round(N/4),
+#             last25=round(N*3/4),
+#             meanFirst=mean(score1[trialNumYAxis<first25]),
+#             meanLast=mean(score1[trialNumYAxis>last25]))
+
+dummyExp2 <- data.frame(firstVal = c(0, 8, 700, 1100, 2, 18), lastVal = c(0, 8, 700, 1100, 2, 18),
+                    metric = c("Accuracy (%)", "Accuracy (%)",
+                               "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
+                    name1='p1', stringsAsFactors=FALSE)
+
+trainingEffectsPlotExp2 <- trainingEffectsExp2 %>%
+  ggplot(aes(firstVal, lastVal, color=name1)) +
+    geom_point(size=3) +
+    geom_blank(data=dummyExp2) + 
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    # xlim(600, 1100) +
+    # ylim(600, 1100) +
+    simpleTheme +
+    xlab("First 25% trials") +
+    ylab("Last 25% trials") +
+    facet_wrap(~metric, scales="free") +
+    scale_color_discrete(name='Participants') +
+    theme(aspect.ratio = 1)
+trainingEffectsPlotExp2
+ggsave('figures/trainingEffectsPlotExp2.pdf', trainingEffectsPlotExp2, width=12, height=4)
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
+t.test(trainingEffectsExp1$meanFirst, trainingEffectsExp1$meanLast, paired=TRUE)
+
+wilcox.test(trainingEffectsExp1$firstVal[trainingEffectsExp1$metric=="Score"],
+            trainingEffectsExp1$lastVal[trainingEffectsExp1$metric=="Score"],
+            paired=TRUE)
+wilcox.test(trainingEffectsExp1$firstVal[trainingEffectsExp1$metric=="Trial duration (s)"],
+            trainingEffectsExp1$lastVal[trainingEffectsExp1$metric=="Trial duration (s)"],
+            paired=TRUE)
+wilcox.test(trainingEffectsExp1$firstVal[trainingEffectsExp1$metric=="Accuracy (percent error)"],
+            trainingEffectsExp1$lastVal[trainingEffectsExp1$metric=="Accuracy (percent error)"],
+            paired=TRUE)
+
+wilcox.test(trainingEffectsExp2$firstVal[trainingEffectsExp2$metric=="Score"],
+            trainingEffectsExp2$lastVal[trainingEffectsExp2$metric=="Score"],
+            paired=TRUE)
+wilcox.test(trainingEffectsExp2$firstVal[trainingEffectsExp2$metric=="Trial duration (s)"],
+            trainingEffectsExp2$lastVal[trainingEffectsExp2$metric=="Trial duration (s)"],
+            paired=TRUE)
+wilcox.test(trainingEffectsExp2$firstVal[trainingEffectsExp2$metric=="Accuracy (percent error)"],
+            trainingEffectsExp2$lastVal[trainingEffectsExp2$metric=="Accuracy (percent error)"],
+            paired=TRUE)
+
+```
+
+# Compare performance training rov and no rov
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
+
+meanAccRov <- yAxisAccRov %>%
+    group_by(name) %>%
+    summarise(mean=mean(result))
+meanAccNoRov <- yAxisAccNoRov %>%
+    group_by(name) %>%
+    summarise(mean=mean(result))
+
+wilcox.test(meanAccRov$mean,
+           meanAccNoRov$mean,
+            paired=FALSE)
+
+```
+
+
+# Comparison detection/identification differences with and without roving
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
+
+effectIdDet <- thresholdsAllLong %>%
+    group_by(name, roving, condition) %>%
+    summarise(mean=mean(threshold)) %>%
+    spread(condition, mean) %>%
+    mutate(diff=identification-detection)
+
+wilcox.test(effectIdDet$diff[effectIdDet$roving==FALSE], effectIdDet$diff[effectIdDet$roving==TRUE],
+            paired=FALSE)
+
+effectIdDet %>%
+  ggplot(aes(detection, identification)) +
+    geom_point() +
+    facet_grid(~roving) +
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    simpleTheme +
+    xlim(0, 500) +
+    ylim(0, 500)
+
+```
+
+
+# Comparison between detection and identification from pre-test only
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
+
+# With roving
+detIdPretestRov <- thresholdAllPrepostLong %>%
+  select(-upperAdapt) %>%
+  filter(prePost=='Pre-test', roving==TRUE) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                       'p9', 'p10', 'p11', 'p12', 'p13', 'p14'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  spread(condition, threshold) %>%
+  ggplot(aes(detection, identification, color=name)) +
+    geom_point(size=3) +
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    simpleTheme +
+    theme(aspect.ratio = 1) +
+    xlab("Detection (%)") +
+    ylab("Identification (%)") +
+    scale_color_discrete(name="Participants") +
+    scale_x_continuous(trans='log', breaks=c(1, 2, 5, 10, 20), limits=c(0.5, 30)) +
+    scale_y_continuous(trans='log', breaks=c(1, 2, 5, 10, 20), limits=c(0.5, 30)) 
+detIdPretestRov
+ggsave('figures/detIdPretestRov.pdf', detIdPretestRov, width=6, height=5)
+
+# compare det and id from pre-tests
+compareDetIdRov <- thresholdAllPrepostLong %>%
+  filter(prePost=='Pre-test', roving==TRUE)
+
+wilcox.test(compareDetIdRov$threshold[compareDetIdRov$condition=='detection'],
+            compareDetIdRov$threshold[compareDetIdRov$condition=='identification'],
+            paired=TRUE)
+
+# compare det and id from post-tests
+compareDetIdRovPost <- thresholdAllPrepostLong %>%
+  filter(prePost=='Post-test', roving==TRUE)
+
+wilcox.test(compareDetIdRovPost$threshold[compareDetIdRovPost$condition=='detection'],
+            compareDetIdRovPost$threshold[compareDetIdRovPost$condition=='identification'],
+            paired=TRUE)
+
+# Without roving
+detIdPretestNoRov <- thresholdAllPrepostLong %>%
+  select(-upperAdapt) %>%
+  filter(prePost=='Pre-test', roving==FALSE) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                       'p9', 'p10'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  spread(condition, threshold) %>%
+  ggplot(aes(detection, identification, color=name)) +
+    geom_point(size=3) +
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    simpleTheme +
+    theme(aspect.ratio = 1) +
+    xlab("Detection (%)") +
+    ylab("Identification (%)") +
+    scale_color_discrete(name="Participants") +
+    scale_x_continuous(trans='log', breaks=c(0.5, 1, 2, 5, 10, 20), limits=c(0.2, 20)) +
+    scale_y_continuous(trans='log', breaks=c(0.5, 1, 2, 5, 10, 20), limits=c(0.2, 20))
+detIdPretestNoRov
+ggsave('figures/detIdPretestNoRov.pdf', detIdPretestNoRov, width=6, height=5)
+
+# compare det and id from pre-tests
+compareDetIdNoRov <- thresholdAllPrepostLong %>%
+  filter(prePost=='Pre-test', roving==FALSE) %>%
+  mutate(threshold=log(cent2Perc(threshold)))
+
+wilcox.test(compareDetIdNoRov$threshold[compareDetIdNoRov$condition=='detection'],
+            compareDetIdNoRov$threshold[compareDetIdNoRov$condition=='identification'],
+            paired=TRUE)
+```
+
+## Difference detection/identification according to thresholds
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
+
+detIdProporRov <- thresholdAllPrepostLong %>%
+  select(-upperAdapt) %>%
+  filter(prePost=='Pre-test', roving==TRUE) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                       'p9', 'p10', 'p11', 'p12', 'p13', 'p14'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  spread(condition, threshold) %>%
+  mutate(diff=identification-detection) %>%
+  ggplot(data=., aes(detection, diff, color=name, group=1)) +
+    geom_point(size=8, shape='+') +
+    geom_smooth(method='lm', se=FALSE, color='gray') +
+    simpleTheme +
+    theme(aspect.ratio = 1) +
+    xlab("Detection (%)") +
+    ylab("Difference between \nidentification and detection") +
+    scale_color_discrete(name="Participants") +
+    scale_x_continuous(trans='log', breaks=c(1, 2, 5, 10, 20)) 
+detIdProporRov
+ggsave('figures/detIdProporRov.pdf', detIdProporRov, width=6, height=6)
+
+
+detIdProporNoRov <- thresholdAllPrepostLong %>%
+  select(-upperAdapt) %>%
+  filter(prePost=='Pre-test', roving==FALSE) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                       'p9', 'p10'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  spread(condition, threshold) %>%
+  mutate(diff=identification-detection) %>%
+  ggplot(data=., aes(identification, diff, color=name, group=1)) +
+    geom_point(size=8, shape='+') +
+    geom_smooth(method='lm', formula = y ~ x + I(x^2), se=FALSE, color='gray') +
+    simpleTheme +
+    theme(aspect.ratio = 1) +
+    xlab("Identification (%)") +
+    ylab("Difference between \nidentification and detection") +
+    scale_color_discrete(name="Participants") +
+    scale_x_continuous(trans='log', breaks=c(1, 2, 5, 10, 20)) 
+detIdProporNoRov
+ggsave('figures/detIdProporNoRov.pdf', detIdProporNoRov, width=6, height=6)
+
+
+```
+
+## Thresholds evolution
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+plotMeanThresholdsRov <- thresholdsAllLongRov %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  mutate(condition=factor(condition, label=c('Detection', 'Identification'))) %>%
+  mutate(session=factor(session, label=c('PRE1', 'PRE2', 'POST1', 'POST2'))) %>%
+  group_by(session, condition, roving) %>%
+  summarise(mean=mean(threshold),
+            N=length(threshold),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
+    geom_line(size=1.3) +
+    scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 18)) +
+    geom_ribbon(aes(ymin=mean-se,
+                    ymax=mean+se),
+                alpha =0.2) +
+    xlab("Sessions") +
+    ylab("Thresholds (%)") +
+    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('solid', 'dotted')) +
+    simpleTheme
+plotMeanThresholdsRov
+ggsave('figures/plotMeanThresholdsRov.pdf', plotMeanThresholdsRov, width=10, height=6)
+
+
+
+plotMeanThresholdsNoRov <- thresholdsAllLongNoRov %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  mutate(condition=factor(condition, label=c('Detection', 'Identification'))) %>%
+  mutate(session=factor(session, label=c('PRE1', 'PRE2', 'POST1', 'POST2'))) %>%
+  group_by(session, condition, roving) %>%
+  summarise(mean=mean(threshold),
+            N=length(threshold),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
+    geom_line(size=1.3) +
+    scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 18)) +
+    geom_ribbon(aes(ymin=mean-se,
+                    ymax=mean+se),
+                alpha =0.2) +
+    xlab("Sessions") +
+    ylab("Thresholds (%)") +
+    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('solid', 'dotted')) +
+    simpleTheme
+plotMeanThresholdsNoRov
+ggsave('figures/plotMeanThresholdsNoRov.pdf', plotMeanThresholdsNoRov, width=10, height=6)
+
+
+plotMeanThresholdsRovLongi <- thresholdsLongiAllLong %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  mutate(condition=factor(condition, label=c('Detection', 'Identification'))) %>%
+  mutate(session=factor(session, label=c('PRE1', 'PRE2', 'POST1', 'POST2',
+                                         'PRE3', 'PRE4', 'POST3', 'POST4',
+                                         'PRE5', 'PRE6', 'POST5', 'POST6',
+                                         'PRE7', 'PRE8', 'POST7', 'POST8',
+                                         'PRE9', 'PRE10', 'POST9', 'POST10'))) %>%
+  group_by(session, condition) %>%
+  summarise(mean=mean(threshold),
+            N=length(threshold),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
+    geom_line(size=1.3) +
+    scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 24)) +
+    geom_ribbon(aes(ymin=mean-se,
+                    ymax=mean+se),
+                alpha =0.2) +
+    xlab("Sessions") +
+    ylab("Thresholds (%)") +
+    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('solid', 'dotted')) +
+    simpleTheme +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+plotMeanThresholdsRovLongi
+ggsave('figures/plotMeanThresholdsRovLongi.pdf', plotMeanThresholdsRovLongi, width=16, height=8)
+```
+
+
+
+# Mountain accuracy along trials
+
+## Roving
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean, aes(x=trialNumYAxis)) +
+    scale_x_continuous(limits=c(0, 72)) +
+    scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
+                       labels=function(x) as.character(round(x,1)),
+                       trans='log2') +
+    xlab("Trials") +
+    ylab("Accuracy (%)") +
+    geom_line(aes(y=result, color = "Raw mean"), size=2) +
+    geom_line(aes(y=YAxisAccuracyRoll, color='Rolling mean \n(10 values)'), size=2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
+               subset(meanThresholdsLong, condition == "detection"
+                      & roving==TRUE),
+               show.legend=FALSE,
+               size=1.2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
+               subset(meanThresholdsLong, condition == "identification"
+                      & roving==TRUE),
+               show.legend=FALSE,
+               size=1.2) +
+    geom_text(data=subset(meanThresholdsLong, condition == "detection"
+                          & roving==TRUE),
+              aes(10, (2^(mean/1200)-1)*100, label = 'DETECTION', vjust = -0.6),
+              size = 6) +
+    geom_text(data=subset(meanThresholdsLong, condition == "identification"
+                          & roving==TRUE),
+              aes(15, (2^(mean/1200)-1)*100, label = 'IDENTIFICATION', vjust = -0.6),
+              size = 6) +
+    scale_colour_manual("", breaks = c("Raw mean", "Rolling mean \n(10 values)",
+                                       'Rolling SD \n(10 values)'),
+                        values = c("grey", "black", "#1190FF")) +
+    simpleTheme +
+    theme(legend.key.height=unit(3,"line"))
+plotAccThreshMeanRov
+ggsave('figures/plotAccThreshMeanRov.pdf', plotAccThreshMeanRov, width=8, height=5)
+
+## Training dur in percent of total
+yAxisAccRovCompleted <- yAxisAccRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10', 'p11', 'p12', 'p13', '14'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+    geom_point(size=5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
+               subset(meanThresholdsLong, condition == "detection" & roving==TRUE),
+               size=1.5,
+               color='gray70') +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
+               subset(meanThresholdsLong, condition == "identification" & roving==TRUE),
+               size=1.5,
+               color='gray70') +
+    xlab("Proportion of training completed") +
+    ylab("Accuracy (% error)") +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+    scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
+                       labels=function(x) as.character(round(x,1)),
+                       trans='log2') +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisAccRovCompleted
+ggsave('figures/yAxisAccRovCompleted.pdf', yAxisAccRovCompleted, width=8, height=4)
+
+
+
+# Training dur in percent of total - individual data
+yAxisAccRovCompletedInd <- yAxisAccRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10', 'p11', 'p12', 'p13', 'p14'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result),
+            N=length(result),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+  geom_point(size=3.5) +
+  geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
+  simpleTheme +
+  scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+  scale_y_continuous(trans='log2') +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  xlab("Proportion of training completed") +
+  ylab("Accuracy (% error)") +
+  scale_color_discrete(name="Participants") +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
+             subset(meanThresholdsSubjLong %>%
+                      filter(roving==TRUE) %>%
+                      mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5',
+                                                        'p6', 'p7', 'p8', 'p9', 'p10',
+                                                        'p11', 'p12', 'p13', 'p14'))),
+                    condition == "detection" & roving==TRUE),
+             size=1.5,
+             color='gray70') +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Identification"),
+             subset(meanThresholdsSubjLong %>%
+                      filter(roving==TRUE) %>%
+                      mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5',
+                                                        'p6', 'p7', 'p8', 'p9', 'p10',
+                                                        'p11', 'p12', 'p13', 'p14'))),
+                    condition == "identification" & roving==TRUE),
+             size=1.5,
+             color='gray70') +
+  facet_wrap(~name, ncol=5) +
+  scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                        values=c('solid', 'dotted'))
+yAxisAccRovCompletedInd
+ggsave('figures/yAxisAccRovCompletedInd.pdf', yAxisAccRovCompletedInd, width=14, height=8)
+
+```
+
+### Durations
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+yAxisDurRovCompleted <- yAxisDurRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10', 'p11', 'p12', 'p13', 'p14'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+    geom_point(size=5, color="gray70") +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Duration (s)") +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+  ylim(0, 15) +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisDurRovCompleted
+ggsave('figures/yAxisDurRovCompleted.pdf', yAxisDurRovCompleted, width=8, height=4)
+
+
+yAxisDurRovCompletedInd <- yAxisDurRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10', 'p11', 'p12', 'p13', 'p14'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration),
+            N=length(duration),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+    geom_point(size=3.5, color='gray70') +
+    geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.06,
+                  size=1.2, color='gray70') +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Duration (s)") +
+    facet_wrap(~name, ncol=5)
+yAxisDurRovCompletedInd
+ggsave('figures/yAxisDurRovCompletedInd.pdf', yAxisDurRovCompletedInd, width=16, height=8)
+```
+
+## No roving
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+plotAccThreshMeanNoRov <- ggplot(data=yAxisAccNoRovMean, aes(x=trialNumYAxis)) +
+    scale_x_continuous(limits=c(0, 56)) +
+    scale_y_continuous(trans=log_trans(),
+                       limits=c(1, 20),
+                       breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
+                       labels=function(x) as.character(round(x,1))) +
+    xlab("Trials") +
+    ylab("Accuracy (in percent error)") +
+    geom_line(aes(y=result, color = "Raw mean"), size=2) +
+    geom_line(aes(y=YAxisAccuracyRoll, color='Rolling mean \n(10 values)'), size=2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                   linetype="Detection"),
+               subset(meanThresholdsLong,
+                      condition == "detection" & roving==FALSE),
+               show_guide=FALSE,
+               size=1.2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
+                   linetype="Identification"),
+               subset(meanThresholdsLong,
+                      condition == "identification" & roving==FALSE),
+               show_guide=FALSE,
+               size=1.2) +
+    geom_text(data=subset(meanThresholdsLong,
+                          condition == "detection" & roving==FALSE),
+              aes(10, (2^(mean/1200)-1)*100, label = 'Detection', vjust = 1.2),
+              size = 6) +
+    geom_text(data=subset(meanThresholdsLong,
+                          condition == "identification" & roving==FALSE),
+              aes(12, (2^(mean/1200)-1)*100, label = 'Identification', vjust = 1.2),
+              size = 6) +
+    scale_colour_manual("", breaks = c("Raw mean", "Rolling mean \n(10 values)",
+                                       'Rolling SD \n(10 values)'),
+                        values = c("grey", "black", "#1190FF")) +
+    simpleTheme +
+    theme(legend.key.height=unit(3,"line"))
+plotAccThreshMeanNoRov
+ggsave('figures/plotAccThreshMeanNoRov.pdf', plotAccThreshMeanNoRov, width=8, height=5)
+
+# Training dur in percent of total
+yAxisAccNoRovCompleted <- yAxisAccNoRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+  geom_point(size=5) +
+  geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
+             subset(meanThresholdsLong, condition == "detection" & roving==FALSE),
+             size=1.5,
+             color='gray70') +
+  geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
+             subset(meanThresholdsLong, condition == "identification" & roving==FALSE),
+             size=1.5,
+             color='gray70') +
+  xlab("Proportion of training completed") +
+  ylab("Accuracy (% error)") +
+  simpleTheme +
+  scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+  scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
+                     labels=function(x) as.character(round(x,1)),
+                     trans='log2') +
+  scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                        values=c('solid', 'dotted'))
+yAxisAccNoRovCompleted
+ggsave('figures/yAxisAccNoRovCompleted.pdf', yAxisAccNoRovCompleted, width=8, height=4)
+
+# Training dur in percent of total - individual data
+yAxisAccNoRovCompletedInd <- yAxisAccNoRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result),
+            N=length(result),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+  geom_point(size=3.5) +
+  geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
+  simpleTheme +
+  scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+  scale_y_continuous(trans='log2') +
+  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  xlab("Proportion of training completed") +
+  ylab("Accuracy (% error)") +
+  scale_color_discrete(name="Participants") +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
+             subset(meanThresholdsSubjLong %>%
+                      filter(roving==FALSE) %>%
+                      mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5',
+                                                        'p6', 'p7', 'p8', 'p9', 'p10'))),
+                    condition == "detection" & roving==FALSE),
+             size=1.5,
+             color='gray70') +
+  geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Identification"),
+             subset(meanThresholdsSubjLong %>%
+                      filter(roving==FALSE) %>%
+                      mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5',
+                                                        'p6', 'p7', 'p8', 'p9', 'p10'))),
+                    condition == "identification" & roving==FALSE),
+             size=1.5,
+             color='gray70') +
+  facet_wrap(~name, ncol=5) +
+  scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                        values=c('solid', 'dotted'))
+yAxisAccNoRovCompletedInd
+ggsave('figures/yAxisAccNoRovCompletedInd.pdf', yAxisAccNoRovCompletedInd, width=14, height=8)
+
+```
+
+
+### Durations
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+yAxisDurNoRovCompleted <- yAxisDurNoRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+    geom_point(size=5, color="gray70") +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Duration (s)") +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+  ylim(0, 15) +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisDurNoRovCompleted
+ggsave('figures/yAxisDurNoRovCompleted.pdf', yAxisDurNoRovCompleted, width=8, height=4)
+
+
+
+yAxisDurNoRovCompletedInd <- yAxisDurNoRov %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8',
+                                    'p9', 'p10'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumYAxis),
+         percentCompleted=(trialNumYAxis+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration),
+            N=length(duration),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+    geom_point(size=3.5, color='gray70') +
+    geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.06,
+                  size=1.2, color='gray70') +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Duration (s)") +
+    facet_wrap(~name, ncol=5)
+yAxisDurNoRovCompletedInd
+ggsave('figures/yAxisDurNoRovCompletedInd.pdf', yAxisDurNoRovCompletedInd, width=14, height=8)
+```
+
+
+
+# Longi
+
+## Performances
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+# Training dur in percent of total
+yAxisAccRovCompletedLongi <- yAxisAccLongi %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumTot),
+         percentCompleted=(trialNumTot+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+    geom_point(size=5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
+               subset(meanThresholdsLong, condition == "detection" & roving==FALSE),
+               size=1.5,
+               color='gray70') +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
+               subset(meanThresholdsLong, condition == "identification" & roving==FALSE),
+               size=1.5,
+               color='gray70') +
+    xlab("Proportion of training completed") +
+    ylab("Accuracy (% error)") +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+    scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
+                       labels=function(x) as.character(round(x,1)),
+                       trans='log2') +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisAccRovCompletedLongi
+ggsave('figures/yAxisAccRovCompletedLongi.pdf', yAxisAccRovCompletedLongi, width=8, height=4)
+
+
+
+# Training dur in percent of total - individual data
+yAxisAccRovCompletedLongiInd <- yAxisAccLongi %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumTot),
+         percentCompleted=(trialNumTot+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(result),
+            N=length(result),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+    geom_point(size=3.5) +
+    geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+    scale_y_continuous(trans='log2') +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    xlab("Proportion of training completed") +
+    ylab("Accuracy (% error)") +
+    scale_color_discrete(name="Participants") +
+    geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
+               subset(meanThresholdsSubjLong %>%
+                        filter(name %in% c('el17', 'vv17', 'kh13', 'dp02')) %>%
+                        mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))),
+                      condition == "detection"),
+               size=1.5,
+               color='gray70') +
+    geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Identification"),
+               subset(meanThresholdsSubjLong %>%
+                        filter(name %in% c('el17', 'vv17', 'kh13', 'dp02')) %>%
+                        mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))),
+                      condition == "identification"),
+               size=1.5,
+               color='gray70') +
+    facet_wrap(~name, ncol=2) +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisAccRovCompletedLongiInd
+ggsave('figures/yAxisAccRovCompletedLongiInd.pdf', yAxisAccRovCompletedLongiInd, width=10, height=8)
+
+```
+
+## Durations
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+# Training dur in percent of total
+yAxisDurRovCompletedLongi <- yAxisDurLongi %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumTot),
+         percentCompleted=(trialNumTot+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration)) %>%
+  group_by(percentCompletedSmooth) %>%
+  summarise(N=length(resultMean),
+            mean=mean(resultMean),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+    geom_point(size=5, color='gray70') +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color='gray70') +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Accuracy (% error)") +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.1)) +
+    scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50)) +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisDurRovCompletedLongi
+ggsave('figures/yAxisDurRovCompletedLongi.pdf', yAxisDurRovCompletedLongi, width=8, height=4)
+
+
+
+# Training dur in percent of total - individual data
+yAxisDurRovCompletedLongiInd <- yAxisDurLongi %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  group_by(name) %>%
+  mutate(N=length(trialNumTot),
+         percentCompleted=(trialNumTot+1)/N,
+         percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
+  group_by(percentCompletedSmooth, name) %>%
+  summarise(resultMean=mean(duration),
+            N=length(duration),
+            se=resultMean/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
+    geom_point(size=3.5, color='gray70') +
+    geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2,
+                  color='gray70') +
+    simpleTheme +
+    scale_x_continuous(breaks=seq(0, 1, 0.2)) +
+    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    xlab("Proportion of training completed") +
+    ylab("Accuracy (% error)") +
+    scale_color_discrete(name="Participants") +
+    facet_wrap(~name, ncol=2) +
+    scale_linetype_manual("", breaks=c("Identification", "Detection"),
+                          values=c('solid', 'dotted'))
+yAxisDurRovCompletedLongiInd
+ggsave('figures/yAxisDurRovCompletedLongiInd.pdf', yAxisDurRovCompletedLongiInd, width=8, height=8)
+
+```
+
+
+## First vs last 25%
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+trainingEffectsLongi <- data.mountain.yAxis.longi %>%
+  group_by(name) %>%
+  summarise(N=length(score1),
+            first25=round(N/4),
+            last25=round(N*3/4),
+            meanFirstScore=mean(score1[trialNumTot<first25]),
+            meanLastScore=mean(score1[trialNumTot>last25]),
+            meanFirstDur=mean(duration[trialNumTot<first25]),
+            meanLastDur=mean(duration[trialNumTot>last25]),
+            meanFirstAcc=mean(result[trialNumTot<first25]),
+            meanLastAcc=mean(result[trialNumTot>last25])) %>%
+  melt(id=c("name", "N", "first25", "last25", "meanLastScore", "meanLastDur", "meanLastAcc"),
+       measure.vars=c("meanFirstScore", "meanFirstDur", "meanFirstAcc"),
+       variable.name="first",
+       value.name="firstVal") %>%
+  melt(id=c("name", "N", "first25", "last25", "first", "firstVal"),
+       measure.vars=c("meanLastScore", "meanLastDur", "meanLastAcc"),
+       variable.name="last",
+       value.name="lastVal") %>%
+  filter((first=="meanFirstScore" & last=="meanLastScore") |
+          (first=="meanFirstDur" & last=="meanLastDur") |
+           (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
+  mutate(metric=c(rep("Score", 4), rep("Trial duration (s)", 4), rep("Accuracy (%)", 4))) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4')))
+
+
+
+# Use dummy data to set different limits for each facets
+# https://stackoverflow.com/questions/18046051/setting-individual-axis-limits-with-facet-wrap-and-scales-free-in-ggplot2
+dummyLongi <- data.frame(firstVal = c(0, 9, 700, 1100, 2, 20), lastVal = c(0, 9, 700, 1100, 2, 20),
+                    metric = c("Accuracy (%)", "Accuracy (%)",
+                               "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
+                    name='p1', stringsAsFactors=FALSE)
+
+trainingEffectsPlotLongi <- trainingEffectsLongi %>%
+  ggplot(aes(firstVal, lastVal, color=name)) +
+    geom_point(size=3) +
+    geom_blank(data=dummyLongi) + 
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    # xlim(600, 1100) +
+    # ylim(600, 1100) +
+    simpleTheme +
+    xlab("First 25% trials") +
+    ylab("Last 25% trials") +
+    facet_wrap(~metric, scales="free") +
+    scale_color_discrete(name='Participants') +
+    theme(aspect.ratio = 1)
+trainingEffectsPlotLongi
+ggsave('figures/trainingEffectsPlotLongi.pdf', trainingEffectsPlotLongi, width=10, height=4)
+
+```
+
+## Detection/identification
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
+
+detIdPretestRovLongi <- thresholdsLongiAllPercentLong %>%
+  filter(session %in% c(19, 20)) %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  spread(condition, threshold) %>%
+  group_by(name) %>%
+  summarise(detection=mean(detection),
+            identification=mean(identification)) %>%
+  ggplot(aes(detection, identification, color=name)) +
+    geom_point(size=3) +
+    geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
+    simpleTheme +
+    theme(aspect.ratio = 1) +
+    xlab("Detection (%)") +
+    ylab("Identification (%)") +
+    scale_color_discrete(name="Participants") +
+    scale_x_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 10)) +
+    scale_y_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 10)) 
+detIdPretestRovLongi
+ggsave('figures/detIdPretestRovLongi.pdf', detIdPretestRovLongi, width=6, height=5)
+
+```
+
+# le reste
+
+
+
+
+
+
+
 ### Correlation between mountain task accuracy and frequency thresholds
 
 #### Identification frequency threhsold
@@ -354,6 +1546,10 @@ plotMountainByThreshId
 plotMountainByThreshDet
 
 ```
+
+
+
+
 
 # ROVING
 

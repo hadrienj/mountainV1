@@ -816,59 +816,38 @@ plotAccThresh <- ggplot(data=yAxisAccLong,
   guides(linetype = guide_legend("Frequency thresholds"))
 
 
-plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean,
-                              aes(x=trialNumYAxis)) +
+plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean, aes(x=trialNumYAxis)) +
     scale_x_continuous(limits=c(0, 72)) +
-  scale_y_continuous(trans=log_trans(),
-                     limits=c(0.2, 50),
-                     breaks=c(0.2, 0.5, 1, 2, 5, 10, 20, 50),
-                     labels=function(x) as.character(round(x,1))) +
+    scale_y_continuous(limits=c(0.2, 15), breaks=c(1, 2, 5, 10, 20, 50),
+                       labels=function(x) as.character(round(x,1))) +
     xlab("Trials") +
-    ylab("Accuracy (in percent error)") +
-    geom_line(aes(y=result,
-                  color = "Raw mean")) +
-    geom_line(aes(y=YAxisAccuracyRoll,
-                  color='Rolling mean \n(10 values)')) +
-    geom_line(aes(y=sdMean,
-                  color='Rolling SD \n(10 values)')) +
-#     geom_ribbon(aes(ymin=result-sd,
-#                     ymax=result+sd),
-#                 alpha =0.2) +
-    # legend
-    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
-                   linetype="Detection"),
-               subset(meanThresholdsLong,
-                      condition == "detection"
+    ylab("Accuracy (%)") +
+    geom_line(aes(y=result, color = "Raw mean"), size=2) +
+    geom_line(aes(y=YAxisAccuracyRoll, color='Rolling mean \n(10 values)'), size=2) +
+    # geom_line(aes(y=YAxisAccuracySDRoll, color='Rolling SD \n(10 values)'), size=2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
+               subset(meanThresholdsLong, condition == "detection"
                       & roving==TRUE),
-               show_guide=FALSE) +
-    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100,
-                   linetype="Identification"),
-               subset(meanThresholdsLong,
-                      condition == "identification"
+               show.legend=FALSE,
+               size=1.2) +
+    geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
+               subset(meanThresholdsLong, condition == "identification"
                       & roving==TRUE),
-               show_guide=FALSE) +
-    geom_text(data=subset(meanThresholdsLong,
-                          condition == "detection"
+               show.legend=FALSE,
+               size=1.2) +
+    geom_text(data=subset(meanThresholdsLong, condition == "detection"
                           & roving==TRUE),
-              aes(4, (2^(mean/1200)-1)*100, label = 'Detection', vjust = -0.6),
-              size = 4) +
-    geom_text(data=subset(meanThresholdsLong,
-                          condition == "identification"
+              aes(10, (2^(mean/1200)-1)*100, label = 'DETECTION', vjust = -0.6),
+              size = 6) +
+    geom_text(data=subset(meanThresholdsLong, condition == "identification"
                           & roving==TRUE),
-              aes(4, (2^(mean/1200)-1)*100, label = 'Identification', vjust = -0.6),
-              size = 4) +
-    scale_colour_manual("", 
-                        breaks = c("Raw mean", "Rolling mean \n(10 values)", 'Rolling SD \n(10 values)'),
-                        values = c("grey", "black", "royalblue1")) +
-  theme(plot.title=element_text(vjust=2, lineheight=.6),
-        legend.key.height=unit(3,"line"),
-        legend.text=element_text(size=22),
-        legend.title=element_text(size=22),
-        axis.title=element_text(size=24),
-        axis.text=element_text(size=16),
-        axis.title.y=element_text(vjust=1.5),
-        panel.grid.major.y=element_line(colour = "grey90"),
-        panel.background = element_rect(fill = 'white'))
+              aes(15, (2^(mean/1200)-1)*100, label = 'IDENTIFICATION', vjust = -0.6),
+              size = 6) +
+    scale_colour_manual("", breaks = c("Raw mean", "Rolling mean \n(10 values)",
+                                       'Rolling SD \n(10 values)'),
+                        values = c("grey", "black", "#1190FF")) +
+    simpleTheme +
+    theme(legend.key.height=unit(3,"line"))
 
 plotAccThreshMeanRovCents <- ggplot(data=yAxisAccRovMean,
                                       aes(x=trialNumYAxis)) +
@@ -1053,7 +1032,6 @@ plotAccThreshMeanRovFacet <- ggplot(data=yAxisAccRovNoRovMean,
   scale_colour_manual("", 
                       breaks = c("Raw mean", "Rolling mean \n(10 values)", 'Rolling SD \n(10 values)'),
                       values = c("grey", "black", "royalblue1")) +
-  theme(legend.text=element_text(size=22),
         legend.title=element_text(size=22),
         axis.title=element_text(size=24),
         axis.text=element_text(size=16),

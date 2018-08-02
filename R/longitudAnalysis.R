@@ -133,6 +133,11 @@ data.mountain.yAxis.longi <- subset(data,
                                       result, totalScore, sessionNum, name, duration,
                                       startTime, score, sessionNumMount))
 
+## other way of calculating score in the app?
+data.mountain.yAxis.longi$score1 <-
+  ((1 / (((data.mountain.yAxis.longi$duration/100)+1)^2)) + 1) *
+  (600*(((100-data.mountain.yAxis.longi$result)/100)^6))
+
 # Sort the data according to time then to trial number
 data.mountain.yAxis.longi <- data.mountain.yAxis.longi[order(
   data.mountain.yAxis.longi$startTime, data.mountain.yAxis.longi$trialNumYAxis),]
