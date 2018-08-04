@@ -6,17 +6,19 @@ se <- function(x) sqrt(var(x)/length(x))
 
 
 # va01 and df22 did the longitudinal experiment
-data.threshold.longi <- subset(data, (grepl("threshold", id))
-                                      & (grepl("dp02", name))
-                                      | (grepl("kh13", name))
-                                      | (grepl("ss10", name))
-                                      | (grepl("el17", name))
-                                      | (grepl("vv17", name)),
-                               c(id, trialNum,sessionNum,sessionThreshNum,
-                                 reversal,  reversals,  task,  startTime,
-                                 tone1, tone2,  tone3, tone4, deltaF,
-                                 goodAnswer,	roving,	answer,	score, name,
-                                 trainSession))
+data.threshold.longi <- data %>%
+  filter(grepl("threshold", id), ((grepl("dp02", name))
+                                  | (grepl("kh13", name))
+                                  | (grepl("ss10", name))
+                                  | (grepl("el17", name))
+                                  | (grepl("vv17", name)))) %>%
+  select(id, trialNum, sessionNum, sessionThreshNum,
+         reversal,  reversals,  task,  startTime,
+         tone1, tone2,  tone3, tone4, deltaF,
+         goodAnswer,	roving,	answer,	score, name,
+         trainSession)
+
+
 
 # Add the total session number (through the different days of training)
 data.threshold.longi$sessionTot <- (as.numeric(data.threshold.longi$sessionNum)

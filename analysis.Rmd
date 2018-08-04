@@ -765,7 +765,7 @@ detIdPretestNoRov <- thresholdAllPrepostLong %>%
   mutate(threshold=cent2Perc(threshold)) %>%
   spread(condition, threshold) %>%
   ggplot(aes(detection, identification, color=name)) +
-    geom_point(size=3) +
+    geom_point(size=5) +
     geom_abline(intercept = 0, slope = 1, linetype='dotted', size=1.5) +
     simpleTheme +
     theme(aspect.ratio = 1) +
@@ -847,19 +847,23 @@ plotMeanThresholdsRov <- thresholdsAllLongRov %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
             se=mean/sqrt(N)) %>%
-  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
-    geom_line(size=1.3) +
+  ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
+    # geom_line(size=1.3) +
+    geom_point(size=5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.1, size=1.5) +
     scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 18)) +
-    geom_ribbon(aes(ymin=mean-se,
-                    ymax=mean+se),
-                alpha =0.2) +
+    # geom_ribbon(aes(ymin=mean-se,
+    #                 ymax=mean+se),
+    #             alpha =0.2) +
     xlab("Sessions") +
     ylab("Thresholds (%)") +
-    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
-                          values=c('solid', 'dotted')) +
+    # scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+    #                       values=c('solid', 'dotted')) +
+    scale_color_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('black', 'gray70')) +
     simpleTheme
 plotMeanThresholdsRov
-ggsave('figures/plotMeanThresholdsRov.pdf', plotMeanThresholdsRov, width=10, height=6)
+ggsave('figures/plotMeanThresholdsRov.pdf', plotMeanThresholdsRov, width=8, height=4)
 
 
 
@@ -871,19 +875,23 @@ plotMeanThresholdsNoRov <- thresholdsAllLongNoRov %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
             se=mean/sqrt(N)) %>%
-  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
-    geom_line(size=1.3) +
+  ggplot(aes(x=session, y=mean, color=condition, group=condition)) +
+    # geom_line(size=1.3) +
+    geom_point(size=5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.1, size=1.5) +
     scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 18)) +
-    geom_ribbon(aes(ymin=mean-se,
-                    ymax=mean+se),
-                alpha =0.2) +
+    # geom_ribbon(aes(ymin=mean-se,
+    #                 ymax=mean+se),
+    #             alpha =0.1) +
     xlab("Sessions") +
     ylab("Thresholds (%)") +
-    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
-                          values=c('solid', 'dotted')) +
+    # scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+    #                       values=c('solid', 'dotted')) +
+    scale_color_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('black', 'gray70')) +
     simpleTheme
 plotMeanThresholdsNoRov
-ggsave('figures/plotMeanThresholdsNoRov.pdf', plotMeanThresholdsNoRov, width=10, height=6)
+ggsave('figures/plotMeanThresholdsNoRov.pdf', plotMeanThresholdsNoRov, width=8, height=4)
 
 
 plotMeanThresholdsRovLongi <- thresholdsLongiAllLong %>%
@@ -898,20 +906,54 @@ plotMeanThresholdsRovLongi <- thresholdsLongiAllLong %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
             se=mean/sqrt(N)) %>%
-  ggplot(aes(x=session, y=mean, linetype=condition, group=condition), alpha = 0.3) +
-    geom_line(size=1.3) +
+  ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
+    # geom_line(size=1.3) +
+    geom_point(size=5) +
+    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.5, size=1.5) +
     scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16), limits=c(0.5, 24)) +
-    geom_ribbon(aes(ymin=mean-se,
-                    ymax=mean+se),
-                alpha =0.2) +
+    # geom_ribbon(aes(ymin=mean-se,
+    #                 ymax=mean+se),
+    #             alpha =0.2) +
     xlab("Sessions") +
     ylab("Thresholds (%)") +
-    scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
-                          values=c('solid', 'dotted')) +
+    # scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+    #                       values=c('solid', 'dotted')) +
+    scale_color_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('black', 'gray70')) +
     simpleTheme +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 plotMeanThresholdsRovLongi
 ggsave('figures/plotMeanThresholdsRovLongi.pdf', plotMeanThresholdsRovLongi, width=16, height=8)
+
+plotMeanThresholdsRovLongiInd <- thresholdsLongiAllLong %>%
+  mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
+  mutate(condition=factor(condition, label=c('Detection', 'Identification'))) %>%
+  mutate(session=factor(session, label=c('PRE1', 'PRE2', 'POST1', 'POST2',
+                                         'PRE3', 'PRE4', 'POST3', 'POST4',
+                                         'PRE5', 'PRE6', 'POST5', 'POST6',
+                                         'PRE7', 'PRE8', 'POST7', 'POST8',
+                                         'PRE9', 'PRE10', 'POST9', 'POST10'))) %>%
+  group_by(name, session, condition) %>%
+  summarise(mean=mean(threshold),
+            N=length(threshold),
+            se=mean/sqrt(N)) %>%
+  ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
+    geom_line(size=1.3) +
+    geom_point(size=3) +
+    # geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.1, size=1.5) +
+    scale_y_continuous(trans='log2', breaks=c(1, 2, 4, 8, 16, 50)) +
+    facet_wrap(~name, ncol=2) +
+    xlab("Sessions") +
+    ylab("Thresholds (%)") +
+    # scale_linetype_manual(name="", breaks=c('Identification', 'Detection'),
+    #                       values=c('solid', 'dotted')) +
+    scale_color_manual(name="", breaks=c('Identification', 'Detection'),
+                          values=c('black', 'gray70')) +
+    simpleTheme +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, size=12))
+plotMeanThresholdsRovLongiInd
+ggsave('figures/plotMeanThresholdsRovLongiInd.pdf', plotMeanThresholdsRovLongiInd, width=12, height=6)
 ```
 
 
@@ -1294,7 +1336,7 @@ ggsave('figures/yAxisDurNoRovCompletedInd.pdf', yAxisDurNoRovCompletedInd, width
 ## Performances
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
-# Training dur in percent of total
+# Training accuracy in percent of total
 yAxisAccRovCompletedLongi <- yAxisAccLongi %>%
   mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
   group_by(name) %>%
@@ -1312,11 +1354,15 @@ yAxisAccRovCompletedLongi <- yAxisAccLongi %>%
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
     stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
     geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
-               subset(meanThresholdsLong, condition == "detection" & roving==FALSE),
+                thresholdsLongiAllLong %>%
+                  filter(condition=='detection') %>%
+                  summarise(mean=mean(threshold)),
                size=1.5,
                color='gray70') +
     geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Identification"),
-               subset(meanThresholdsLong, condition == "identification" & roving==FALSE),
+                thresholdsLongiAllLong %>%
+                  filter(condition=='identification') %>%
+                  summarise(mean=mean(threshold)),
                size=1.5,
                color='gray70') +
     xlab("Proportion of training completed") +
@@ -1397,7 +1443,7 @@ yAxisDurRovCompletedLongi <- yAxisDurLongi %>%
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color='gray70') +
     stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
-    ylab("Accuracy (% error)") +
+    ylab("Duration (s)") +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.1)) +
     scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50)) +
@@ -1427,7 +1473,7 @@ yAxisDurRovCompletedLongiInd <- yAxisDurLongi %>%
     scale_x_continuous(breaks=seq(0, 1, 0.2)) +
     stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
-    ylab("Accuracy (% error)") +
+    ylab("Durqtion (s)") +
     scale_color_discrete(name="Participants") +
     facet_wrap(~name, ncol=2) +
     scale_linetype_manual("", breaks=c("Identification", "Detection"),
@@ -1493,15 +1539,20 @@ trainingEffectsPlotLongi <- trainingEffectsLongi %>%
 trainingEffectsPlotLongi
 ggsave('figures/trainingEffectsPlotLongi.pdf', trainingEffectsPlotLongi, width=10, height=4)
 
+
+
+wilcox.test(trainingEffectsLongi$firstVal[trainingEffectsLongi$metric=="Score"],
+trainingEffectsLongi$lastVal[trainingEffectsLongi$metric=="Score"], paired=TRUE)
 ```
 
 ## Detection/identification
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=3, height=4}
 
-detIdPretestRovLongi <- thresholdsLongiAllPercentLong %>%
+detIdPretestRovLongi <- thresholdsLongiAllLong %>%
   filter(session %in% c(19, 20)) %>%
   mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4'))) %>%
+  mutate(threshold=cent2Perc(threshold)) %>%
   spread(condition, threshold) %>%
   group_by(name) %>%
   summarise(detection=mean(detection),
@@ -1514,8 +1565,8 @@ detIdPretestRovLongi <- thresholdsLongiAllPercentLong %>%
     xlab("Detection (%)") +
     ylab("Identification (%)") +
     scale_color_discrete(name="Participants") +
-    scale_x_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 10)) +
-    scale_y_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 10)) 
+    scale_x_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 50)) +
+    scale_y_continuous(trans='log', breaks=c(0.1, 0.2, 0.5, 1, 2, 5, 10), limits=c(0.1, 50)) 
 detIdPretestRovLongi
 ggsave('figures/detIdPretestRovLongi.pdf', detIdPretestRovLongi, width=6, height=5)
 
