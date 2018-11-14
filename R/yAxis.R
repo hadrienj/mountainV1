@@ -273,14 +273,14 @@ yAxisAccRovMean$YAxisAccuracyRoll <- as.numeric(
         FUN = mean,
         fill = NA,
         partial = FALSE)))
-yAxisAccRovMean$YAxisAccuracySDRoll <- as.numeric(
-  ave(yAxisAccRovMean$result,
-      FUN = function(x) rollapply(
-        x,
-        width = 10,
-        FUN = sd,
-        fill = NA,
-        partial = FALSE)))
+# yAxisAccRovMean$YAxisAccuracySDRoll <- as.numeric(
+#   ave(yAxisAccRovMean$result,
+#       FUN = function(x) rollapply(
+#         x,
+#         width = 10,
+#         FUN = sd,
+#         fill = NA,
+#         partial = FALSE)))
 
 
 # Add the mean among participants of the rolling sd
@@ -308,7 +308,7 @@ yAxisAccRovNoRovMean$roving <- factor(yAxisAccRovNoRovMean$roving)
 pathLengthprep <- data.frame(t(sapply(data.mountain.yAxis$CurXY,
                              function(x) data.frame(rbind(x)))),
                     name=data.mountain.yAxis$name,
-                    trialNumYAxis=data.mountain.yAxis$trialNum,
+                    trialNumYAxis=data.mountain.yAxis$trialNumYAxis,
                     startTime=data.mountain.yAxis$startTime,
                     yTopDist=data.mountain.yAxis$yTopDist)
 pathLength <- data.frame(X=unlist(data.frame(pathLengthprep)$X1),

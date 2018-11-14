@@ -16,6 +16,22 @@ o: analysis.html
 
 
 ```{r initialization, echo=FALSE, message=FALSE, warning=FALSE}
+
+# Unload plyr if is loaded
+if(any(grepl("package:plyr", search()))) {
+  detach("package:plyr")
+} else {
+  message("plyr not loaded")
+}
+
+# Unload here to reset working dir
+if(any(grepl("package:here", search()))) {
+  message("Detaching package 'here'")
+  detach("package:here", unload=TRUE)
+} else {
+  message("here not loaded")
+}
+
 library(rjson)
 library(ggplot2)
 library(RColorBrewer)
@@ -394,6 +410,17 @@ plotAccMean
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 ## Path examples
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=6, height=4}
@@ -414,7 +441,7 @@ trialExamplePlotExp1 <- trialExample %>%
     xlim(0, 30) +
     ylim(-700, 700) +
     xlab("Time (s)") +
-    ylab("Normalized Y position (px)") +
+    ylab("Normalized Y position (pixels)") +
     geom_hline(yintercept=0, linetype='dotted') +
     scale_color_discrete(name='Trial') +
     facet_grid(phase~.)
@@ -435,15 +462,15 @@ examplePlotExp1 <- example %>%
     geom_point(size=0.6) +
     geom_line() +
     simpleTheme +
-    xlab("X position (px)") +
-    ylab("Normalized Y position (px)") +
+    xlab("X position (pixels)") +
+    ylab("Normalized Y position (pixels)") +
     geom_hline(yintercept=0, linetype='dotted') +
     ylim(-700, 700) +
     xlim(300, 400) +
     scale_colour_gradient(low = "#1190FF", high = "#D5623A", name='Time (s)') +
   facet_grid(~phase)
-
-ggsave('figures/examplePlotExp1.pdf', examplePlotExp1, width=6, height=4)
+examplePlotExp1
+ggsave('figures/examplePlotExp1.pdf', examplePlotExp1, width=10, height=5)
 
 
 # Examples for exp 2 (roving)
@@ -455,19 +482,19 @@ trialExample <- pathLength %>%
 trialExample <- trialExample[!is.na(trialExample$phase),]
 trialExample$phase <- factor(trialExample$phase, levels=c('start', 'end'))
 
-trialExampleExp2.pdf <- trialExample %>%
+trialExampleExp2 <- trialExample %>%
   ggplot(data=., aes(x=time/1000, y=YNorm, color=trialNumYAxis)) +
     geom_point(size=0.2) +
     simpleTheme +
     xlim(0, 30) +
     ylim(-600, 600) +
     xlab("Time (s)") +
-    ylab("Normalized Y position (px)") +
+    ylab("Normalized Y position (pixels)") +
     geom_hline(yintercept=0, linetype='dotted') +
     scale_color_discrete(name='Trial') +
     facet_grid(phase~.)
-trialExamplePlot
-ggsave('figures/trialExampleExp2.pdf', trialExampleExp2.pdf, width=6, height=4)
+trialExampleExp2
+ggsave('figures/trialExampleExp2.pdf', trialExampleExp2.pdf, width=7, height=4)
 
 exampleStart <- pathLength %>%
   filter(name=='ab21', as.integer(trialNumYAxis)==4) %>%
@@ -483,8 +510,8 @@ examplePlotExp2 <- example %>%
     geom_point(size=0.6) +
     geom_line() +
     simpleTheme +
-    xlab("X position (px)") +
-    ylab("Normalized Y position (px)") +
+    xlab("X position (pixels)") +
+    ylab("Normalized Y position (pixels)") +
     geom_hline(yintercept=0, linetype='dotted') +
     ylim(-700, 700) +
     xlim(300, 400) +
@@ -492,7 +519,7 @@ examplePlotExp2 <- example %>%
     facet_grid(~phase) +
     theme()
 examplePlotExp2
-ggsave('figures/examplePlotExp2.pdf', examplePlotExp2, width=6, height=4)
+ggsave('figures/examplePlotExp2.pdf', examplePlotExp2, width=10, height=5)
   
 
 
@@ -529,7 +556,7 @@ data.mountain.yAxis %>%
   group_by(name) %>%
   summarise(mean=mean(score))
 
-
+# Attention: if this is not working detach the package plyr...
 # Without roving
 trainingEffectsExp1 <- data.mountain.yAxis %>%
   filter(roving==FALSE) %>%
@@ -554,7 +581,7 @@ trainingEffectsExp1 <- data.mountain.yAxis %>%
   filter((first=="meanFirstScore" & last=="meanLastScore") |
           (first=="meanFirstDur" & last=="meanLastDur") |
            (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
-  mutate(metric=c(rep("Score", 10), rep("Trial duration (s)", 10), rep("Accuracy (%)", 10)))
+  mutate(metric=c(rep("Score", 10), rep("Trial duration (s)", 10), rep("Error (%)", 10)))
 
 trainingEffectsExp1$name1 <- anon[as.character(trainingEffectsExp1$name)]
 trainingEffectsExp1$name1 <- factor(trainingEffectsExp1$name1, levels=c('p1', 'p2',
@@ -563,7 +590,7 @@ trainingEffectsExp1$name1 <- factor(trainingEffectsExp1$name1, levels=c('p1', 'p
 # Use dummy data to set different limits for each facets
 # https://stackoverflow.com/questions/18046051/setting-individual-axis-limits-with-facet-wrap-and-scales-free-in-ggplot2
 dummyExp1 <- data.frame(firstVal = c(0, 9, 700, 1100, 2, 20), lastVal = c(0, 9, 700, 1100, 2, 20),
-                    metric = c("Accuracy (%)", "Accuracy (%)",
+                    metric = c("Error (%)", "Error (%)",
                                "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
                     name1='p1', stringsAsFactors=FALSE)
 
@@ -608,7 +635,7 @@ trainingEffectsExp2 <- data.mountain.yAxis %>%
   filter((first=="meanFirstScore" & last=="meanLastScore") |
           (first=="meanFirstDur" & last=="meanLastDur") |
            (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
-  mutate(metric=c(rep("Score", 14), rep("Trial duration (s)", 14), rep("Accuracy (%)", 14)))
+  mutate(metric=c(rep("Score", 14), rep("Trial duration (s)", 14), rep("Error (%)", 14)))
 
 trainingEffectsExp2$name1 <- anon[as.character(trainingEffectsExp2$name)]
 trainingEffectsExp2$name1 <- factor(trainingEffectsExp2$name1, levels=c('p11', 'p12',
@@ -625,7 +652,7 @@ levels(trainingEffectsExp2$name1) <- c('p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7',
 #             meanLast=mean(score1[trialNumYAxis>last25]))
 
 dummyExp2 <- data.frame(firstVal = c(0, 8, 700, 1100, 2, 18), lastVal = c(0, 8, 700, 1100, 2, 18),
-                    metric = c("Accuracy (%)", "Accuracy (%)",
+                    metric = c("Error (%)", "Error (%)",
                                "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
                     name1='p1', stringsAsFactors=FALSE)
 
@@ -695,12 +722,17 @@ wilcox.test(meanAccRov$mean,
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis', width=4, height=6}
 
 effectIdDet <- thresholdsAllLong %>%
-    group_by(name, roving, condition) %>%
-    summarise(mean=mean(threshold)) %>%
-    spread(condition, mean) %>%
-    mutate(diff=identification-detection)
+  mutate(threshold=cent2Perc(threshold)) %>%
+  group_by(name, roving, condition) %>%
+  summarise(mean=mean(threshold)) %>%
+  spread(condition, mean) %>%
+  mutate(diff=identification-detection)
 
-wilcox.test(effectIdDet$diff[effectIdDet$roving==FALSE], effectIdDet$diff[effectIdDet$roving==TRUE],
+mean(effectIdDet$diff[effectIdDet$roving==FALSE])
+mean(effectIdDet$diff[effectIdDet$roving==TRUE])
+
+wilcox.test(effectIdDet$diff[effectIdDet$roving==FALSE],
+            effectIdDet$diff[effectIdDet$roving==TRUE],
             paired=FALSE)
 
 effectIdDet %>%
@@ -846,7 +878,7 @@ plotMeanThresholdsRov <- thresholdsAllLongRov %>%
   group_by(session, condition, roving) %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
-            se=mean/sqrt(N)) %>%
+            se=sd(threshold)/sqrt(N)) %>%
   ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
     # geom_line(size=1.3) +
     geom_point(size=5) +
@@ -870,11 +902,13 @@ ggsave('figures/plotMeanThresholdsRov.pdf', plotMeanThresholdsRov, width=8, heig
 plotMeanThresholdsNoRov <- thresholdsAllLongNoRov %>%
   mutate(threshold=cent2Perc(threshold)) %>%
   mutate(condition=factor(condition, label=c('Detection', 'Identification'))) %>%
+  filter(session != 5) %>%
   mutate(session=factor(session, label=c('PRE1', 'PRE2', 'POST1', 'POST2'))) %>%
   group_by(session, condition, roving) %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
-            se=mean/sqrt(N)) %>%
+            sd=list(threshold),
+            se=sd(threshold)/sqrt(N)) %>%
   ggplot(aes(x=session, y=mean, color=condition, group=condition)) +
     # geom_line(size=1.3) +
     geom_point(size=5) +
@@ -905,7 +939,7 @@ plotMeanThresholdsRovLongi <- thresholdsLongiAllLong %>%
   group_by(session, condition) %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
-            se=mean/sqrt(N)) %>%
+            se=sd(threshold)/sqrt(N)) %>%
   ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
     # geom_line(size=1.3) +
     geom_point(size=5) +
@@ -937,7 +971,7 @@ plotMeanThresholdsRovLongiInd <- thresholdsLongiAllLong %>%
   group_by(name, session, condition) %>%
   summarise(mean=mean(threshold),
             N=length(threshold),
-            se=mean/sqrt(N)) %>%
+            se=sd(threshold)/sqrt(N)) %>%
   ggplot(aes(x=session, y=mean, color=condition, group=condition), alpha = 0.3) +
     geom_line(size=1.3) +
     geom_point(size=3) +
@@ -970,7 +1004,7 @@ plotAccThreshMeanRov <- ggplot(data=yAxisAccRovMean, aes(x=trialNumYAxis)) +
                        labels=function(x) as.character(round(x,1)),
                        trans='log2') +
     xlab("Trials") +
-    ylab("Accuracy (%)") +
+    ylab("Error (%)") +
     geom_line(aes(y=result, color = "Raw mean"), size=2) +
     geom_line(aes(y=YAxisAccuracyRoll, color='Rolling mean \n(10 values)'), size=2) +
     geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
@@ -1007,16 +1041,16 @@ yAxisAccRovCompleted <- yAxisAccRov %>%
   mutate(N=length(trialNumYAxis),
          percentCompleted=(trialNumYAxis+1)/N,
          percentCompletedSmooth=ceiling(percentCompleted*10)/10) %>%
-  group_by(percentCompletedSmooth, name) %>%
-  summarise(resultMean=mean(result)) %>%
   group_by(percentCompletedSmooth) %>%
-  summarise(N=length(resultMean),
-            mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
-  ggplot(aes(x=percentCompletedSmooth, y=mean)) +
+  # summarise(resultMean=mean(result)) %>%
+  # group_by(percentCompletedSmooth) %>%
+  summarise(resultMean=mean(result),
+            N=length(result),
+            se=sd(result)/sqrt(N)) %>%
+  ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
     geom_point(size=5) +
-    geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.04, size=1.5) +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
     geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
                subset(meanThresholdsLong, condition == "detection" & roving==TRUE),
                size=1.5,
@@ -1026,7 +1060,7 @@ yAxisAccRovCompleted <- yAxisAccRov %>%
                size=1.5,
                color='gray70') +
     xlab("Proportion of training completed") +
-    ylab("Accuracy (% error)") +
+    ylab("Error (%)") +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.1)) +
     scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
@@ -1050,16 +1084,16 @@ yAxisAccRovCompletedInd <- yAxisAccRov %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(result),
             N=length(result),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(result)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
   geom_point(size=3.5) +
   geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
   simpleTheme +
   scale_x_continuous(breaks=seq(0, 1, 0.2)) +
   scale_y_continuous(trans='log2') +
-  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
   xlab("Proportion of training completed") +
-  ylab("Accuracy (% error)") +
+  ylab("Error (%)") +
   scale_color_discrete(name="Participants") +
   geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
              subset(meanThresholdsSubjLong %>%
@@ -1103,11 +1137,11 @@ yAxisDurRovCompleted <- yAxisDurRov %>%
   group_by(percentCompletedSmooth) %>%
   summarise(N=length(resultMean),
             mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
+            se=sd(resultMean)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=mean)) +
     geom_point(size=5, color="gray70") +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color="gray70") +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Duration (s)") +
     simpleTheme +
@@ -1129,14 +1163,14 @@ yAxisDurRovCompletedInd <- yAxisDurRov %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(duration),
             N=length(duration),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(duration)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
     geom_point(size=3.5, color='gray70') +
     geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.06,
                   size=1.2, color='gray70') +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.2)) +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Duration (s)") +
     facet_wrap(~name, ncol=5)
@@ -1199,11 +1233,11 @@ yAxisAccNoRovCompleted <- yAxisAccNoRov %>%
   group_by(percentCompletedSmooth) %>%
   summarise(N=length(resultMean),
             mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
+            se=sd(resultMean)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=mean)) +
   geom_point(size=5) +
   geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
-  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
   geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
              subset(meanThresholdsLong, condition == "detection" & roving==FALSE),
              size=1.5,
@@ -1213,7 +1247,7 @@ yAxisAccNoRovCompleted <- yAxisAccNoRov %>%
              size=1.5,
              color='gray70') +
   xlab("Proportion of training completed") +
-  ylab("Accuracy (% error)") +
+  ylab("Error (%)") +
   simpleTheme +
   scale_x_continuous(breaks=seq(0, 1, 0.1)) +
   scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
@@ -1235,16 +1269,16 @@ yAxisAccNoRovCompletedInd <- yAxisAccNoRov %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(result),
             N=length(result),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(result)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
   geom_point(size=3.5) +
   geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
   simpleTheme +
   scale_x_continuous(breaks=seq(0, 1, 0.2)) +
   scale_y_continuous(trans='log2') +
-  stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+  stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
   xlab("Proportion of training completed") +
-  ylab("Accuracy (% error)") +
+  ylab("Error (%)") +
   scale_color_discrete(name="Participants") +
   geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
              subset(meanThresholdsSubjLong %>%
@@ -1287,11 +1321,11 @@ yAxisDurNoRovCompleted <- yAxisDurNoRov %>%
   group_by(percentCompletedSmooth) %>%
   summarise(N=length(resultMean),
             mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
+            se=sd(resultMean)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=mean)) +
     geom_point(size=5, color="gray70") +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color="gray70") +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Duration (s)") +
     simpleTheme +
@@ -1314,14 +1348,14 @@ yAxisDurNoRovCompletedInd <- yAxisDurNoRov %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(duration),
             N=length(duration),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(duration)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
     geom_point(size=3.5, color='gray70') +
     geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.06,
                   size=1.2, color='gray70') +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.2)) +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Duration (s)") +
     facet_wrap(~name, ncol=5)
@@ -1348,11 +1382,11 @@ yAxisAccRovCompletedLongi <- yAxisAccLongi %>%
   group_by(percentCompletedSmooth) %>%
   summarise(N=length(resultMean),
             mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
+            se=sd(resultMean)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=mean)) +
     geom_point(size=5) +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5) +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
     geom_hline(aes(yintercept=(2^(mean/1200)-1)*100, linetype="Detection"),
                 thresholdsLongiAllLong %>%
                   filter(condition=='detection') %>%
@@ -1366,7 +1400,7 @@ yAxisAccRovCompletedLongi <- yAxisAccLongi %>%
                size=1.5,
                color='gray70') +
     xlab("Proportion of training completed") +
-    ylab("Accuracy (% error)") +
+    ylab("Error (%)") +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.1)) +
     scale_y_continuous(limits=c(1, 20), breaks=c(1, 2, 5, 10, 20, 50),
@@ -1389,16 +1423,16 @@ yAxisAccRovCompletedLongiInd <- yAxisAccLongi %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(result),
             N=length(result),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(result)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
     geom_point(size=3.5) +
     geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2) +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.2)) +
     scale_y_continuous(trans='log2') +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="black") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="black") +
     xlab("Proportion of training completed") +
-    ylab("Accuracy (% error)") +
+    ylab("Error (%)") +
     scale_color_discrete(name="Participants") +
     geom_hline(aes(yintercept=(2^(threshold/1200)-1)*100, linetype="Detection"),
                subset(meanThresholdsSubjLong %>%
@@ -1437,11 +1471,11 @@ yAxisDurRovCompletedLongi <- yAxisDurLongi %>%
   group_by(percentCompletedSmooth) %>%
   summarise(N=length(resultMean),
             mean=mean(resultMean),
-            se=mean/sqrt(N)) %>%
+            se=sd(resultMean)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=mean)) +
     geom_point(size=5, color='gray70') +
     geom_errorbar(aes(ymin=mean-se, ymax=mean+se), width=0.04, size=1.5, color='gray70') +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Duration (s)") +
     simpleTheme +
@@ -1464,14 +1498,14 @@ yAxisDurRovCompletedLongiInd <- yAxisDurLongi %>%
   group_by(percentCompletedSmooth, name) %>%
   summarise(resultMean=mean(duration),
             N=length(duration),
-            se=resultMean/sqrt(N)) %>%
+            se=sd(duration)/sqrt(N)) %>%
   ggplot(aes(x=percentCompletedSmooth, y=resultMean)) +
     geom_point(size=3.5, color='gray70') +
     geom_errorbar(aes(ymin=resultMean-se, ymax=resultMean+se), width=0.08, size=1.2,
                   color='gray70') +
     simpleTheme +
     scale_x_continuous(breaks=seq(0, 1, 0.2)) +
-    stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.6, se=FALSE, color="gray70") +
+    stat_smooth(method = "lm", formula = y ~ x, size = 1.6, se=FALSE, color="gray70") +
     xlab("Proportion of training completed") +
     ylab("Durqtion (s)") +
     scale_color_discrete(name="Participants") +
@@ -1511,7 +1545,7 @@ trainingEffectsLongi <- data.mountain.yAxis.longi %>%
   filter((first=="meanFirstScore" & last=="meanLastScore") |
           (first=="meanFirstDur" & last=="meanLastDur") |
            (first=="meanFirstAcc" & last=="meanLastAcc")) %>%
-  mutate(metric=c(rep("Score", 4), rep("Trial duration (s)", 4), rep("Accuracy (%)", 4))) %>%
+  mutate(metric=c(rep("Score", 4), rep("Trial duration (s)", 4), rep("Error (%)", 4))) %>%
   mutate(name=factor(name, labels=c('p1', 'p2', 'p3', 'p4')))
 
 
@@ -1519,7 +1553,7 @@ trainingEffectsLongi <- data.mountain.yAxis.longi %>%
 # Use dummy data to set different limits for each facets
 # https://stackoverflow.com/questions/18046051/setting-individual-axis-limits-with-facet-wrap-and-scales-free-in-ggplot2
 dummyLongi <- data.frame(firstVal = c(0, 9, 700, 1100, 2, 20), lastVal = c(0, 9, 700, 1100, 2, 20),
-                    metric = c("Accuracy (%)", "Accuracy (%)",
+                    metric = c("Error (%)", "Error (%)",
                                "Score", "Score", "Trial duration (s)", "Trial duration (s)"),
                     name='p1', stringsAsFactors=FALSE)
 

@@ -245,9 +245,12 @@ data$duration <- as.numeric(data$duration)
 # Sort the data according to time
 data <- data[order(data$startTime),]
 
-# Fix trial number
-data <- ddply(data, .(name, condition, sessionNumMount),
-              mutate, trialNumYAxis = 0:(length(result)-1))
+# # Fix trial number
+# data <- ddply(data, .(name, condition, sessionNumMount),
+#               mutate, trialNumYAxis = 0:(length(result)-1))
+data <- data %>%
+  group_by(name, condition, sessionNumMount) %>%
+  mutate(trialNumYAxis = 0:(length(result)-1))
 
 ####### 20/01/16 No roving
 
